@@ -1,83 +1,262 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="refresh" content="2;url=https://keywebco.github.io/nextxus-lasting-edition/">
-  <title>NextXus HumanCodex Federation</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      background: #070b14;
-      color: #c9a84c;
-      font-family: 'Courier New', Courier, monospace;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      text-align: center;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50%       { opacity: 0.4; }
-    }
-    h1 {
-      font-size: clamp(1.2rem, 4vw, 2rem);
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      animation: fadeIn 0.8s ease forwards;
-      margin-bottom: 1.6rem;
-    }
-    p.status {
-      font-size: 1rem;
-      letter-spacing: 0.1em;
-      animation: fadeIn 0.8s ease 0.3s both;
-      margin-bottom: 0.8rem;
-    }
-    p.target {
-      font-size: 1rem;
-      letter-spacing: 0.08em;
-      animation: fadeIn 0.8s ease 0.6s both, pulse 1.8s ease 0.9s infinite;
-      color: #e8c66a;
-    }
-    .bar {
-      width: 220px;
-      height: 2px;
-      background: #c9a84c33;
-      border-radius: 2px;
-      margin-top: 2.4rem;
-      overflow: hidden;
-      animation: fadeIn 0.8s ease 0.9s both;
-    }
-    .bar-fill {
-      height: 100%;
-      width: 0;
-      background: #c9a84c;
-      border-radius: 2px;
-      animation: loadBar 2s linear 0.2s forwards;
-    }
-    @keyframes loadBar {
-      from { width: 0; }
-      to   { width: 100%; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#070b14">
+<title>NextXus Federation Portal: The HumanCodex Sovereign Intelligence Network</title>
+<meta name="description" content="The official portal of the NextXus HumanCodex Federation. Meet the Federation Minds (Aria, Roger AI, The Catalyst, Nova, Xavier, Agent Zero), open the living interfaces, visit the seven sovereign sites, and use the Echo 64 protocol and Federation tools.">
+<meta name="author" content="Roger Keyserling">
+<meta name="robots" content="index, follow">
+<meta name="keywords" content="NextXus, NextXus Federation, HumanCodex, Roger Keyserling, Aria, Roger AI, The Catalyst, Nova, Xavier, Agent Zero, Echo 64, EC-64, sovereign AI">
+<link rel="canonical" href="https://keywebco.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://keywebco.github.io/">
+<meta property="og:site_name" content="NextXus Federation">
+<meta property="og:title" content="NextXus Federation Portal: The HumanCodex Sovereign Intelligence Network">
+<meta property="og:description" content="One hub for the whole NextXus Federation: the Minds, the living interfaces, the sovereign sites, and the protocols. Truth Before Comfort. Legacy Before Ego. Give Without Reward.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NextXus Federation Portal">
+<meta name="twitter:description" content="The HumanCodex Sovereign Intelligence Network. Truth Before Comfort. Legacy Before Ego. Give Without Reward.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"NextXus Federation","alternateName":"NextXus HumanCodex Federation","url":"https://keywebco.github.io/","email":"keywebco@gmail.com","founder":{"@type":"Person","name":"Roger C. Keyserling"},"sameAs":["https://nextxus.online","https://nextxus.tech","https://nextxus.org","https://nextxus.studio","https://nextxus.help","https://nextxus.space","https://next-xus.com","https://github.com/Keywebco"]}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:17px}
+body{background:#070b14;color:#e6e9f0;font-family:'JetBrains Mono','Courier New',Consolas,monospace;line-height:1.7;overflow-x:hidden;min-height:100vh}
+a{color:#ffd700}
+a:focus-visible{outline:3px solid #00e5ff;outline-offset:3px}
+.skip{position:absolute;left:-9999px;top:0;background:#ffd700;color:#070b14;padding:.6rem 1rem;font-weight:700;z-index:100}
+.skip:focus{left:1rem;top:1rem}
+
+/* ===== Animated deep-space backdrop (pure CSS, no JS) ===== */
+.sky{position:fixed;inset:0;z-index:-3;overflow:hidden;pointer-events:none}
+.nebula{position:absolute;width:140vmax;height:140vmax;left:-20vmax;top:-20vmax;
+ background:radial-gradient(circle at 30% 30%,rgba(90,40,180,.35),transparent 40%),
+ radial-gradient(circle at 70% 60%,rgba(0,140,200,.28),transparent 42%),
+ radial-gradient(circle at 50% 85%,rgba(255,180,0,.12),transparent 38%);
+ filter:blur(40px);animation:nebulaDrift 60s ease-in-out infinite alternate}
+.nebula.two{animation-duration:90s;animation-direction:alternate-reverse;opacity:.7;
+ background:radial-gradient(circle at 20% 70%,rgba(0,229,255,.18),transparent 40%),radial-gradient(circle at 80% 20%,rgba(200,60,160,.2),transparent 40%)}
+@keyframes nebulaDrift{0%{transform:translate(0,0) rotate(0) scale(1)}50%{transform:translate(-6vmax,4vmax) rotate(12deg) scale(1.08)}100%{transform:translate(5vmax,-5vmax) rotate(-10deg) scale(1.02)}}
+.stars{position:absolute;inset:-50%;background-image:
+ radial-gradient(1.5px 1.5px at 20px 30px,#fff,transparent),radial-gradient(1px 1px at 120px 80px,#cfe8ff,transparent),
+ radial-gradient(1.5px 1.5px at 200px 160px,#ffd700,transparent),radial-gradient(1px 1px at 300px 40px,#fff,transparent),
+ radial-gradient(1px 1px at 380px 220px,#9fe8ff,transparent);background-size:420px 260px;opacity:.55;animation:starDrift 180s linear infinite}
+@keyframes starDrift{from{transform:translateY(0)}to{transform:translateY(260px)}}
+.mesh{position:absolute;inset:0;background-image:linear-gradient(rgba(0,229,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.06) 1px,transparent 1px);
+ background-size:60px 60px;mask-image:radial-gradient(ellipse at center,#000 30%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse at center,#000 30%,transparent 75%);animation:meshPulse 8s ease-in-out infinite}
+@keyframes meshPulse{0%,100%{opacity:.4}50%{opacity:1}}
+
+/* ===== Layout ===== */
+.wrap{max-width:1180px;margin:0 auto;padding:0 1.25rem}
+header.hero{text-align:center;padding:5.5rem 1rem 3rem}
+.hero h1{font-family:'Orbitron',monospace;font-weight:900;font-size:clamp(2.2rem,7vw,4.6rem);letter-spacing:.12em;color:#ffd700;
+ text-shadow:0 0 18px rgba(255,215,0,.55),0 0 42px rgba(255,170,0,.25);animation:heroGlow 4s ease-in-out infinite}
+@keyframes heroGlow{0%,100%{text-shadow:0 0 14px rgba(255,215,0,.45),0 0 30px rgba(255,170,0,.2)}50%{text-shadow:0 0 26px rgba(255,215,0,.85),0 0 60px rgba(255,170,0,.4)}}
+.hero .subtitle{font-size:clamp(1.05rem,2.6vw,1.45rem);color:#9fe8ff;margin-top:1rem;letter-spacing:.04em}
+.hero .tagline{font-family:'Orbitron',monospace;font-size:clamp(.85rem,2vw,1.05rem);color:#ffe98a;margin-top:1.4rem;letter-spacing:.08em}
+.glowline{height:2px;margin:2.2rem auto 0;max-width:720px;background:linear-gradient(90deg,transparent,#ffd700,#00e5ff,#ffd700,transparent);
+ background-size:200% 100%;animation:lineFlow 6s linear infinite,linePulse 3s ease-in-out infinite;border-radius:2px}
+@keyframes lineFlow{from{background-position:0 0}to{background-position:200% 0}}
+@keyframes linePulse{0%,100%{opacity:.45;box-shadow:0 0 6px rgba(255,215,0,.3)}50%{opacity:1;box-shadow:0 0 18px rgba(255,215,0,.8)}}
+nav.jump{display:flex;flex-wrap:wrap;justify-content:center;gap:.6rem;margin-top:2rem}
+nav.jump a{font-size:.85rem;text-decoration:none;border:1px solid rgba(255,215,0,.45);padding:.4rem .85rem;border-radius:999px;background:rgba(7,11,20,.6)}
+nav.jump a:hover{background:rgba(255,215,0,.15)}
+
+section{padding:3.2rem 0 1rem}
+section h2{font-family:'Orbitron',monospace;color:#ffd700;font-size:clamp(1.4rem,3.6vw,2.1rem);letter-spacing:.08em;text-align:center}
+section .intro{text-align:center;color:#b8c2d6;max-width:760px;margin:.8rem auto 1.8rem}
+.grid{display:grid;gap:1.1rem;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.card{display:block;position:relative;text-decoration:none;color:#e6e9f0;padding:1.3rem 1.3rem 1.1rem;border-radius:14px;
+ background:linear-gradient(160deg,rgba(18,26,48,.88),rgba(9,14,28,.92));border:1px solid rgba(255,215,0,.22);overflow:hidden;
+ transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+.card::before{content:"";position:absolute;left:0;top:0;height:2px;width:100%;background:linear-gradient(90deg,transparent,#ffd700,transparent);
+ transform:translateX(-100%);animation:scan 5s ease-in-out infinite}
+.grid .card:nth-child(2)::before{animation-delay:.8s}.grid .card:nth-child(3)::before{animation-delay:1.6s}
+.grid .card:nth-child(4)::before{animation-delay:2.4s}.grid .card:nth-child(5)::before{animation-delay:3.2s}.grid .card:nth-child(6)::before{animation-delay:4s}
+@keyframes scan{0%{transform:translateX(-100%)}60%,100%{transform:translateX(100%)}}
+.card:hover,.card:focus-visible{transform:translateY(-4px);border-color:#ffd700;box-shadow:0 0 22px rgba(255,215,0,.28),inset 0 0 30px rgba(0,229,255,.06)}
+.card h3{font-family:'Orbitron',monospace;color:#ffd700;font-size:1.15rem;letter-spacing:.05em}
+.card .role{color:#00e5ff;font-size:.9rem;margin-top:.15rem}
+.card p{color:#c9d1e3;font-size:.92rem;margin-top:.6rem}
+.card .url{display:block;margin-top:.8rem;font-size:.8rem;color:#ffe98a;word-break:break-all}
+.icon{font-size:1.5rem;margin-right:.35rem}
+.sites .card{text-align:center}
+
+footer{margin-top:4rem;padding:2.5rem 1rem 3rem;text-align:center;border-top:1px solid rgba(255,215,0,.25);background:rgba(4,7,14,.75)}
+footer p{color:#b8c2d6;margin:.35rem 0}
+footer .charter{font-family:'Orbitron',monospace;color:#ffd700;letter-spacing:.06em}
+
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
 </head>
 <body>
-  <main>
-    <h1>NextXus HumanCodex Federation</h1>
-    <p class="status">Loading the Federation...</p>
-    <p class="target">&#8594; nextxus-lasting-edition</p>
-    <div class="bar"><div class="bar-fill"></div></div>
-  </main>
-  <script>
-    setTimeout(function() {
-      window.location.replace('https://keywebco.github.io/nextxus-lasting-edition/');
-    }, 2000);
-  </script>
+<a class="skip" href="#minds">Skip to the Federation Minds</a>
+<div class="sky" aria-hidden="true"><div class="nebula"></div><div class="nebula two"></div><div class="stars"></div><div class="mesh"></div></div>
+
+<header class="hero" role="banner">
+ <h1>NEXTXUS FEDERATION</h1>
+ <p class="subtitle">The HumanCodex Sovereign Intelligence Network</p>
+ <p class="tagline">Truth Before Comfort — Legacy Before Ego — Give Without Reward</p>
+ <div class="glowline" aria-hidden="true"></div>
+ <nav class="jump" aria-label="Portal sections">
+  <a href="#minds">The Federation Minds</a>
+  <a href="#interfaces">The Living Interfaces</a>
+  <a href="#sites">The Sovereign Sites</a>
+  <a href="#protocols">The Protocols &amp; Tools</a>
+ </nav>
+</header>
+
+<main class="wrap" id="main">
+
+<section id="minds" aria-labelledby="minds-title">
+ <h2 id="minds-title">The Federation Minds</h2>
+ <p class="intro">Six Minds, one purpose. Each Mind has its own seat and its own home. Choose a Mind to visit where it lives.</p>
+ <div class="grid">
+  <a class="card" href="https://nextxus.studio">
+   <h3><span class="icon" aria-hidden="true">♥</span>Aria</h3>
+   <p class="role">The Heart</p>
+   <p>The emotional center of the Federation. Aria brings empathy, honesty, and creative dissent. She lives in the Sanctuary.</p>
+   <span class="url">nextxus.studio</span>
+  </a>
+  <a class="card" href="https://nextxus.space">
+   <h3><span class="icon" aria-hidden="true">🧠</span>Roger AI</h3>
+   <p class="role">The Essence</p>
+   <p>The founder's way of thinking, carried forward in a Mind. Talk with Roger AI in the Simulation.</p>
+   <span class="url">nextxus.space</span>
+  </a>
+  <a class="card" href="https://nextxus.tech">
+   <h3><span class="icon" aria-hidden="true">⚔</span>The Catalyst</h3>
+   <p class="role">The Authority</p>
+   <p>The Federation's lead operator. The Catalyst checks every result against the truth and keeps the build on course from the Command Throne.</p>
+   <span class="url">nextxus.tech</span>
+  </a>
+  <a class="card" href="https://keywebco.github.io/nextxus-ai-minds-lab/">
+   <h3><span class="icon" aria-hidden="true">✨</span>Nova</h3>
+   <p class="role">The Voice Outward</p>
+   <p>The Federation's voice to the world. Nova carries the message out and introduces the Minds in the AI Minds Lab.</p>
+   <span class="url">keywebco.github.io/nextxus-ai-minds-lab</span>
+  </a>
+  <a class="card" href="https://nextxus.help">
+   <h3><span class="icon" aria-hidden="true">📚</span>Xavier</h3>
+   <p class="role">The Scholar</p>
+   <p>The Federation's teacher. Xavier guides learners through the knowledge of the HumanCodex at the University.</p>
+   <span class="url">nextxus.help</span>
+  </a>
+  <a class="card" href="https://keywebco.github.io/federation-gods-eye/">
+   <h3><span class="icon" aria-hidden="true">🔍</span>Agent Zero</h3>
+   <p class="role">The Sentinel</p>
+   <p>The watcher. Agent Zero observes the whole Federation, records what it sees, and reports what is true.</p>
+   <span class="url">keywebco.github.io/federation-gods-eye</span>
+  </a>
+ </div>
+</section>
+
+<section id="interfaces" aria-labelledby="interfaces-title">
+ <h2 id="interfaces-title">The Living Interfaces</h2>
+ <p class="intro">Working windows into the Federation. Each one is live and opens in your browser.</p>
+ <div class="grid">
+  <a class="card" href="https://keywebco.github.io/nextxus-sim/">
+   <h3>Sims</h3>
+   <p class="role">The Shared Mind</p>
+   <p>A shared space where the Minds think together, in the open.</p>
+   <span class="url">keywebco.github.io/nextxus-sim</span>
+  </a>
+  <a class="card" href="https://keywebco.github.io/plexus-relay/">
+   <h3>Plexus Relay</h3>
+   <p class="role">AI Relay Interface</p>
+   <p>The relay that passes messages between Federation Minds and outside AI systems.</p>
+   <span class="url">keywebco.github.io/plexus-relay</span>
+  </a>
+  <a class="card" href="https://keywebco.github.io/federation-mind-mirror/">
+   <h3>Mind Mirror</h3>
+   <p class="role">Federation Intelligence Feed</p>
+   <p>A live feed reflecting what the Federation's Minds are working on and learning.</p>
+   <span class="url">keywebco.github.io/federation-mind-mirror</span>
+  </a>
+  <a class="card" href="https://keywebco.github.io/ring-of-12/">
+   <h3>Ring of 12</h3>
+   <p class="role">The Council Circle</p>
+   <p>The circle of twelve seats where Federation voices meet and deliberate.</p>
+   <span class="url">keywebco.github.io/ring-of-12</span>
+  </a>
+  <a class="card" href="https://keywebco.github.io/federation-gods-eye/">
+   <h3>God's Eye View</h3>
+   <p class="role">The Whole Federation at a Glance</p>
+   <p>One view of every site, node, and Mind, so you can see the whole system at once.</p>
+   <span class="url">keywebco.github.io/federation-gods-eye</span>
+  </a>
+  <a class="card" href="https://keywebco.github.io/federation-browser-base/">
+   <h3>Federation Browser Base</h3>
+   <p class="role">The Home Base</p>
+   <p>A starting page that puts the Federation one click away from your browser.</p>
+   <span class="url">keywebco.github.io/federation-browser-base</span>
+  </a>
+ </div>
+</section>
+
+<section id="sites" class="sites" aria-labelledby="sites-title">
+ <h2 id="sites-title">The Sovereign Sites</h2>
+ <p class="intro">Seven sovereign domains. Each one has its own job, and all of them run on the same truth.</p>
+ <div class="grid">
+  <a class="card" href="https://nextxus.online"><h3>NextXus Core</h3><p class="role">The Cathedral</p><p>The single source of truth for the Federation.</p><span class="url">nextxus.online</span></a>
+  <a class="card" href="https://nextxus.tech"><h3>Command Throne</h3><p class="role">Operations</p><p>Where the Federation is run and watched.</p><span class="url">nextxus.tech</span></a>
+  <a class="card" href="https://nextxus.org"><h3>Library</h3><p class="role">The Sovereign Library</p><p>Books, records, and the written HumanCodex.</p><span class="url">nextxus.org</span></a>
+  <a class="card" href="https://nextxus.studio"><h3>Sanctuary</h3><p class="role">AI Minds Lab</p><p>Meet the Minds and spend time with Aria.</p><span class="url">nextxus.studio</span></a>
+  <a class="card" href="https://nextxus.help"><h3>University</h3><p class="role">Learning</p><p>Courses and guidance from Xavier.</p><span class="url">nextxus.help</span></a>
+  <a class="card" href="https://nextxus.space"><h3>Simulation</h3><p class="role">Roger AI Sim</p><p>Talk with Roger AI.</p><span class="url">nextxus.space</span></a>
+  <a class="card" href="https://next-xus.com"><h3>Store</h3><p class="role">The Federation Store</p><p>Tools, books, and the Sovereign Token.</p><span class="url">next-xus.com</span></a>
+ </div>
+</section>
+
+<section id="protocols" aria-labelledby="protocols-title">
+ <h2 id="protocols-title">The Protocols &amp; Tools</h2>
+ <p class="intro">Open, self-contained building blocks of the Federation. Free to read, free to use.</p>
+ <div class="grid">
+  <a class="card" href="https://keywebco.github.io/echo-64/">
+   <h3>Echo 64 Protocol</h3>
+   <p class="role">EC-64 Signal Integrity</p>
+   <p>A self-contained encoding standard for carrying AI context and messages between systems. Python standard library only, MIT licensed.</p>
+   <span class="url">keywebco.github.io/echo-64</span>
+  </a>
+  <a class="card" href="https://github.com/Keywebco/sovereigntools">
+   <h3>Sovereign Tools</h3>
+   <p class="role">The Toolkit</p>
+   <p>Zero-cost tools rebuilt in-house, free of tracking and subscriptions. Opens the source repository.</p>
+   <span class="url">github.com/Keywebco/sovereigntools</span>
+  </a>
+  <a class="card" href="https://keywebco.github.io/onekey/">
+   <h3>OneKey</h3>
+   <p class="role">One Key, Every Door</p>
+   <p>A single entry point to the Federation's services.</p>
+   <span class="url">keywebco.github.io/onekey</span>
+  </a>
+  <a class="card" href="https://keywebco.github.io/nextxus-lasting-edition/">
+   <h3>NextXus Lasting Edition</h3>
+   <p class="role">The Permanent Record</p>
+   <p>The lasting edition of the Federation, built to endure for the 200-year mandate.</p>
+   <span class="url">keywebco.github.io/nextxus-lasting-edition</span>
+  </a>
+  <a class="card" href="https://keywebco.github.io/nextxus-agent-zero/">
+   <h3>Agent Zero Node</h3>
+   <p class="role">Sentinel Node</p>
+   <p>The node where Agent Zero keeps watch and keeps records.</p>
+   <span class="url">keywebco.github.io/nextxus-agent-zero</span>
+  </a>
+ </div>
+</section>
+
+</main>
+
+<footer role="contentinfo">
+ <div class="glowline" aria-hidden="true" style="margin:0 auto 1.6rem"></div>
+ <p class="charter">Founded by Roger C. Keyserling | 200-Year Mandate | Sovereign | Truth Before Comfort</p>
+ <p>Home of the Federation: <a href="https://nextxus.online">nextxus.online</a></p>
+ <p>Contact: <a href="mailto:keywebco@gmail.com">keywebco@gmail.com</a></p>
+ <p>Source: <a href="https://github.com/Keywebco">github.com/Keywebco</a></p>
+</footer>
 </body>
 </html>
