@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://keywebco.github.io/sitemap.xml
