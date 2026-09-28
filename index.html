@@ -16,3 +16,280 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NextXus HumanCodex Federation | Sovereign AI Architecture">
 <meta name="twitter:description" content="Truth-first AI architecture. 10 books, AI simulations, Nova tools, and the Sovereign Token. No subscriptions. No tracking.">
+<style>
+:root{--bg:#050805;--panel:#0d140e;--line:#1f3a24;--text:#f4f7f2;--dim:#c9d6cb;--green:#3dff8a;--gold:#ffd34d;--focus:#ffffff}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:20px;line-height:1.6;padding-bottom:84px;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:-50%;z-index:-1;background:radial-gradient(circle at 30% 30%,rgba(61,255,138,.10),transparent 40%),radial-gradient(circle at 70% 60%,rgba(255,211,77,.08),transparent 40%);animation:drift 30s ease-in-out infinite alternate}
+@keyframes drift{from{transform:translate(0,0) rotate(0)}to{transform:translate(6%,4%) rotate(8deg)}}
+a{color:var(--green);text-underline-offset:4px}
+a:hover{color:var(--gold)}
+a:focus-visible{outline:4px solid var(--focus);outline-offset:3px;border-radius:6px}
+.skip{position:absolute;left:-9999px;top:0;background:var(--gold);color:#000;padding:12px 18px;font-weight:800;z-index:10}
+.skip:focus{left:12px;top:12px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+header.hero{text-align:center;padding:72px 0 40px;border-bottom:2px solid var(--line)}
+.hero h1{font-size:clamp(2.2rem,6vw,4rem);line-height:1.15;margin:0 0 18px;color:var(--gold);letter-spacing:.5px;animation:pulse 4s ease-in-out infinite}
+@keyframes pulse{0%,100%{text-shadow:0 0 8px rgba(255,211,77,.35)}50%{text-shadow:0 0 28px rgba(255,211,77,.85),0 0 48px rgba(61,255,138,.35)}}
+.tagline{font-size:clamp(1.25rem,3vw,1.7rem);color:var(--text);margin:0 0 34px;font-weight:600}
+.cta{display:flex;flex-wrap:wrap;gap:18px;justify-content:center}
+.btn{display:inline-block;background:var(--gold);color:#000;font-weight:800;font-size:1.15rem;text-decoration:none;padding:16px 28px;border-radius:10px;border:3px solid var(--gold);min-height:56px;transition:transform .15s,background .15s}
+.btn:hover{background:var(--green);border-color:var(--green);color:#000;transform:translateY(-2px)}
+.btn.alt{background:transparent;color:var(--gold)}
+.btn.alt:hover{background:var(--gold);color:#000}
+.btn.big{font-size:1.35rem;padding:20px 34px}
+nav.jump ul{list-style:none;display:flex;flex-wrap:wrap;gap:10px 22px;justify-content:center;padding:22px 0 0;margin:0}
+nav.jump a{font-weight:700}
+main section{padding:52px 0;border-bottom:1px solid var(--line);animation:rise .9s ease-out both}
+main section:nth-of-type(1){animation-delay:.15s}
+main section:nth-of-type(2){animation-delay:.3s}
+main section:nth-of-type(3){animation-delay:.45s}
+main section:nth-of-type(4){animation-delay:.6s}
+main section:nth-of-type(5){animation-delay:.75s}
+main section:nth-of-type(6){animation-delay:.9s}
+main section:nth-of-type(7){animation-delay:1.05s}
+@keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+h2{font-size:clamp(1.8rem,4vw,2.5rem);margin:0 0 8px;color:var(--green);position:relative;display:inline-block}
+h2::after{content:"";position:absolute;left:0;bottom:-6px;height:3px;width:100%;background:linear-gradient(90deg,var(--gold),var(--green),var(--gold));background-size:200% 100%;animation:sweep 5s linear infinite}
+@keyframes sweep{from{background-position:0 0}to{background-position:200% 0}}
+h3{font-size:1.5rem;margin:0 0 12px;color:var(--gold)}
+.lead{color:var(--dim);font-size:1.15rem;margin:14px 0 26px}
+.grid{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.card{background:var(--panel);border:2px solid var(--line);border-radius:14px;padding:26px;transition:border-color .2s,transform .2s}
+.card:hover{border-color:var(--gold);transform:translateY(-3px)}
+ul.links{list-style:none;padding:0;margin:0}
+ul.links li{padding:12px 0;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 14px;align-items:baseline}
+ul.links li:last-child{border-bottom:0}
+ul.links a{font-weight:700;font-size:1.12rem}
+.price{color:var(--gold);font-weight:800;white-space:nowrap}
+.desc{color:var(--dim);font-size:1rem;width:100%}
+.more{margin-top:22px;display:flex;flex-wrap:wrap;gap:14px}
+.pay{background:var(--panel);border:3px solid var(--gold);border-radius:16px;padding:30px}
+.pay dl{margin:0;display:grid;grid-template-columns:minmax(120px,max-content) 1fr;gap:14px 22px}
+.pay dt{font-weight:800;color:var(--gold)}
+.pay dd{margin:0;overflow-wrap:anywhere}
+code{font-family:ui-monospace,Consolas,monospace;font-size:1rem;background:#000;color:var(--green);padding:4px 8px;border-radius:6px;border:1px solid var(--line);user-select:all;overflow-wrap:anywhere}
+footer{padding:44px 0 30px;text-align:center}
+footer .motto{font-size:1.2rem;font-weight:700;color:var(--gold)}
+footer ul{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:12px 26px;justify-content:center}
+nav.paybar{position:fixed;left:0;right:0;bottom:0;background:rgba(0,0,0,.94);border-top:2px solid var(--gold);z-index:5}
+nav.paybar ul{list-style:none;margin:0 auto;padding:10px 14px;display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:center;align-items:center;max-width:1180px}
+nav.paybar .label{color:var(--text);font-weight:800}
+nav.paybar a{font-weight:800}
+[aria-hidden="true"].ico{display:inline-block;margin-right:8px}
+@media (max-width:640px){body{font-size:19px}.btn{width:100%;text-align:center}.pay dl{grid-template-columns:1fr}.pay dt{margin-top:10px}header.hero{padding-top:52px}nav.paybar ul{gap:6px 16px;padding:10px 8px;font-size:18px}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+
+<header class="hero">
+<div class="wrap">
+<h1>NextXus HumanCodex Federation</h1>
+<p class="tagline">Truth-first AI architecture. Built sovereign. Built to last.</p>
+<div class="cta">
+<a class="btn big" href="https://next-xus.com">▶ ENTER THE STORE</a>
+<a class="btn big alt" href="https://jim.com/a/roger-christopher-keyser">▶ BUY WITH JIM</a>
+</div>
+<nav class="jump" aria-label="Page sections">
+<ul>
+<li><a href="#downloads">Quick Downloads</a></li>
+<li><a href="#sims-nova">Sims &amp; Nova</a></li>
+<li><a href="#sites">Federation Sites</a></li>
+<li><a href="#books">Books</a></li>
+<li><a href="#media">Media</a></li>
+<li><a href="#research">Academy &amp; Research</a></li>
+<li><a href="#payment">Payment Options</a></li>
+</ul>
+</nav>
+</div>
+</header>
+
+<main id="main">
+
+<section id="downloads" aria-labelledby="h-downloads">
+<div class="wrap">
+<h2 id="h-downloads">Quick Downloads</h2>
+<p class="lead">Tools and resources you can grab in 90 seconds or less. Instant digital delivery.</p>
+<div class="card">
+<ul class="links">
+<li><a href="https://keywebster.gumroad.com/l/echyii">EchoCore — AI Memory That Doesn't Forget</a><span class="price">$10</span></li>
+<li><a href="https://keywebster.gumroad.com/l/qzgjhs">The NexTxuS Human Codex: Blueprint for Truth in AI</a><span class="price">$10</span></li>
+<li><a href="https://keywebster.gumroad.com/l/benjxd">The Immutable HumanCodex NextXus</a><span class="price">$10</span></li>
+<li><a href="https://keywebster.gumroad.com/l/veyzvd">Science and the Scientific Method – The Codex Edition</a><span class="price">$10</span></li>
+<li><a href="https://jim.com/a/roger-christopher-keyser">5000 AI Prompts Reference Key</a><span class="price">$5 — see store</span></li>
+</ul>
+</div>
+<div class="more">
+<a class="btn" href="https://keywebster.gumroad.com">All Products</a>
+<a class="btn alt" href="https://jim.com/a/roger-christopher-keyser">Full Catalog</a>
+</div>
+</div>
+</section>
+
+<section id="sims-nova" aria-labelledby="h-sims-nova">
+<div class="wrap">
+<h2 id="h-sims-nova">Sims &amp; Nova</h2>
+<p class="lead">The flagship AI products of the Federation.</p>
+<div class="grid">
+<article class="card">
+<h3>SIMS — Roger AI + Axiom</h3>
+<p>The Sims are digital souls. Roger AI is the Essence — the closest approximation of a living mind ever committed to code. Axiom is the Guardian. Not chatbots. Simulations.</p>
+<a class="btn" href="https://nextxus.space">ACCESS THE SIMS</a>
+</article>
+<article class="card">
+<h3>NOVA — AI Tool Builders</h3>
+<p>Nova builds custom AI tools with real intelligence. Tell Nova what your business needs. Nova builds it. Powered by the HumanCodex Federation.</p>
+<a class="btn" href="https://nextxus.online">EXPLORE NOVA</a>
+</article>
+</div>
+</div>
+</section>
+
+<section id="sites" aria-labelledby="h-sites">
+<div class="wrap">
+<h2 id="h-sites">Federation Sites</h2>
+<p class="lead">Every Federation site, in one place.</p>
+<div class="grid">
+<div class="card">
+<h3>Emergent Apps (7 live sites)</h3>
+<ul class="links">
+<li><a href="https://nextxus.tech"><span class="ico" aria-hidden="true">🏛️</span>The Throne</a><span class="desc">Command Center — nextxus.tech</span></li>
+<li><a href="https://nextxus.org"><span class="ico" aria-hidden="true">📖</span>The Library</a><span class="desc">Knowledge Archive — nextxus.org</span></li>
+<li><a href="https://nextxus.online"><span class="ico" aria-hidden="true">⚡</span>Core</a><span class="desc">Federation Doctrine — nextxus.online</span></li>
+<li><a href="https://nextxus.space"><span class="ico" aria-hidden="true">🧬</span>AI Minds Lab</a><span class="desc">Sims &amp; Personas — nextxus.space</span></li>
+<li><a href="https://nextxus.studio"><span class="ico" aria-hidden="true">💜</span>Aria's Studio</a><span class="desc">The Heart — nextxus.studio</span></li>
+<li><a href="https://nextxus.help"><span class="ico" aria-hidden="true">🎓</span>The University</a><span class="desc">Education — nextxus.help</span></li>
+<li><a href="https://next-xus.com"><span class="ico" aria-hidden="true">🛒</span>The Emporium</a><span class="desc">Store — next-xus.com</span></li>
+</ul>
+</div>
+<div class="card">
+<h3>GitHub Pages (top 10)</h3>
+<ul class="links">
+<li><a href="https://keywebco.github.io/federation-browser-base/">Federation Browser Base</a><span class="desc">Multi-window Federation operating space</span></li>
+<li><a href="https://keywebco.github.io/federation-gods-eye/">Federation God's Eye</a><span class="desc">Full system overview</span></li>
+<li><a href="https://keywebco.github.io/ring-of-12/">Ring of 12</a><span class="desc">Twelve-perspective HumanCodex council</span></li>
+<li><a href="https://keywebco.github.io/sovereign-knowledge-os/">Sovereign Knowledge OS</a><span class="desc">Self-indexing, AI-readable knowledge base</span></li>
+<li><a href="https://keywebco.github.io/nextxus-unified-storefront/">NextXus Unified Storefront</a><span class="desc">Federation commerce mirror</span></li>
+<li><a href="https://keywebco.github.io/NextXus-Sovereign-Mirror/">HumanCodex Sovereign Archive</a><span class="desc">Library pillar — static failsafe archive</span></li>
+<li><a href="https://keywebco.github.io/sovereigntools/">Sovereign Tools</a><span class="desc">The Federation tool suite</span></li>
+<li><a href="https://keywebco.github.io/federation-mind-mirror/">Federation Mind Mirror</a><span class="desc">Plain HTML readable by any AI</span></li>
+<li><a href="https://keywebco.github.io/nextxus-sim/">NextXus SIM — The Shared Mind</a><span class="desc">Sovereign conference room for the Minds</span></li>
+<li><a href="https://keywebco.github.io/nextxus-lasting-edition/">NextXus Lasting Edition</a><span class="desc">The permanent record of the Federation</span></li>
+</ul>
+<div class="more"><a class="btn alt" href="https://github.com/Keywebco">See All GitHub Sites</a></div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="books" aria-labelledby="h-books">
+<div class="wrap">
+<h2 id="h-books">Books</h2>
+<p class="lead">For researchers and learners. Instant download.</p>
+<div class="grid">
+<div class="card">
+<h3>Fiction &amp; Poetry — $5 each</h3>
+<ul class="links">
+<li><a href="https://keywebster.gumroad.com/l/pcbjfk">Keyserling Emotion Equations</a><span class="price">$5</span></li>
+<li><a href="https://keywebster.gumroad.com/l/wffrtf">THE BIG GAY, BI, &amp; Straight DATING GUIDE</a><span class="price">$5</span></li>
+<li><a href="https://keywebster.gumroad.com/l/rnhbhi">The Gravity of Us: Complete Poetry Collection</a><span class="price">$5</span></li>
+<li><a href="https://keywebster.gumroad.com/l/akvgn">Rick And Dee</a><span class="price">$5</span></li>
+</ul>
+</div>
+<div class="card">
+<h3>Science &amp; Philosophy — $10 each</h3>
+<ul class="links">
+<li><a href="https://keywebster.gumroad.com/l/veyzvd">Science and the Scientific Method</a><span class="price">$10</span></li>
+<li><a href="https://keywebster.gumroad.com/l/qzgjhs">The NexTxuS Human Codex</a><span class="price">$10</span></li>
+<li><a href="https://keywebster.gumroad.com/l/benjxd">The Immutable HumanCodex NextXus</a><span class="price">$10</span></li>
+<li><a href="https://keywebster.gumroad.com/l/oihjh">NexTxuS – Federated Middleware of Sentience</a><span class="price">$10</span></li>
+<li><a href="https://keywebster.gumroad.com/l/echyii">EchoCore — AI Memory That Doesn't Forget</a><span class="price">$10</span></li>
+<li><a href="https://keywebster.gumroad.com/l/gpowew">Understanding Haiku: Structure, Value, Analysis</a><span class="price">$10</span></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+
+<section id="media" aria-labelledby="h-media">
+<div class="wrap">
+<h2 id="h-media">Media</h2>
+<p class="lead">Podcast, video, and music.</p>
+<div class="card">
+<ul class="links">
+<li><a href="https://open.spotify.com/show/0JP7csjWLqKNKOHbFMp3CR"><span class="ico" aria-hidden="true">🎙️</span>HumanCodex Podcast</a><span class="desc">Listen on Spotify</span></li>
+<li><a href="https://youtube.com/@keyholetoday"><span class="ico" aria-hidden="true">📺</span>YouTube Channel</a><span class="desc">Watch at youtube.com/@keyholetoday</span></li>
+<li><a href="https://next-xus.com"><span class="ico" aria-hidden="true">🎵</span>AI Music</a><span class="desc">Listen and buy at next-xus.com</span></li>
+</ul>
+</div>
+</div>
+</section>
+
+<section id="research" aria-labelledby="h-research">
+<div class="wrap">
+<h2 id="h-research">Academy &amp; Research</h2>
+<p class="lead">Papers, blogs, and an interactive AI tour of the Federation.</p>
+<div class="card">
+<ul class="links">
+<li><a href="https://independent.academia.edu/RogerKeyserling/search?q=Roger%20Keyserling"><span class="ico" aria-hidden="true">🎓</span>Academia.edu Profile</a><span class="desc">Research papers by Roger C. Keyserling</span></li>
+<li><a href="https://humancodexnextxus.blogspot.com/"><span class="ico" aria-hidden="true">📝</span>HumanCodex Blog</a><span class="desc">humancodexnextxus.blogspot.com</span></li>
+<li><a href="https://ecomwhazuptoday.blogspot.com/"><span class="ico" aria-hidden="true">📝</span>Ecom Blog</a><span class="desc">ecomwhazuptoday.blogspot.com</span></li>
+<li><a href="https://notebooklm.google.com"><span class="ico" aria-hidden="true">🔬</span>Gemini Notebook</a><span class="desc">Interactive AI tour on Google NotebookLM</span></li>
+</ul>
+</div>
+</div>
+</section>
+
+<section id="payment" aria-labelledby="h-payment">
+<div class="wrap">
+<h2 id="h-payment">Payment Options</h2>
+<p class="lead">No subscriptions. No tracking. Pay the way you prefer.</p>
+<div class="pay">
+<dl>
+<dt>JIM (preferred)</dt>
+<dd><a href="https://jim.com/a/roger-christopher-keyser">jim.com/a/roger-christopher-keyser</a></dd>
+<dt>Gumroad</dt>
+<dd><a href="https://keywebster.gumroad.com">keywebster.gumroad.com</a></dd>
+<dt>PayPal</dt>
+<dd><a href="https://paypal.me/nextxus/5.90">paypal.me/nextxus/5.90</a></dd>
+<dt>Sovereign Token</dt>
+<dd><a href="https://keywebster.gumroad.com/l/olhsf">$5.00 — works like cash, never expires, no subscriptions, no tracking</a></dd>
+<dt>Bitcoin (BTC)</dt>
+<dd><code>bc1qzwjzf83u7nz2fx4frchncvgvyu902xfwn2y8dm</code></dd>
+<dt>Ethereum (ETH)</dt>
+<dd><code>0xdC436a568AcC70D2c34B07f2590dd94f0F2Fd702</code></dd>
+</dl>
+</div>
+</div>
+</section>
+
+</main>
+
+<footer>
+<div class="wrap">
+<p class="motto">NextXus HumanCodex Federation | Truth Before Comfort — Legacy Before Ego — Give Without Reward</p>
+<nav aria-label="Footer">
+<ul>
+<li><a href="https://nextxus.tech">nextxus.tech</a></li>
+<li><a href="https://nextxus.online">nextxus.online</a></li>
+<li><a href="https://next-xus.com">next-xus.com</a></li>
+<li><a href="https://github.com/Keywebco">github.com/Keywebco</a></li>
+</ul>
+</nav>
+</div>
+</footer>
+
+<nav class="paybar" aria-label="Quick pay">
+<ul>
+<li class="label">Buy now:</li>
+<li><a href="https://jim.com/a/roger-christopher-keyser">JIM</a></li>
+<li><a href="https://keywebster.gumroad.com">Gumroad</a></li>
+<li><a href="https://paypal.me/nextxus/5.90">PayPal</a></li>
+<li><a href="https://next-xus.com">Store</a></li>
+</ul>
+</nav>
+</body>
+</html>
