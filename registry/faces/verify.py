@@ -8,6 +8,11 @@ here = os.path.dirname(os.path.abspath(__file__))
 reg = json.load(open(os.path.join(here, "registry.json")))
 bad = 0
 for m in reg["minds"]:
+    if m.get("superseded"):
+        p = os.path.join(folder, m["file"])
+        if os.path.exists(p):
+            print(f"SUPERSEDED  {m['name']}: {m['file']} is in the folder but was replaced on {m['superseded']['on']}. Do not use it as {m['name']}.")
+        continue
     p = os.path.join(folder, m["file"])
     if not os.path.exists(p):
         print(f"MISSING  {m['name']}: {m['file']}"); bad += 1; continue
@@ -16,8 +21,11 @@ for m in reg["minds"]:
         print(f"OK       {m['name']}: {m['file']}")
     else:
         print(f"CHANGED  {m['name']}: {m['file']} (expected {m['sha256'][:12]}, found {h[:12]})"); bad += 1
-known = {m["file"] for m in reg["minds"]}
+known = {m["file"] for m in reg["minds"] if not m.get("superseded")}
+retired = {m["file"] for m in reg["minds"] if m.get("superseded")}
 for f in sorted(os.listdir(folder)):
+    if f in retired:
+        bad += 1; continue
     if os.path.isfile(os.path.join(folder, f)) and f not in known and f.lower().endswith((".jpg", ".jpeg", ".png", ".webp", ".gif")):
         print(f"UNLISTED {f} is not in the registry"); bad += 1
 print("ALL FACES MATCH THE REGISTRY" if bad == 0 else f"{bad} PROBLEM(S) FOUND")
