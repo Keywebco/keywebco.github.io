@@ -21,7 +21,18 @@ for m in reg["minds"]:
         print(f"OK       {m['name']}: {m['file']}")
     else:
         print(f"CHANGED  {m['name']}: {m['file']} (expected {m['sha256'][:12]}, found {h[:12]})"); bad += 1
-known = {m["file"] for m in reg["minds"] if not m.get("superseded")}
+for m in reg["minds"]:
+    sy = m.get("symbol")
+    if sy and not m.get("superseded"):
+        p = os.path.join(folder, sy["file"])
+        if not os.path.exists(p):
+            print(f"MISSING  {m['name']} symbol: {sy['file']}"); bad += 1; continue
+        h = hashlib.sha256(open(p, "rb").read()).hexdigest()
+        if h == sy["sha256"]:
+            print(f"OK       {m['name']} symbol: {sy['file']}")
+        else:
+            print(f"CHANGED  {m['name']} symbol: {sy['file']} (expected {sy['sha256'][:12]}, found {h[:12]})"); bad += 1
+known = {m["file"] for m in reg["minds"] if not m.get("superseded")} | {m["symbol"]["file"] for m in reg["minds"] if m.get("symbol") and not m.get("superseded")}
 retired = {m["file"] for m in reg["minds"] if m.get("superseded")}
 for f in sorted(os.listdir(folder)):
     if f in retired:
