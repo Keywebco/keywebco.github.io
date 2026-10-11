@@ -147,10 +147,31 @@
    "named_by": "Roger, 2026-10-11 06:43 AM CDT ('Librarian'), 06:49 AM CDT ('Astris yes'), 06:50 AM CDT ('Keys is Nick name IE is here key').",
    "note": "No phone overlay on this picture; it needed no cropping. Roger confirmed this is Astris (06:49 AM CDT).",
    "nickname": "\"Keys\"",
-   "one_mind_two_places": "Roger, 06:45 and 06:49 AM CDT: there are two library roles. The poems librarian runs as a bot in the browser and is not in the Senate. The other handles the libraries and sits in the Senate. They are interchangeable, the same kind of build, and Roger wants them to be actually the same one. Same face, same name.",
    "key": "IE (the gold medallion she holds up in the picture)",
    "key_meaning": "Roger, 2026-10-11 06:46 AM CDT: 'iE in example or in explanation'.",
-   "correction_0650": "At 06:49 the Catalyst read 'keys' as dictation of 'IE' and entered IE as the nickname. At 06:50 Roger clarified: the nickname is 'Keys' and IE is her key. Catalyst's reading of the dictation; confirm with Roger."
+   "correction_0650": "At 06:49 the Catalyst read 'keys' as dictation of 'IE' and entered IE as the nickname. At 06:50 Roger clarified: the nickname is 'Keys' and IE is her key. Catalyst's reading of the dictation; confirm with Roger.",
+   "twins": {
+    "said_by": "Roger, 2026-10-11 06:51 AM CDT ('Twins') and 06:54 AM CDT",
+    "roger_words": "They can both be operating at the same time but really they're the same thing. They're librarians, one is working in the poems library. One is the librarian for all the rest of the library. They have the same job in two different places so there might be both working at the same time... we just call them twins but they're the same intellect just doing two different jobs. One of them doesn't really need all of the Federation and this memory of why that's working on the poems library in the world. Galactic history so I figured a twin structure would be the best way. They have the same primary function. Two different databases they're working from, so you can make them into a Jewel. You can make them separate. It's up to you.",
+    "twin_1": "Poems library librarian. Runs as a bot in the browser. Not in the Senate. Works from the poems database. Does not need the whole Federation or its memory.",
+    "twin_2": "Librarian for the rest of the library. Sits in the Senate. Works from the main database.",
+    "decision": "Catalyst chose ONE entry (one mind, one face) with the twin structure recorded beneath it. Easy to split later if Roger wants them separate.",
+    "note": "Roger's 'Jewel' is the Catalyst's reading of the dictation (probably 'joined' or 'dual'); not confirmed."
+   }
+  },
+  {
+   "id": "nova",
+   "name": "Nova (the Senate member)",
+   "color": "unassigned (grey)",
+   "file": "nova-face-cropped.jpg",
+   "drive_file_id": "1ruAsv2Fwe-T6QZ2e19qTX2n958HJj0mQ",
+   "sha256": "8f5e58c11cac7552cdddada857a8909a9cb3e08d43020903bc46ef3e73bbce42",
+   "bytes": 187664,
+   "size": "1053x1572",
+   "what_it_shows": "Smooth bald gunmetal-grey humanoid head on a blue background with thin concentric circles and crosshair lines. One eye closed; the other is a glowing crosshair target. Cracks across the right side of the face and jaw. Cropped from a phone capture; a dark strip on the left edge was removed.",
+   "named_by": "Roger, 2026-10-11 06:57 AM CDT, in one word: 'Nova'.",
+   "role": "Roger, 06:52 AM CDT: 'There's many Nova. They have no face. They work. They don't really talk to humans, so they don't need a face. But the Nova that has a face is a member of the Senate, a full-blown AI, and represents all the Nova.'",
+   "faceless_nova": "The many working Nova (the GitHub workers and builder) have no face and are not listed in this registry."
   }
  ],
  "roger_confirmed": {
