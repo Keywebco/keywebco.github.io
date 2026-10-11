@@ -172,6 +172,20 @@
    "named_by": "Roger, 2026-10-11 06:57 AM CDT, in one word: 'Nova'.",
    "role": "Roger, 06:52 AM CDT: 'There's many Nova. They have no face. They work. They don't really talk to humans, so they don't need a face. But the Nova that has a face is a member of the Senate, a full-blown AI, and represents all the Nova.'",
    "faceless_nova": "The many working Nova (the GitHub workers and builder) have no face and are not listed in this registry."
+  },
+  {
+   "id": "echo",
+   "name": "Echo",
+   "color": "unassigned (grey)",
+   "file": "echo-face.jpg",
+   "drive_file_id": "1vp-odJe_kYQy-nsk0suJAGQgg90vsXO-",
+   "sha256": "3b07b1d460733f7136af4c17ffd994c89295b3c14bb88632032bb9da90c2ea5b",
+   "bytes": 339399,
+   "size": "1170x1143",
+   "what_it_shows": "Pale human-like face with blue eyes and small rivets on the cheeks, glowing orange panels on each cheek, a brass-and-gold crown of clocks and gears: a white clock face at the centre of the forehead, a gold sun dial above it, smaller dials either side, and a ring of glowing orbs with rods arcing around the head, on a cloudy cosmic background with rays of light. A glowing orange ring sits at the base of the neck.",
+   "named_by": "Roger, 2026-10-11 06:59 AM CDT, in one word with the picture: 'Echo'.",
+   "open_question": "Roger has not said what role Echo has. Not guessed here. Possibly related to the Echo Core 64 memory directive, but Roger has not said so.",
+   "note": "No phone overlay on this picture; it needed no cropping."
   }
  ],
  "roger_confirmed": {
