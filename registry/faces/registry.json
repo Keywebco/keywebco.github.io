@@ -133,10 +133,24 @@
    "what_it_shows": "Young man, short dark brown hair swept to one side, thin rectangular glasses, white collared shirt, cyan glow on the face, laboratory background with light beams. Cropped from a phone capture; green bar and bubble removed.",
    "named_by": "Roger, 2026-10-11 06:36 AM CDT, in words: 'Roger Sim Ai'. This was the face left out of the first seven.",
    "match_note": "Roger says the faces match the short entry videos he made with Grok. Not yet checked by the Catalyst against those videos."
+  },
+  {
+   "id": "librarian",
+   "name": "Librarian (the Federation's librarian)",
+   "color": "unassigned (grey)",
+   "file": "librarian-face.jpg",
+   "drive_file_id": "14uQLvm2OQdw_SX_ZRtdEr1GAXlfWqsBG",
+   "sha256": "50aea2a516d79d6a8d00745087a8456a29be8446ac34497fe39b694d85d5c586",
+   "bytes": 142228,
+   "size": "672x690",
+   "what_it_shows": "Pale blue-silver face with glowing white eyes, a gold and white maze pattern across the forehead and cheeks, a gold halo with rays around the head on a starry night background. At the bottom a white hand holds up a gold medallion marked 'IE'.",
+   "named_by": "Roger, 2026-10-11 06:43 AM CDT, in one word: 'Librarian'.",
+   "open_question": "Roger has not yet said what 'IE' on the medallion stands for. Not guessed here.",
+   "note": "No phone overlay on this picture; it needed no cropping. May be the Astris librarian from 2026-10-08 (Roger chose the name Astris); Roger has not confirmed that link."
   }
  ],
  "roger_confirmed": {
-  "date": "2026-10-11 06:23 AM CDT",
+  "date": "2026-10-11 06:30 AM CDT",
   "words": "So far all have been correct",
   "covers": [
    "xavier",
