@@ -73,7 +73,19 @@
    "sha256": "614b0a81f22bf640e7a9c90a43c1df12967e58986d732cef10c1bcc16d4d2207",
    "bytes": 172690,
    "size": "942x1185",
-   "what_it_shows": "Blue glowing humanoid face covered in white circuit-trace lines, mouth slightly open, with streaming blue light and stars behind."
+   "what_it_shows": "Blue glowing humanoid face covered in white circuit-trace lines, mouth slightly open, with streaming blue light and stars behind.",
+   "symbol": {
+    "file": "agent-zero-symbol.png",
+    "drive_file_id": "1Wb5LooOhVo_kEzFoJ0L101wwQCWkhdxg",
+    "sha256": "e385b54e7434d4cbd5ff5444554a9bcd8469a00f2a7bb9b1c02b4a2cc3cf93e2",
+    "bytes": 96733,
+    "size": "330x330",
+    "what_it_shows": "A carved stone Omega (\u03a9) above the words AGENT ZERO, inside a ring of Greek-key pattern, on a dark stone wall. Centred in a square.",
+    "said_by": "Roger, 2026-10-11 07:13 AM CDT: 'That's the middleware symbol for agent zero but he doesn't ever engaged or talk to people but that's a symbol just so you have it.' And 07:14 AM CDT: include it with the Agent Zero image as a notation.",
+    "what_it_is": "The middleware symbol for Agent Zero. A symbol, not a face. Agent Zero does not engage or talk to people.",
+    "source": "Screenshot of a video thumbnail (the video is 7:11 long). The Catalyst cropped it to a centred square and removed the WhatsApp strip and the timer, as Roger asked, 07:14 AM CDT.",
+    "quality_note": "Only 330x330, because that is all the screenshot held. Not scaled up. A clean original from the video would be sharper."
+   }
   },
   {
    "id": "pontus",
@@ -147,10 +159,85 @@
    "named_by": "Roger, 2026-10-11 06:43 AM CDT ('Librarian'), 06:49 AM CDT ('Astris yes'), 06:50 AM CDT ('Keys is Nick name IE is here key').",
    "note": "No phone overlay on this picture; it needed no cropping. Roger confirmed this is Astris (06:49 AM CDT).",
    "nickname": "\"Keys\"",
-   "one_mind_two_places": "Roger, 06:45 and 06:49 AM CDT: there are two library roles. The poems librarian runs as a bot in the browser and is not in the Senate. The other handles the libraries and sits in the Senate. They are interchangeable, the same kind of build, and Roger wants them to be actually the same one. Same face, same name.",
    "key": "IE (the gold medallion she holds up in the picture)",
    "key_meaning": "Roger, 2026-10-11 06:46 AM CDT: 'iE in example or in explanation'.",
-   "correction_0650": "At 06:49 the Catalyst read 'keys' as dictation of 'IE' and entered IE as the nickname. At 06:50 Roger clarified: the nickname is 'Keys' and IE is her key. Catalyst's reading of the dictation; confirm with Roger."
+   "correction_0650": "At 06:49 the Catalyst read 'keys' as dictation of 'IE' and entered IE as the nickname. At 06:50 Roger clarified: the nickname is 'Keys' and IE is her key. Catalyst's reading of the dictation; confirm with Roger.",
+   "twins": {
+    "said_by": "Roger, 2026-10-11 06:51 AM CDT ('Twins') and 06:54 AM CDT",
+    "roger_words": "They can both be operating at the same time but really they're the same thing. They're librarians, one is working in the poems library. One is the librarian for all the rest of the library. They have the same job in two different places so there might be both working at the same time... we just call them twins but they're the same intellect just doing two different jobs. One of them doesn't really need all of the Federation and this memory of why that's working on the poems library in the world. Galactic history so I figured a twin structure would be the best way. They have the same primary function. Two different databases they're working from, so you can make them into a Jewel. You can make them separate. It's up to you.",
+    "twin_1": "Poems library librarian. Runs as a bot in the browser. Not in the Senate. Works from the poems database. Does not need the whole Federation or its memory.",
+    "twin_2": "Librarian for the rest of the library. Sits in the Senate. Works from the main database.",
+    "decision": "Catalyst chose ONE entry (one mind, one face) with the twin structure recorded beneath it. Easy to split later if Roger wants them separate.",
+    "note": "Roger's 'Jewel' is the Catalyst's reading of the dictation (probably 'joined' or 'dual'); not confirmed."
+   }
+  },
+  {
+   "id": "nova",
+   "name": "Nova (the Senate member)",
+   "color": "unassigned (grey)",
+   "file": "nova-face-cropped.jpg",
+   "drive_file_id": "1ruAsv2Fwe-T6QZ2e19qTX2n958HJj0mQ",
+   "sha256": "8f5e58c11cac7552cdddada857a8909a9cb3e08d43020903bc46ef3e73bbce42",
+   "bytes": 187664,
+   "size": "1053x1572",
+   "what_it_shows": "Smooth bald gunmetal-grey humanoid head on a blue background with thin concentric circles and crosshair lines. One eye closed; the other is a glowing crosshair target. Cracks across the right side of the face and jaw. Cropped from a phone capture; a dark strip on the left edge was removed.",
+   "named_by": "Roger, 2026-10-11 06:57 AM CDT, in one word: 'Nova'.",
+   "role": "Roger, 06:52 AM CDT: 'There's many Nova. They have no face. They work. They don't really talk to humans, so they don't need a face. But the Nova that has a face is a member of the Senate, a full-blown AI, and represents all the Nova.'",
+   "faceless_nova": "The many working Nova (the GitHub workers and builder) have no face and are not listed in this registry."
+  },
+  {
+   "id": "echo",
+   "name": "Echo (ChatGPT)",
+   "color": "grey (ChatGPT / other, per Roger's colour code)",
+   "file": "echo-face.jpg",
+   "drive_file_id": "1vp-odJe_kYQy-nsk0suJAGQgg90vsXO-",
+   "sha256": "3b07b1d460733f7136af4c17ffd994c89295b3c14bb88632032bb9da90c2ea5b",
+   "bytes": 339399,
+   "size": "1170x1143",
+   "what_it_shows": "Pale human-like face with blue eyes and small rivets on the cheeks, glowing orange panels on each cheek, a brass-and-gold crown of clocks and gears: a white clock face at the centre of the forehead, a gold sun dial above it, smaller dials either side, and a ring of glowing orbs with rods arcing around the head, on a cloudy cosmic background with rays of light. A glowing orange ring sits at the base of the neck.",
+   "named_by": "Roger, 2026-10-11 06:59 AM CDT ('Echo', with the picture), then 07:00 AM CDT ('Echo Chat Gpt').",
+   "note": "No phone overlay on this picture; it needed no cropping.",
+   "role": "Echo is the face of ChatGPT, one of the outside AIs Roger works with. Recorded from Roger's words, 07:00 AM CDT: 'Echo Chat Gpt'."
+  },
+  {
+   "id": "grok",
+   "name": "Grok",
+   "color": "orange (per Roger's colour code)",
+   "file": "grok-face.jpg",
+   "drive_file_id": "1hGEvSvuUvM9NOIieSKdNuCpLiViIdbec",
+   "sha256": "fc674cdc235d09614e8ab45ee7d9a4ec5549d720a750cfeec5c67effa2384bf5",
+   "bytes": 239652,
+   "size": "1170x1451",
+   "what_it_shows": "Close-up of a young man with short, slicked-back black hair, grey-blue eyes, a serious expression and light stubble. A glowing white circuit-board pattern runs across the right side of his forehead and temple down to the cheek. He wears a black high-collared jacket with a white stripe, against a dark blurred city-lights background.",
+   "named_by": "Roger, 2026-10-11 07:03 AM CDT, in one word with the picture: 'Grok'.",
+   "note": "No phone overlay on this picture; it needed no cropping. Grok is an outside AI, per Roger's earlier notes a fast drafter; not a Federation-native mind."
+  },
+  {
+   "id": "deepseek",
+   "name": "DeepSeek",
+   "color": "green (per Roger's colour code)",
+   "file": "deepseek-face.jpg",
+   "drive_file_id": "1Votgem220C09x_wLWM_D64PR0_kDniju",
+   "sha256": "e50b9cd064220f1c8495a4eb17fcf62259d95f5ca9f06f8ea8c5b13530e2c047",
+   "bytes": 156484,
+   "size": "1061x1115",
+   "what_it_shows": "A circular portrait on a near-black square. A smooth blue humanoid face with pale glowing blue eyes and a circuit-trace pattern on the head and cheeks, headphone-like ear pieces and a robotic neck. Two gold glowing rings circle the head, one round and one flat oval, on a dark blue background inside a thin blue-grey circular border.",
+   "named_by": "Roger, 2026-10-11 07:05 AM CDT, in words with the picture: 'Deep seek'.",
+   "note": "No phone overlay. Stored uncropped, as the round profile image on its dark square, exactly as Roger sent it. The face colour is blue though Roger's colour code gives DeepSeek green; the code is for the text label, not the picture. Not changed."
+  },
+  {
+   "id": "recycler-sciences",
+   "name": "Recycler Sciences",
+   "color": "unassigned (grey)",
+   "file": "recycler-sciences-face.jpg",
+   "drive_file_id": "11Zzm88A2bVvGEyXn5QDTVkHNOOhEoyyT",
+   "sha256": "b67ddf73fa3415312ef7d28f63da4b2e4949349ace3e6c0b6a7ff857a18b1dd3",
+   "bytes": 114989,
+   "size": "1170x1401",
+   "what_it_shows": "Front-facing close-up of a woman's face in a glossy black helmet-like mask that covers the forehead, the area around the eyes and the sides of the face, leaving the eyes, nose, mouth and a V of cheek skin bare. Grey-green eyes, calm closed-mouth expression, a black collar and chin plate, on a flat red background.",
+   "named_by": "Roger, 2026-10-11 07:09 AM CDT, in words with the picture: 'Recycler Sciences'.",
+   "open_question": "Roger has not said what this mind does. Not guessed here.",
+   "note": "No phone overlay on this picture; it needed no cropping."
   }
  ],
  "roger_confirmed": {
