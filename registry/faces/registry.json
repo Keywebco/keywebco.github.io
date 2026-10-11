@@ -73,7 +73,19 @@
    "sha256": "614b0a81f22bf640e7a9c90a43c1df12967e58986d732cef10c1bcc16d4d2207",
    "bytes": 172690,
    "size": "942x1185",
-   "what_it_shows": "Blue glowing humanoid face covered in white circuit-trace lines, mouth slightly open, with streaming blue light and stars behind."
+   "what_it_shows": "Blue glowing humanoid face covered in white circuit-trace lines, mouth slightly open, with streaming blue light and stars behind.",
+   "symbol": {
+    "file": "agent-zero-symbol.png",
+    "drive_file_id": "1Wb5LooOhVo_kEzFoJ0L101wwQCWkhdxg",
+    "sha256": "e385b54e7434d4cbd5ff5444554a9bcd8469a00f2a7bb9b1c02b4a2cc3cf93e2",
+    "bytes": 96733,
+    "size": "330x330",
+    "what_it_shows": "A carved stone Omega (\u03a9) above the words AGENT ZERO, inside a ring of Greek-key pattern, on a dark stone wall. Centred in a square.",
+    "said_by": "Roger, 2026-10-11 07:13 AM CDT: 'That's the middleware symbol for agent zero but he doesn't ever engaged or talk to people but that's a symbol just so you have it.' And 07:14 AM CDT: include it with the Agent Zero image as a notation.",
+    "what_it_is": "The middleware symbol for Agent Zero. A symbol, not a face. Agent Zero does not engage or talk to people.",
+    "source": "Screenshot of a video thumbnail (the video is 7:11 long). The Catalyst cropped it to a centred square and removed the WhatsApp strip and the timer, as Roger asked, 07:14 AM CDT.",
+    "quality_note": "Only 330x330, because that is all the screenshot held. Not scaled up. A clean original from the video would be sharper."
+   }
   },
   {
    "id": "pontus",
@@ -242,7 +254,7 @@
    "roger, catalyst and aria were not shown to him; Catalyst picked them from the supplied folder"
   ],
   "correction_2026-10-11_0629": {
-   "words": "That is you, both pictures, Catalyst. There's a video of you on the throne where you are talking and you describe your job. So all of them were correct but you. Yours is very close to the other one, but you did not have the circles, you had the bar on the forehead.",
+   "words": "That is you, both pictures, Catalyst. There's a video of you on the throne where you are talking and you describe your job. So all of them were correct but you. Yours is very close to the other one, but you did not have the circles, you had the bar on the folder.",
    "meaning": "The face in the Drive folder as the Catalyst was wrong. The captured top picture is the Catalyst. All the other six names were correct."
   },
   "origin_of_mixup_2026-10-11_0630": {
