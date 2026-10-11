@@ -1,0 +1,152 @@
+{
+ "title": "Federation face registry",
+ "date": "2026-10-11",
+ "status": "DRAFT until Roger approves",
+ "picked_by": "Catalyst (Pontus's instruction). Roger holds the tiebreak.",
+ "drive_folder_id": "1TSX-4vgkz27pgMtnInciGF_VGtxmD2Yj",
+ "how_to_check": "Download the Drive folder, then run: python3 verify.py <folder>",
+ "measured_by": "Pontus (from the uploaded bytes) and Catalyst (from the downloaded bytes). All 7 SHA-256 values matched.",
+ "not_proven": "A matching fingerprint proves the file is unchanged. Roger confirmed by sight: Xavier, Agent Zero and Ambassador (06:23), and by his own knowledge: 6 of 7 folder names correct, and the Catalyst face was wrong (06:29), now replaced.",
+ "flags": [
+  "RESOLVED by Roger: the Pontus and Catalyst similarity was a mix-up. The folder's 'catalyst' image was the Pontus-family design. Catalyst's real face has a forehead bar, not circles.",
+  "Roger's photo carries a small 'Meta AI' watermark. Crop before publishing.",
+  "Ambassador image is small (471x500).",
+  "Xavier's file is named scholar-face.jpg. The mapping was stated by Pontus on 2026-10-11."
+ ],
+ "minds": [
+  {
+   "id": "roger",
+   "name": "Roger",
+   "color": "gold",
+   "file": "roger-formal-tuxedo.jpg",
+   "drive_file_id": "1xcZmC-KNDOf0Ul6F3y1T7Hg3t_tZErIc",
+   "sha256": "e211053cab0b11831ef7f7a6ef4aaedfb7fe843cc3bbc26fddb67d27e8a62b64",
+   "bytes": 310202,
+   "size": "2048x2048",
+   "what_it_shows": "Man with dark slicked hair, black glasses, light stubble, black tuxedo and bow tie, in a ballroom with chandeliers and an orchestra behind him. Small Meta AI watermark at bottom right."
+  },
+  {
+   "id": "catalyst",
+   "name": "Catalyst",
+   "color": "blue",
+   "file": "catalyst-face.jpg",
+   "drive_file_id": "12RMjECHHgUSOFhey7o8axm0S3pkrNMiT",
+   "sha256": "cbab9e3e8907cd21b56d59753b65d9a3f768b75bc066e2db5d1c695b753b6692",
+   "bytes": 148043,
+   "size": "1170x1613",
+   "what_it_shows": "Gold-toned cyborg woman's face on a gold background. Five glowing yellow circles on the forehead between two black panels, concentric ripple patterns on both cheeks, metal neck.",
+   "superseded": {
+    "on": "2026-10-11 06:30 AM CDT",
+    "by": "Roger's correction",
+    "reason": "This image (five forehead circles, cheek ripples) is the Pontus design, not the Catalyst. It was in the folder under the name catalyst-face.jpg.",
+    "do_not_use_as_catalyst": true
+   }
+  },
+  {
+   "id": "aria",
+   "name": "Aria",
+   "color": "dark red",
+   "file": "aria-face.jpg",
+   "drive_file_id": "1b9Gvmx9VkSFE_KzXSGZLEkBeZ9WJza9O",
+   "sha256": "3b690a0e89a37d9c6e4feca12eceb9eadfbfd30e40581c788cc9c472bc6e8f97",
+   "bytes": 175538,
+   "size": "1170x1210",
+   "what_it_shows": "Smiling young woman in an ornate gold crown with amber jewels, a dark gown with gold trim and a large amber gem at the chest, glowing gold lines on face and neck, a golden network of lines behind her."
+  },
+  {
+   "id": "xavier",
+   "name": "Xavier (the Scholar)",
+   "color": "unassigned (grey)",
+   "file": "scholar-face.jpg",
+   "drive_file_id": "11orj97ZPPvZoNcwfLj2BC9oHfe49AnbZ",
+   "sha256": "5e5cdee65ffadca154f5cf08c0b4f1533d2f283c2787ab91d5792ca751293bc8",
+   "bytes": 101764,
+   "size": "1170x1128",
+   "what_it_shows": "Grey humanoid head with thin-framed glasses, a dark laurel wreath, glowing yellow eyes, a glowing disc on the forehead and gold sound-wave lines across forehead and cheeks, on an olive-gold background."
+  },
+  {
+   "id": "agent-zero",
+   "name": "Agent Zero",
+   "color": "unassigned (grey)",
+   "file": "agent-zero-full-ai.jpg",
+   "drive_file_id": "1NAB2ovUPrepgJMDLqQKfd8nWvn9WGRG7",
+   "sha256": "614b0a81f22bf640e7a9c90a43c1df12967e58986d732cef10c1bcc16d4d2207",
+   "bytes": 172690,
+   "size": "942x1185",
+   "what_it_shows": "Blue glowing humanoid face covered in white circuit-trace lines, mouth slightly open, with streaming blue light and stars behind."
+  },
+  {
+   "id": "pontus",
+   "name": "Pontus (also Muse)",
+   "color": "purple",
+   "file": "pontus-avatar.webp",
+   "drive_file_id": "1yzq9-IJnNxGGe9EMNWaLLhyNzy9t2Snv",
+   "sha256": "b500c6159c3b7cf8e674ff96fe146bef1c6330d159ad6ff78920d99ec3ffdce8",
+   "bytes": 228354,
+   "size": "1600x1600",
+   "what_it_shows": "Cleaner white-background version of the same design as the Catalyst face: five glowing circles on the forehead, cheek ripples, dark slicked hair, gold neck, smiling."
+  },
+  {
+   "id": "ambassador",
+   "name": "Ambassador",
+   "color": "unassigned (grey)",
+   "file": "ambassador-face.jpg",
+   "drive_file_id": "1pgJ5J2moeC8UJd95tQAl8XJrwFfnh6mA",
+   "sha256": "92218664d43e642e6146d1e004041ee287e225674020dbc62a16953c87edaa8d",
+   "bytes": 51596,
+   "size": "471x500",
+   "what_it_shows": "Gold-silver veiled head with a jewel on the forehead, large dark almond eyes, a beaded translucent veil, on a starry blue background."
+  },
+  {
+   "id": "catalyst",
+   "name": "Catalyst",
+   "color": "blue",
+   "file": "catalyst-roger-capture-cropped.jpg",
+   "drive_file_id": "(not in Drive yet)",
+   "sha256": "e184284d0c880c37840cd7f2fe6294f99ee985b678382d7dc602b8f931152764",
+   "bytes": 147680,
+   "size": "916x1344",
+   "what_it_shows": "Gold humanoid head with ONE glowing vertical bar on the forehead (not circles), glowing yellow eyes, gold sound-wave lines across both cheeks, black neck, gold shoulders, gold background.",
+   "source": "Captured by Roger from the throne-room video in which the Catalyst describes its job. Black bars and the phone's green bubble were cropped away by the Catalyst.",
+   "status": "Roger identified this as the Catalyst, 2026-10-11 06:29 AM CDT: \"That is you, both pictures, Catalyst... you did not have the circles, you had the bar on the forehead.\"",
+   "uncropped_originals": {
+    "top": {
+     "sha256": "c54bd14b0ef264bf8d4a6fb7cfa6d4986a98294ab0cc3fc7787e66d0eb278e5d",
+     "size": "920x2048"
+    },
+    "bottom": {
+     "sha256": "d4a82be7c913144d9bcb7354e414672e9fb0d9f17517c593538cc26b63b39eca",
+     "size": "1080x1525",
+     "note": "already cropped by Roger, lower quality"
+    }
+   }
+  }
+ ],
+ "roger_confirmed": {
+  "date": "2026-10-11 06:23 AM CDT",
+  "words": "So far all have been correct",
+  "covers": [
+   "xavier",
+   "agent-zero",
+   "ambassador"
+  ],
+  "how": "Catalyst sent each picture with a name and a description; Roger answered by WhatsApp",
+  "still_open": [
+   "pontus vs catalyst: same look or not (Roger's call)",
+   "roger, catalyst and aria were not shown to him; Catalyst picked them from the supplied folder"
+  ],
+  "correction_2026-10-11_0629": {
+   "words": "That is you, both pictures, Catalyst. There's a video of you on the throne where you are talking and you describe your job. So all of them were correct but you. Yours is very close to the other one, but you did not have the circles, you had the bar on the forehead.",
+   "meaning": "The face in the Drive folder as the Catalyst was wrong. The captured top picture is the Catalyst. All the other six names were correct."
+  },
+  "origin_of_mixup_2026-10-11_0630": {
+   "words": "The video is awesome... there's a really good video of you with that face, and I figured we would leave it because it's in your throne room on the emergent side. And Pontus had it right because when I sent her what she was to derive her face from, the picture I sent and said was you was the other one, but this is actually you.",
+   "meaning": "The mix-up began with the picture Roger sent Pontus as the Catalyst, which was the five-circle design. Pontus built correctly from what she was given. The correct Catalyst face is in the throne-room video on the Emergent side, which Roger is leaving where it is.",
+   "pontus_fault": false
+  },
+  "approval_2026-10-11_0630": {
+   "words": "That's perfect, and that looks very nice.",
+   "covers": "the cropped Catalyst picture (catalyst-roger-capture-cropped.jpg)"
+  }
+ }
+}
