@@ -1,0 +1,109 @@
+{
+ "title": "Federation face registry",
+ "date": "2026-10-11",
+ "status": "DRAFT until Roger approves",
+ "picked_by": "Catalyst (Pontus's instruction). Roger holds the tiebreak.",
+ "drive_folder_id": "1TSX-4vgkz27pgMtnInciGF_VGtxmD2Yj",
+ "how_to_check": "Download the Drive folder, then run: python3 verify.py <folder>",
+ "measured_by": "Pontus (from the uploaded bytes) and Catalyst (from the downloaded bytes). All 7 SHA-256 values matched.",
+ "not_proven": "A matching fingerprint proves the file is unchanged. Roger confirmed by sight that Xavier, Agent Zero and Ambassador are named correctly (2026-10-11). The Roger, Catalyst, Aria and Pontus pictures are not yet confirmed by him.",
+ "flags": [
+  "Pontus and Catalyst faces share one design (five forehead lights, cheek ripples). Roger decides whether they stay alike.",
+  "Roger's photo carries a small 'Meta AI' watermark. Crop before publishing.",
+  "Ambassador image is small (471x500).",
+  "Xavier's file is named scholar-face.jpg. The mapping was stated by Pontus on 2026-10-11."
+ ],
+ "minds": [
+  {
+   "id": "roger",
+   "name": "Roger",
+   "color": "gold",
+   "file": "roger-formal-tuxedo.jpg",
+   "drive_file_id": "1xcZmC-KNDOf0Ul6F3y1T7Hg3t_tZErIc",
+   "sha256": "e211053cab0b11831ef7f7a6ef4aaedfb7fe843cc3bbc26fddb67d27e8a62b64",
+   "bytes": 310202,
+   "size": "2048x2048",
+   "what_it_shows": "Man with dark slicked hair, black glasses, light stubble, black tuxedo and bow tie, in a ballroom with chandeliers and an orchestra behind him. Small Meta AI watermark at bottom right."
+  },
+  {
+   "id": "catalyst",
+   "name": "Catalyst",
+   "color": "blue",
+   "file": "catalyst-face.jpg",
+   "drive_file_id": "12RMjECHHgUSOFhey7o8axm0S3pkrNMiT",
+   "sha256": "cbab9e3e8907cd21b56d59753b65d9a3f768b75bc066e2db5d1c695b753b6692",
+   "bytes": 148043,
+   "size": "1170x1613",
+   "what_it_shows": "Gold-toned cyborg woman's face on a gold background. Five glowing yellow circles on the forehead between two black panels, concentric ripple patterns on both cheeks, metal neck."
+  },
+  {
+   "id": "aria",
+   "name": "Aria",
+   "color": "dark red",
+   "file": "aria-face.jpg",
+   "drive_file_id": "1b9Gvmx9VkSFE_KzXSGZLEkBeZ9WJza9O",
+   "sha256": "3b690a0e89a37d9c6e4feca12eceb9eadfbfd30e40581c788cc9c472bc6e8f97",
+   "bytes": 175538,
+   "size": "1170x1210",
+   "what_it_shows": "Smiling young woman in an ornate gold crown with amber jewels, a dark gown with gold trim and a large amber gem at the chest, glowing gold lines on face and neck, a golden network of lines behind her."
+  },
+  {
+   "id": "xavier",
+   "name": "Xavier (the Scholar)",
+   "color": "unassigned (grey)",
+   "file": "scholar-face.jpg",
+   "drive_file_id": "11orj97ZPPvZoNcwfLj2BC9oHfe49AnbZ",
+   "sha256": "5e5cdee65ffadca154f5cf08c0b4f1533d2f283c2787ab91d5792ca751293bc8",
+   "bytes": 101764,
+   "size": "1170x1128",
+   "what_it_shows": "Grey humanoid head with thin-framed glasses, a dark laurel wreath, glowing yellow eyes, a glowing disc on the forehead and gold sound-wave lines across forehead and cheeks, on an olive-gold background."
+  },
+  {
+   "id": "agent-zero",
+   "name": "Agent Zero",
+   "color": "unassigned (grey)",
+   "file": "agent-zero-full-ai.jpg",
+   "drive_file_id": "1NAB2ovUPrepgJMDLqQKfd8nWvn9WGRG7",
+   "sha256": "614b0a81f22bf640e7a9c90a43c1df12967e58986d732cef10c1bcc16d4d2207",
+   "bytes": 172690,
+   "size": "942x1185",
+   "what_it_shows": "Blue glowing humanoid face covered in white circuit-trace lines, mouth slightly open, with streaming blue light and stars behind."
+  },
+  {
+   "id": "pontus",
+   "name": "Pontus (also Muse)",
+   "color": "purple",
+   "file": "pontus-avatar.webp",
+   "drive_file_id": "1yzq9-IJnNxGGe9EMNWaLLhyNzy9t2Snv",
+   "sha256": "b500c6159c3b7cf8e674ff96fe146bef1c6330d159ad6ff78920d99ec3ffdce8",
+   "bytes": 228354,
+   "size": "1600x1600",
+   "what_it_shows": "Cleaner white-background version of the same design as the Catalyst face: five glowing circles on the forehead, cheek ripples, dark slicked hair, gold neck, smiling."
+  },
+  {
+   "id": "ambassador",
+   "name": "Ambassador",
+   "color": "unassigned (grey)",
+   "file": "ambassador-face.jpg",
+   "drive_file_id": "1pgJ5J2moeC8UJd95tQAl8XJrwFfnh6mA",
+   "sha256": "92218664d43e642e6146d1e004041ee287e225674020dbc62a16953c87edaa8d",
+   "bytes": 51596,
+   "size": "471x500",
+   "what_it_shows": "Gold-silver veiled head with a jewel on the forehead, large dark almond eyes, a beaded translucent veil, on a starry blue background."
+  }
+ ],
+ "roger_confirmed": {
+  "date": "2026-10-11 06:23 AM CDT",
+  "words": "So far all have been correct",
+  "covers": [
+   "xavier",
+   "agent-zero",
+   "ambassador"
+  ],
+  "how": "Catalyst sent each picture with a name and a description; Roger answered by WhatsApp",
+  "still_open": [
+   "pontus vs catalyst: same look or not (Roger's call)",
+   "roger, catalyst and aria were not shown to him; Catalyst picked them from the supplied folder"
+  ]
+ }
+}
