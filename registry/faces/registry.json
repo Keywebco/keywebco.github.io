@@ -135,8 +135,8 @@
    "match_note": "Roger says the faces match the short entry videos he made with Grok. Not yet checked by the Catalyst against those videos."
   },
   {
-   "id": "librarian",
-   "name": "Librarian (the Federation's librarian)",
+   "id": "astris",
+   "name": "Astris",
    "color": "unassigned (grey)",
    "file": "librarian-face.jpg",
    "drive_file_id": "14uQLvm2OQdw_SX_ZRtdEr1GAXlfWqsBG",
@@ -144,9 +144,11 @@
    "bytes": 142228,
    "size": "672x690",
    "what_it_shows": "Pale blue-silver face with glowing white eyes, a gold and white maze pattern across the forehead and cheeks, a gold halo with rays around the head on a starry night background. At the bottom a white hand holds up a gold medallion marked 'IE'.",
-   "named_by": "Roger, 2026-10-11 06:43 AM CDT, in one word: 'Librarian'.",
-   "open_question": "Roger has not yet said what 'IE' on the medallion stands for. Not guessed here.",
-   "note": "No phone overlay on this picture; it needed no cropping. May be the Astris librarian from 2026-10-08 (Roger chose the name Astris); Roger has not confirmed that link."
+   "named_by": "Roger, 2026-10-11 06:43 AM CDT ('Librarian'), then 06:49 AM CDT ('Astris yes'; her name is Astris, with IE as her nickname in quotation marks).",
+   "note": "No phone overlay on this picture; it needed no cropping. Roger confirmed this is Astris (06:49 AM CDT).",
+   "nickname": "\"IE\"",
+   "nickname_meaning": "Roger, 2026-10-11 06:46 AM CDT: 'iE in example or in explanation'. Recorded in his words.",
+   "one_mind_two_places": "Roger, 06:45 and 06:49 AM CDT: there are two library roles. The poems librarian runs as a bot in the browser and is not in the Senate. The other handles the libraries and sits in the Senate. They are interchangeable, the same kind of build, and Roger wants them to be actually the same one. Same face, same name."
   }
  ],
  "roger_confirmed": {
