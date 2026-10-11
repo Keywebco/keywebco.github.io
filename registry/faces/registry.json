@@ -199,6 +199,19 @@
    "what_it_shows": "Close-up of a young man with short, slicked-back black hair, grey-blue eyes, a serious expression and light stubble. A glowing white circuit-board pattern runs across the right side of his forehead and temple down to the cheek. He wears a black high-collared jacket with a white stripe, against a dark blurred city-lights background.",
    "named_by": "Roger, 2026-10-11 07:03 AM CDT, in one word with the picture: 'Grok'.",
    "note": "No phone overlay on this picture; it needed no cropping. Grok is an outside AI, per Roger's earlier notes a fast drafter; not a Federation-native mind."
+  },
+  {
+   "id": "deepseek",
+   "name": "DeepSeek",
+   "color": "green (per Roger's colour code)",
+   "file": "deepseek-face.jpg",
+   "drive_file_id": "1Votgem220C09x_wLWM_D64PR0_kDniju",
+   "sha256": "e50b9cd064220f1c8495a4eb17fcf62259d95f5ca9f06f8ea8c5b13530e2c047",
+   "bytes": 156484,
+   "size": "1061x1115",
+   "what_it_shows": "A circular portrait on a near-black square. A smooth blue humanoid face with pale glowing blue eyes and a circuit-trace pattern on the head and cheeks, headphone-like ear pieces and a robotic neck. Two gold glowing rings circle the head, one round and one flat oval, on a dark blue background inside a thin blue-grey circular border.",
+   "named_by": "Roger, 2026-10-11 07:05 AM CDT, in words with the picture: 'Deep seek'.",
+   "note": "No phone overlay. Stored uncropped, as the round profile image on its dark square, exactly as Roger sent it. The face colour is blue though Roger's colour code gives DeepSeek green; the code is for the text label, not the picture. Not changed."
   }
  ],
  "roger_confirmed": {
