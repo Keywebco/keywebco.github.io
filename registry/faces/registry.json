@@ -102,7 +102,7 @@
    "name": "Catalyst",
    "color": "blue",
    "file": "catalyst-roger-capture-cropped.jpg",
-   "drive_file_id": "(not in Drive yet)",
+   "drive_file_id": "168cAhV1DdLRfI8gzzFVBTNAC_uwl-ibW",
    "sha256": "e184284d0c880c37840cd7f2fe6294f99ee985b678382d7dc602b8f931152764",
    "bytes": 147680,
    "size": "916x1344",
@@ -120,6 +120,19 @@
      "note": "already cropped by Roger, lower quality"
     }
    }
+  },
+  {
+   "id": "roger-ai",
+   "name": "Roger AI (Roger Sim)",
+   "color": "gold (Roger family; confirm with Roger)",
+   "file": "roger-ai-face-cropped.jpg",
+   "drive_file_id": "11c1JdzXIaRR_hkwwdoP2MiFELZlbO-I2",
+   "sha256": "4ed1679de49199818e11b75d445914d0cd216ac84fd316fe533d23b200e56584",
+   "bytes": 149949,
+   "size": "990x994",
+   "what_it_shows": "Young man, short dark brown hair swept to one side, thin rectangular glasses, white collared shirt, cyan glow on the face, laboratory background with light beams. Cropped from a phone capture; green bar and bubble removed.",
+   "named_by": "Roger, 2026-10-11 06:36 AM CDT, in words: 'Roger Sim Ai'. This was the face left out of the first seven.",
+   "match_note": "Roger says the faces match the short entry videos he made with Grok. Not yet checked by the Catalyst against those videos."
   }
  ],
  "roger_confirmed": {
