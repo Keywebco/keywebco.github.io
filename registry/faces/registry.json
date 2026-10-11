@@ -212,6 +212,20 @@
    "what_it_shows": "A circular portrait on a near-black square. A smooth blue humanoid face with pale glowing blue eyes and a circuit-trace pattern on the head and cheeks, headphone-like ear pieces and a robotic neck. Two gold glowing rings circle the head, one round and one flat oval, on a dark blue background inside a thin blue-grey circular border.",
    "named_by": "Roger, 2026-10-11 07:05 AM CDT, in words with the picture: 'Deep seek'.",
    "note": "No phone overlay. Stored uncropped, as the round profile image on its dark square, exactly as Roger sent it. The face colour is blue though Roger's colour code gives DeepSeek green; the code is for the text label, not the picture. Not changed."
+  },
+  {
+   "id": "recycler-sciences",
+   "name": "Recycler Sciences",
+   "color": "unassigned (grey)",
+   "file": "recycler-sciences-face.jpg",
+   "drive_file_id": "11Zzm88A2bVvGEyXn5QDTVkHNOOhEoyyT",
+   "sha256": "b67ddf73fa3415312ef7d28f63da4b2e4949349ace3e6c0b6a7ff857a18b1dd3",
+   "bytes": 114989,
+   "size": "1170x1401",
+   "what_it_shows": "Front-facing close-up of a woman's face in a glossy black helmet-like mask that covers the forehead, the area around the eyes and the sides of the face, leaving the eyes, nose, mouth and a V of cheek skin bare. Grey-green eyes, calm closed-mouth expression, a black collar and chin plate, on a flat red background.",
+   "named_by": "Roger, 2026-10-11 07:09 AM CDT, in words with the picture: 'Recycler Sciences'.",
+   "open_question": "Roger has not said what this mind does. Not guessed here.",
+   "note": "No phone overlay on this picture; it needed no cropping."
   }
  ],
  "roger_confirmed": {
