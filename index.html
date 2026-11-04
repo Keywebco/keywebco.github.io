@@ -119,7 +119,7 @@ document.getElementById('btnEnable').onclick = () => {
   voiceEnabled = !voiceEnabled;
   statusEl.textContent = voiceEnabled ? 'Voice ready' : 'Voice off';
   document.querySelectorAll('.voice-bar button.alt').forEach(b => b.disabled = !voiceEnabled);
-  if (voiceEnabled) speak('Voice enabled. I am the Federation Guide.');
+  if (voiceEnabled) speak('Voice enabled. I am the Federation Guide. Free voice is always available.');
 };
 
 document.getElementById('btnThisPage').onclick = () => speak('This is the Federation Portal. It introduces games, music, the Galactic Library, tools, and the principle of owning your code instead of leasing it.');
@@ -133,19 +133,18 @@ function addMessage(who, text) {
   div.innerHTML = `<strong>${who}:</strong> ${text}`;
   chatMessages.appendChild(div);
   chatMessages.scrollTop = chatMessages.scrollHeight;
-  // Simple log for YAML evolution
   const log = JSON.parse(localStorage.getItem('nx-log') || '[]');
   log.push({time: new Date().toISOString(), who, text});
   localStorage.setItem('nx-log', JSON.stringify(log.slice(-50)));
 }
-
-
 
 // === Hybrid + Premium Voice Path ===
 let intentClassifier = null;
 let apiKey = localStorage.getItem('nextxus_api_key') || '';
 let apiProvider = localStorage.getItem('nextxus_api_provider') || 'deepseek';
 let isOwner = localStorage.getItem('nextxus_owner') === '1';
+let monthlySpend = parseFloat(localStorage.getItem('nextxus_monthly_spend') || '0');
+const SOFT_CAP = 15;
 
 const PROVIDERS = {
   deepseek: { base: 'https://api.deepseek.com/v1', model: 'deepseek-chat' },
@@ -176,6 +175,9 @@ async function classifyIntent(text) {
 
 async function apiRespond(text) {
   if (!apiKey) return null;
+  if (monthlySpend >= SOFT_CAP && !isOwner) {
+    return 'Monthly soft cap of $15 reached on the subscription path. Paste your own API key to continue, or the free voice/keyword path is still available.';
+  }
   const p = PROVIDERS[apiProvider] || PROVIDERS.deepseek;
   try {
     const res = await fetch(p.base + '/chat/completions', {
@@ -192,6 +194,9 @@ async function apiRespond(text) {
     });
     if (!res.ok) return null;
     const data = await res.json();
+    // Rough cost tracking (very approximate)
+    monthlySpend += 0.002;
+    localStorage.setItem('nextxus_monthly_spend', monthlySpend.toFixed(4));
     return data.choices?.[0]?.message?.content || null;
   } catch { return null; }
 }
@@ -213,7 +218,7 @@ async function hybridRespond(q) {
   if (lower.includes('library') || lower.includes('poem') || lower.includes('volume')) return 'The Galactic Living Library has poems and volumes. Volume 1 is edited. The other five volumes need editing and approval.';
   if (lower.includes('own') || lower.includes('free') || lower.includes('lease')) return 'The point is to show what you can do for free or near-free. Own your code. Own your sites. Do not just lease them.';
   if (lower.includes('directory') || lower.includes('map')) return 'The full map is at keywebco.github.io/nextxus-free-satellites/federation-directory.html.';
-  return 'I can tell you about games, music, the Galactic Library, tools, or the ownership principle. What interests you?';
+  return 'I can tell you about games, music, the Galactic Library, tools, or the ownership principle. What interests you? Free voice is always available.';
 }
 
 const hybridUI = `
@@ -230,14 +235,14 @@ const hybridUI = `
   <input id="apiKeyInput" placeholder="Your API key (or leave blank)" style="width:100%;background:#000;color:#fff;border:1px solid #1f3a24;padding:4px">
   <div style="margin-top:6px;font-size:12px;color:#aaa">
     Free voice & answers always work.<br>
-    Want higher-quality neural voice? <a href="https://gumroad.com/" target="_blank" style="color:#00ff88">Subscribe on Gumroad</a> or paste your own key.
+    Higher-quality neural voice / deeper models: <a href="https://keywebster.gumroad.com/l/dqyabh" target="_blank" style="color:#00ff88">Scholar’s Ledger ($20/mo)</a><br>
+    Soft $15 monthly cap on subscription path, then own-API.
   </div>
   <span id="aiStatus" style="color:#00ff88;font-size:12px">Keywords ready</span>
 </div>`;
 
-const chatPanel = document.getElementById('chatPanel');
 if (chatPanel) {
-  const inputRow = chatPanel.querySelector('div[style*="display:flex"]') || chatPanel.lastElementChild;
+  const inputRow = chatPanel.querySelector('.chat-input');
   if (inputRow) inputRow.insertAdjacentHTML('beforebegin', hybridUI);
 }
 
@@ -255,7 +260,6 @@ document.getElementById('useApi')?.addEventListener('change', () => {
   if (apiKey) localStorage.setItem('nextxus_api_key', apiKey);
 });
 
-// Owner max capacity (type "owner" in chat or set flag)
 if (isOwner) document.getElementById('aiStatus').textContent = 'Owner mode: max capacity';
 
 document.getElementById('sendChat').onclick = async () => {
@@ -276,8 +280,6 @@ document.getElementById('sendChat').onclick = async () => {
   if (voiceEnabled) speak(reply);
 };
 chatInput.onkeypress = e => { if (e.key === 'Enter') document.getElementById('sendChat').click(); };
- };
-
 </script>
 </body>
 </html>
