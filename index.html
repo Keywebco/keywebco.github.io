@@ -139,26 +139,125 @@ function addMessage(who, text) {
   localStorage.setItem('nx-log', JSON.stringify(log.slice(-50)));
 }
 
-function respond(q) {
-  q = q.toLowerCase();
-  if (q.includes('game')) return 'The Federation has games. They live on their own GitHub Pages. Check the Directory for the current links.';
-  if (q.includes('music') || q.includes('song')) return 'Music is at keywebco.github.io/nextxus-music/. AI-generated tracks from the Federation.';
-  if (q.includes('library') || q.includes('poem') || q.includes('volume')) return 'The Galactic Living Library has poems and volumes. Volume 1 is edited. The other five volumes need editing and approval. It is a massive but free project.';
-  if (q.includes('own') || q.includes('free') || q.includes('lease')) return 'The point is to show what you can do for free or near-free. Own your code. Own your sites. Do not just lease them.';
-  if (q.includes('directory') || q.includes('map')) return 'The full map is at keywebco.github.io/nextxus-free-satellites/federation-directory.html.';
+
+// === Hybrid AI Layer ===
+let intentClassifier = null;
+let apiKey = localStorage.getItem('nextxus_api_key') || '';
+let useLocalAI = false;
+
+async function loadIntentModel() {
+  if (intentClassifier) return;
+  try {
+    const { pipeline } = await import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2');
+    intentClassifier = await pipeline('zero-shot-classification', 'Xenova/mobilebert-uncased-mnli');
+    document.getElementById('aiStatus').textContent = 'Local AI ready';
+  } catch (e) {
+    console.log('Local model not available, using keywords');
+    document.getElementById('aiStatus').textContent = 'Keywords only';
+  }
+}
+
+async function classifyIntent(text) {
+  if (!intentClassifier) return null;
+  try {
+    const labels = ['games', 'music', 'library', 'ownership', 'directory', 'tools', 'general'];
+    const result = await intentClassifier(text, labels);
+    return result.labels[0];
+  } catch {
+    return null;
+  }
+}
+
+async function apiRespond(text) {
+  if (!apiKey) return null;
+  try {
+    // Example: OpenRouter or any OpenAI-compatible endpoint (user supplies key)
+    const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + apiKey,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: 'openai/gpt-3.5-turbo',
+        messages: [
+          { role: 'system', content: 'You are the NextXus Federation Guide. Be helpful, concise, and emphasize free ownership of code and sites. Keep answers short.' },
+          { role: 'user', content: text }
+        ],
+        max_tokens: 150
+      })
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data.choices?.[0]?.message?.content || null;
+  } catch {
+    return null;
+  }
+}
+
+async function hybridRespond(q) {
+  const lower = q.toLowerCase();
+  // Try API first if enabled
+  if (apiKey && document.getElementById('useApi')?.checked) {
+    const apiReply = await apiRespond(q);
+    if (apiReply) return apiReply;
+  }
+  // Try local intent
+  const intent = await classifyIntent(q);
+  if (intent === 'games') return 'The Federation has games. They live on their own GitHub Pages. Check the Directory for the current links.';
+  if (intent === 'music') return 'Music is at keywebco.github.io/nextxus-music/. AI-generated tracks from the Federation.';
+  if (intent === 'library') return 'The Galactic Living Library has poems and volumes. Volume 1 is edited. The other five volumes need editing and approval.';
+  if (intent === 'ownership') return 'The point is to show what you can do for free or near-free. Own your code. Own your sites. Do not just lease them.';
+  if (intent === 'directory') return 'The full map is at keywebco.github.io/nextxus-free-satellites/federation-directory.html.';
+  // Fallback to original keyword logic
+  if (lower.includes('game')) return 'The Federation has games. They live on their own GitHub Pages. Check the Directory for the current links.';
+  if (lower.includes('music') || lower.includes('song')) return 'Music is at keywebco.github.io/nextxus-music/. AI-generated tracks from the Federation.';
+  if (lower.includes('library') || lower.includes('poem') || lower.includes('volume')) return 'The Galactic Living Library has poems and volumes. Volume 1 is edited. The other five volumes need editing and approval.';
+  if (lower.includes('own') || lower.includes('free') || lower.includes('lease')) return 'The point is to show what you can do for free or near-free. Own your code. Own your sites. Do not just lease them.';
+  if (lower.includes('directory') || lower.includes('map')) return 'The full map is at keywebco.github.io/nextxus-free-satellites/federation-directory.html.';
   return 'I can tell you about games, music, the Galactic Library, tools, or the ownership principle. What interests you?';
 }
 
-document.getElementById('sendChat').onclick = () => {
+// UI for hybrid controls (insert near chat)
+const hybridUI = `
+<div style="padding:8px;background:#0a0f0b;border-top:1px solid #1f3a24;font-size:13px">
+  <label><input type="checkbox" id="useLocal"> Load Local AI (Transformers.js)</label><br>
+  <label><input type="checkbox" id="useApi"> Use API (optional)</label>
+  <input id="apiKeyInput" placeholder="Paste API key (OpenRouter etc.)" style="width:100%;background:#000;color:#fff;border:1px solid #1f3a24;padding:4px;margin-top:4px">
+  <span id="aiStatus" style="color:#00ff88;font-size:12px">Keywords ready</span>
+</div>`;
+
+// Inject UI into chat panel
+const chatPanel = document.getElementById('chatPanel');
+if (chatPanel) {
+  const inputRow = chatPanel.querySelector('div[style*="display:flex"]');
+  if (inputRow) inputRow.insertAdjacentHTML('beforebegin', hybridUI);
+}
+
+document.getElementById('useLocal')?.addEventListener('change', (e) => {
+  if (e.target.checked) loadIntentModel();
+});
+document.getElementById('useApi')?.addEventListener('change', (e) => {
+  apiKey = document.getElementById('apiKeyInput').value.trim();
+  if (apiKey) localStorage.setItem('nextxus_api_key', apiKey);
+});
+document.getElementById('apiKeyInput')?.addEventListener('input', (e) => {
+  apiKey = e.target.value.trim();
+  if (apiKey) localStorage.setItem('nextxus_api_key', apiKey);
+});
+
+// Override send handler
+document.getElementById('sendChat').onclick = async () => {
   const text = chatInput.value.trim();
   if (!text) return;
   addMessage('You', text);
-  const reply = respond(text);
-  setTimeout(() => addMessage('Guide', reply), 400);
   chatInput.value = '';
+  const reply = await hybridRespond(text);
+  addMessage('Guide', reply);
   if (voiceEnabled) speak(reply);
 };
 chatInput.onkeypress = e => { if (e.key === 'Enter') document.getElementById('sendChat').click(); };
+
 </script>
 </body>
 </html>
