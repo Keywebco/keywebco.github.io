@@ -99,9 +99,10 @@
   <b>How this Sim talks</b><br>
   <label for="cfg-mode">Chat mode</label>
   <select id="cfg-mode">
+    <option value="auto">Automatic (Roger Sim relay when it answers, otherwise offline)</option>
     <option value="offline">Offline (no AI; copy the ready prompt into any AI you use)</option>
     <option value="byo">Your own AI (an OpenAI-compatible address, such as a local model)</option>
-    <option value="rogersim" id="opt-rogersim" disabled>Roger Sim relay (coming soon)</option>
+    <option value="rogersim" id="opt-rogersim" disabled>Roger Sim relay (checking…)</option>
   </select>
   <label for="cfg-endpoint">Your own AI address (only for "Your own AI"; no keys are ever stored in this page)</label>
   <input type="text" id="cfg-endpoint" placeholder="http://localhost:11434/v1/chat/completions">
@@ -153,7 +154,7 @@ const CUSTOM_KEY = "careersims_custom_brain";
 
 // ---------- Config (user-set, no secrets in the page) ----------
 const ROGER_SIM_ROUTE = "https://roger-sim-api.onrender.com/proxy/sim";
-const DEFAULT_CFG = { mode: "offline", endpoint: "", model: "" };
+const DEFAULT_CFG = { mode: "auto", endpoint: "", model: "" };
 const CFG_KEY = "careersims_config";
 function loadCfg() {
   let saved = {};
@@ -164,12 +165,12 @@ let cfg = loadCfg();
 let relayAvailable = false;
 function liveMode() {
   if (cfg.mode === "byo") return Boolean(cfg.endpoint);
-  if (cfg.mode === "rogersim") return relayAvailable;
+  if (cfg.mode === "rogersim" || cfg.mode === "auto") return relayAvailable;
   return false;
 }
 function statusText() {
   if (cfg.mode === "byo" && cfg.endpoint) return "Simulation · your own AI";
-  if (cfg.mode === "rogersim" && relayAvailable) return "Simulation · Roger Sim relay";
+  if ((cfg.mode === "rogersim" || cfg.mode === "auto") && relayAvailable) return "Simulation · Roger Sim relay";
   return "Simulation · offline";
 }
 
@@ -419,7 +420,7 @@ async function callAPI(messages, systemContent) {
     return `(Offline mode.) I'm ${PACKET.name}, a simulation. I can't think on my own in offline mode. Open the gear menu and press "Copy ready prompt" to use me in any AI you already have, or choose "Your own AI" there. Your words are kept in my archive.`;
   }
   let url, body;
-  if (cfg.mode === "rogersim") {
+  if (cfg.mode === "rogersim" || cfg.mode === "auto") {
     url = ROGER_SIM_ROUTE;
     body = { brain_id: PACKET.id || SIM_ID, persona: String(systemContent).slice(0, 7500), messages: fitWindow(messages, 10000) };
   } else {
@@ -442,11 +443,11 @@ async function detectRelay() {
     relayAvailable = Boolean(j && j.route === "proxy/sim" && j.available === true);
   } catch (e) { relayAvailable = false; }
   opt.disabled = !relayAvailable;
-  opt.textContent = relayAvailable ? "Roger Sim relay (free, rate-limited; this Sim's own voice only)" : "Roger Sim relay (coming soon)";
+  opt.textContent = relayAvailable ? "Roger Sim relay (free, rate-limited; this Sim's own voice only)" : "Roger Sim relay (not answering right now)";
   note.textContent = relayAvailable
     ? "The Roger Sim relay is available. It uses only this Sim's brain as the voice, not Roger Sim's. It is free and rate-limited, so it may be slow the first time."
-    : "The Roger Sim relay is coming soon. Until then, use Offline or Your own AI.";
-  if (cfg.mode === "rogersim" && !relayAvailable) statusEl.textContent = statusText();
+    : "The Roger Sim relay did not answer just now (it can take up to a minute to wake). Reload the page to try again, or use Offline or Your own AI.";
+  statusEl.textContent = statusText();
 }
 
 // ---------- Session-end extraction (Gaps 1 + 7: real learning, honest mood) ----------
@@ -631,7 +632,7 @@ document.getElementById("toggle-settings").addEventListener("click", () => setti
 document.getElementById("cfg-save").addEventListener("click", () => {
   const mode = document.getElementById("cfg-mode").value;
   cfg = {
-    mode: (mode === "rogersim" && !relayAvailable) ? "offline" : mode,
+    mode: (mode === "rogersim" && !relayAvailable) ? "auto" : mode,
     endpoint: document.getElementById("cfg-endpoint").value.trim(),
     model: document.getElementById("cfg-model").value.trim()
   };

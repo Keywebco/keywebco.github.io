@@ -24,9 +24,9 @@ CI: `.github/workflows/career-sims-validate.yml` runs `tools/brains.py check` on
 
 ## How chat works
 
-1. **Offline (default).** No AI is called. Copy ready prompt gives a full prompt (role, safety rules, and the exact wording of DIR-000 and the Sim's chosen directives, read from the pinned canon after a hash check) to paste into any AI or a local model.
+1. **Offline.** No AI is called. Copy ready prompt gives a full prompt (role, safety rules, and the exact wording of DIR-000 and the Sim's chosen directives, read from the pinned canon after a hash check) to paste into any AI or a local model.
 2. **Your own AI.** Any OpenAI-compatible address, such as a local model. No key is ever stored in the page.
-3. **Roger Sim relay.** The neutral `POST /proxy/sim` route on `Keywebco/roger-sim-api` uses only the brain's persona, never Roger Sim's own prompt. The page checks `GET /proxy/sim` and shows "coming soon" until that route is deployed.
+3. **Roger Sim relay (live since 2026-11-20, about 6:54 PM CT).** The neutral `POST /proxy/sim` route on `Keywebco/roger-sim-api` uses only the brain's persona, never Roger Sim's own prompt. Free and rate-limited (10 a minute per visitor, 300 a day in all). The default "Automatic" mode uses it when `GET /proxy/sim` answers, and falls back to offline when it does not.
 
 ## Canon rules
 
