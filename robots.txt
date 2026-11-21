@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
-Sitemap: https://keywebco.github.io/sitemap.xml
+
+Sitemap: https://next-xus.net/sitemap.xml
