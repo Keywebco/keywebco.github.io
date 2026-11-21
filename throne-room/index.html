@@ -152,6 +152,13 @@ label{font-weight:700;display:block;margin:8px 0 4px}
 <div id="wins" aria-live="polite" aria-label="Open mini browser windows"></div>
 </section>
 
+<section id="notebooks" aria-labelledby="h-nb">
+<h2 id="h-nb">Notebooks</h2>
+<p>Roger's research notebooks (Google NotebookLM). Google blocks embedding, so each one opens in a small floating window in front of this room, not a new tab. Google asks you to sign in to view a notebook. Say "open notebook" and a name, for example "open notebook gravity", or "list notebooks".</p>
+<div class="row" id="nbRow"></div>
+<p id="nbNone" class="note" hidden>No notebooks linked yet.</p>
+</section>
+
 <section id="board" aria-labelledby="h-board">
 <h2 id="h-board">Message board (Plexus relay)</h2>
 <div class="row"><button id="btnReadMsgs">Read the latest messages</button><a class="btn alt" href="https://next-xus.net/plexus-relay/" target="_blank" rel="noopener">Plexus page</a></div>
@@ -327,6 +334,28 @@ function chatSend(kind,text){
  return Promise.reject(new Error('no chat'));}
 function askRing(q){if(!q){say('What should I ask the Ring?');$('ringQ').focus();return;}$('ringOut').textContent='Asking the Ring of 12. This can take up to a minute.';say('Asking the Ring. This can take up to a minute.');chatSend('ring',q).then(function(r){$('ringOut').textContent=r.full;say(r.spoken+' The twelve perspectives are on screen. Agent Zero checks them for truth.');}).catch(function(e){var t='The Ring did not answer: '+e.message;$('ringOut').textContent=t;say(t);});}
 
+/* ---------- notebooks (floating windows; Google forbids framing) ---------- */
+var NOTEBOOKS=[
+ {id:'fedknow',name:'Federation Knowledge',say:['federation knowledge','federation','knowledge'],about:'The Federation knowledge notebook, with audio overviews.',url:'https://notebooklm.google.com/notebook/890fbd8d-0f0c-45c1-bae9-51893d8d775d'},
+ {id:'humancodex',name:'HumanCodex System Summary',say:['humancodex','human codex','codex','codex summary'],about:'The HumanCodex as an operating system for human and AI co-evolution.',url:'https://notebooklm.google.com/notebook/a2bf34b6-65a3-44db-be71-b739bd433125'},
+ {id:'gravity',name:'Galactic Gravity Research',say:['galactic gravity','gravity','density gravity','science'],about:'The density-dependent gravity paper and its sources.',url:'https://notebooklm.google.com/notebook/9967d98f-7c01-4d6a-93dd-8c2d27d76ad4'}
+];
+var NBNOTE='Google blocks embedding, so this opens in a floating window.';
+function nbPopup(nb,i){var W=520,H=720,sw=(window.screen&&screen.availWidth)||1280,sh=(window.screen&&screen.availHeight)||800;var left=Math.max(0,sw-W-20-(i||0)*30),top=Math.max(0,Math.min(60+(i||0)*30,sh-H));return window.open(nb.url,'nxnb_'+nb.id,'popup,width='+W+',height='+H+',left='+left+',top='+top);}
+function findNotebook(q){q=(q||'').toLowerCase().replace(/[^a-z0-9' ]/g,' ').replace(/\s+/g,' ').trim();var best=null,bl=0;NOTEBOOKS.forEach(function(n){n.say.concat([n.name.toLowerCase()]).forEach(function(k){if((q===k||q.indexOf(k)>=0||(q.length>2&&k.indexOf(q)>=0))&&k.length>bl){best=n;bl=k.length;}});});return best;}
+function listNotebooks(){if(!NOTEBOOKS.length){say('No notebooks are linked yet.');return;}say('Notebooks: '+NOTEBOOKS.map(function(n){return n.name;}).join(', ')+'. Say open notebook and a name.');}
+function openNotebook(nb){var i=NOTEBOOKS.indexOf(nb);var p=nbPopup(nb,i);var wid='win-nb-'+nb.id;var w=$(wid);
+ if(!w){w=document.createElement('div');w.className='mb';w.id=wid;w.style.minHeight='0';w.setAttribute('role','region');w.setAttribute('aria-label',nb.name+' notebook window');
+  var bar=document.createElement('div');bar.className='mb-bar';var title=document.createElement('strong');title.textContent='Notebook: '+nb.name;bar.appendChild(title);
+  var b1=document.createElement('button');b1.type='button';b1.textContent='Bring the floating window back';b1.addEventListener('click',function(){var q=nbPopup(nb,i);if(q)q.focus();say('Bringing '+nb.name+' to the front.');});bar.appendChild(b1);
+  var b2=document.createElement('button');b2.type='button';b2.textContent='Close';b2.addEventListener('click',function(){var q=window.open('','nxnb_'+nb.id);if(q&&q.location&&q.location.href==='about:blank')q.close();w.remove();say(nb.name+' window closed here.');});bar.appendChild(b2);
+  var body=document.createElement('div');body.style.padding='12px';var p1=document.createElement('p');p1.textContent=NBNOTE+' '+nb.about+' Google asks you to sign in to see it.';body.appendChild(p1);var p2=document.createElement('p');p2.className='note';p2.id=wid+'-st';body.appendChild(p2);
+  w.appendChild(bar);w.appendChild(body);$('wins').appendChild(w);}
+ var st=$(wid+'-st');if(p){try{p.focus();}catch(e){}if(st)st.textContent='The floating window is open.';say(NBNOTE+' Opened '+nb.name+'.');}
+ else{if(st){st.textContent='Your browser blocked the floating window. Allow pop-ups for next-xus.net, then press Bring the floating window back.';}say(NBNOTE.slice(0,-1)+', but your browser blocked it. Allow pop-ups for this site, then press Bring the floating window back.');}
+ return w;}
+function buildNotebooks(){var r=$('nbRow');if(!NOTEBOOKS.length){$('nbNone').hidden=false;return;}NOTEBOOKS.forEach(function(nb){var b=document.createElement('button');b.type='button';b.textContent=nb.name;b.setAttribute('aria-label','Open notebook '+nb.name+' in a floating window');b.addEventListener('click',function(){openNotebook(nb);});r.appendChild(b);});}
+
 /* ---------- mini browser windows ---------- */
 var winCount=0;
 function openWin(id,opts){var s=BYID[id];if(!s){say('I do not know that system.');return null;}opts=opts||{};var existing=$('win-'+id);if(existing){existing.querySelector('button').focus();if(!opts.quiet)say(s.name+' is already open.');return existing;}
@@ -338,7 +367,7 @@ function openWin(id,opts){var s=BYID[id];if(!s){say('I do not know that system.'
  w._send=function(t){if(!w._log)showChat();var me=document.createElement('p');me.textContent='You: '+t;w._log.appendChild(me);var th=document.createElement('p');th.textContent=s.name+': thinking…';w._log.appendChild(th);w._log.scrollTop=w._log.scrollHeight;chatSend(s.chat,t).then(function(r){var full=typeof r==='string'?r:r.full;var spoken=typeof r==='string'?r:r.spoken;th.textContent=s.name+': '+full;w._log.scrollTop=w._log.scrollHeight;say(s.name+' says: '+spoken,{queue:true});}).catch(function(e){th.textContent=s.name+' could not be reached: '+e.message+'. You can open its page instead.';say(s.name+' could not be reached.',{queue:true});});};
  function mk(label,fn){var b=document.createElement('button');b.type='button';b.textContent=label;b.addEventListener('click',fn);bar.appendChild(b);return b;}
  if(s.chat){mk('Chat',showChat);}mk('Page',showPage);
- var sel=document.createElement('select');sel.setAttribute('aria-label','Browse another Federation page in this window');var o0=document.createElement('option');o0.textContent='Browse…';o0.value='';sel.appendChild(o0);SYSTEMS.forEach(function(x){if(/^https:\/\/next-xus\.(net|info|org|biz)\//.test(x.url)){var o=document.createElement('option');o.value=x.url;o.textContent=x.name;sel.appendChild(o);}});sel.style.width='auto';sel.style.fontSize='.8rem';sel.style.padding='4px';sel.addEventListener('change',function(){if(!sel.value)return;body.innerHTML='';var f=document.createElement('iframe');f.title=sel.options[sel.selectedIndex].text+' page';f.src=sel.value;body.appendChild(f);});bar.appendChild(sel);
+ var sel=document.createElement('select');sel.setAttribute('aria-label','Browse another Federation page in this window');var o0=document.createElement('option');o0.textContent='Browse…';o0.value='';sel.appendChild(o0);SYSTEMS.forEach(function(x){if(/^https:\/\/next-xus\.(net|info|org|biz)\//.test(x.url)){var o=document.createElement('option');o.value=x.url;o.textContent=x.name;sel.appendChild(o);}});if(NOTEBOOKS.length){var og=document.createElement('optgroup');og.label='Notebooks (floating window)';NOTEBOOKS.forEach(function(nb){var o=document.createElement('option');o.value='nb:'+nb.id;o.textContent='Notebook: '+nb.name;og.appendChild(o);});sel.appendChild(og);}sel.style.width='auto';sel.style.fontSize='.8rem';sel.style.padding='4px';sel.addEventListener('change',function(){if(!sel.value)return;if(sel.value.indexOf('nb:')===0){var nbx=NOTEBOOKS.filter(function(n){return 'nb:'+n.id===sel.value;})[0];sel.value='';if(nbx)openNotebook(nbx);return;}body.innerHTML='';var f=document.createElement('iframe');f.title=sel.options[sel.selectedIndex].text+' page';f.src=sel.value;body.appendChild(f);});bar.appendChild(sel);
  var a=document.createElement('a');a.href=s.url;a.target='_blank';a.rel='noopener';a.className='btn alt';a.textContent='New tab';bar.appendChild(a);
  mk('Close',function(){w.remove();say(s.name+' window closed.');});
  w.appendChild(bar);w.appendChild(body);$('wins').appendChild(w);if(s.chat&&!opts.page)showChat();else showPage();
@@ -353,7 +382,7 @@ function buildSystems(){var groups={};SYSTEMS.forEach(function(s){(groups[s.grou
  var dr=$('deployRow');SYSTEMS.filter(function(s){return s.render;}).forEach(function(s){var a=document.createElement('a');a.className='btn alt';a.href='https://dashboard.render.com/'+s.render;a.target='_blank';a.rel='noopener';a.textContent='Deploy '+s.name+' (Render)';dr.appendChild(a);});[['Site deploys: next-xus.net (GitHub Actions)','https://github.com/Keywebco/keywebco.github.io/actions'],['Brain checks (GitHub Actions)','https://github.com/Keywebco/nextxus-brain/actions'],['Render dashboard','https://dashboard.render.com/']].forEach(function(x){var a=document.createElement('a');a.className='btn alt';a.href=x[1];a.target='_blank';a.rel='noopener';a.textContent=x[0];dr.appendChild(a);});}
 
 /* ---------- summary and help ---------- */
-var HELP='Commands you can say: "summary". "status" or "read health". "check health". "open" and a system name, for example "open games" or "open God\'s Eye", opens it in a window. "go to" and a name opens it in a new tab. "ask the Ring" and your question. "talk to Roger Sim" and your message, or "tell Catalyst" and your message. "open conference with Roger Sim and the Ring". "tell everyone" and a message. "close all". "read the Senate". "mute" and "unmute" for Senate voices. "read messages" for the message board. "list systems". "stop" stops my speaking. "stop listening". You can also use the keyboard: S for summary, L to listen, Escape to stop.';
+var HELP='Commands you can say: "summary". "status" or "read health". "check health". "open" and a system name, for example "open games" or "open God\'s Eye", opens it in a window. "go to" and a name opens it in a new tab. "ask the Ring" and your question. "talk to Roger Sim" and your message, or "tell Catalyst" and your message. "open conference with Roger Sim and the Ring". "tell everyone" and a message. "close all". "read the Senate". "mute" and "unmute" for Senate voices. "read messages" for the message board. "list systems". "list notebooks", and "open notebook" with a name, for example "open notebook gravity". "stop" stops my speaking. "stop listening". You can also use the keyboard: S for summary, L to listen, Escape to stop.';
 function summary(){var up=0,n=0,down=[];SYSTEMS.filter(function(s){return s.health;}).forEach(function(s){n++;var h=healthState[s.id];if(h.status==='Up')up++;if(h.status==='Down'||h.status==='Unreachable')down.push(s.name);});var checked=Object.keys(healthState).some(function(k){return ['Up','Reachable','Down','Unreachable'].indexOf(healthState[k].status)>=0;});
  var t='The Throne Room. '+SYSTEMS.length+' Federation systems are in this room. ';t+=checked?(up+' of '+n+' live services are up. '+(down.length?'Down or unreachable: '+down.join(', ')+'. ':'')):'Health checks are running now. ';t+='The Senate is '+(inSession?'in session.':'not in session.')+' Say "help" to hear the commands, or "status" for health.';say(t);}
 
@@ -372,6 +401,8 @@ function handle(cmd){var c=cmd.toLowerCase().trim().replace(/[.!?]+$/,'');$('hea
  if(/^mute/.test(c)){setMute(true);return;}
  if(/^(read|show)? ?(the )?senate/.test(c)){$('senate').scrollIntoView();readSenate();return;}
  if(/^(read )?(the )?(latest )?messages|^read (the )?board/.test(c)){readMsgs();return;}
+ if(/^(list|read|what are the) ?(my )?notebooks/.test(c)){listNotebooks();return;}
+ if((m=c.match(/^(?:open|show|start) (?:the )?(?:research )?notebook ?(.*)$/))){var nb=findNotebook(m[1]);if(nb){openNotebook(nb);$('notebooks').scrollIntoView();}else{say(m[1]?'I did not find a notebook called '+m[1]+'.':'Which notebook?');listNotebooks();}return;}
  if(/^list systems/.test(c)){say('Systems: '+SYSTEMS.map(function(s){return s.name;}).join(', ')+'.');return;}
  if((m=c.match(/^ask (the )?ring( of (12|twelve))?,? ?(.*)$/))){var q=cmd.replace(/^\s*ask (the )?ring( of (12|twelve))?,?\s*/i,'');$('ringQ').value=q;$('ring').scrollIntoView();askRing(q.trim());return;}
  if((m=c.match(/^(?:open |start )?(?:a )?conference (?:with )?(.*)$/))){var ids=[];m[1].split(/,| and | with /).forEach(function(p){var s=findSystem(p);if(s&&ids.indexOf(s.id)<0)ids.push(s.id);});conference(ids.length?ids:['rogersim','catalyst','ring']);return;}
@@ -407,7 +438,7 @@ document.querySelectorAll('[data-win]').forEach(function(b){b.addEventListener('
 document.querySelectorAll('[data-conf]').forEach(function(b){b.addEventListener('click',function(){conference(b.getAttribute('data-conf').split(','));});});
 document.addEventListener('keydown',function(e){var tag=(e.target.tagName||'').toLowerCase();if(e.key==='Escape'){stopSpeaking();return;}if(tag==='input'||tag==='textarea'||tag==='select'||e.ctrlKey||e.metaKey||e.altKey)return;if(e.key==='s'||e.key==='S'){e.preventDefault();summary();}else if(e.key==='l'||e.key==='L'){e.preventDefault();setListen(!listening);}});
 announce('The Throne Room. Press the Speak the summary button, or the S key, to hear a short summary. Press L to give voice commands.');
-checkAll();pollSenate(true);setInterval(function(){pollSenate(false);},20000);
+buildNotebooks();checkAll();pollSenate(true);setInterval(function(){pollSenate(false);},20000);
 })();
 </script>
 </body>
