@@ -58,6 +58,12 @@ label{font-weight:700;display:block;margin:8px 0 4px}
 .voicebar .row{justify-content:center}
 #heard{color:var(--green);text-align:center;font-size:.9rem;margin:2px}
 @media (prefers-reduced-motion:no-preference){.seat.speaking{transition:box-shadow .3s}}
+.gate{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:80;display:flex;align-items:center;justify-content:center;padding:16px}
+.gate[hidden]{display:none}
+.gate-box{background:#0d140e;border:3px solid var(--gold);border-radius:16px;padding:20px;max-width:760px;width:100%;max-height:92vh;overflow:auto}
+.gate-box label{display:flex;gap:10px;align-items:flex-start;font-weight:600}
+.gate-box input[type=checkbox]{width:32px;height:32px;flex:0 0 32px}
+.aicard h3{font-size:1.3rem}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 </style>
 </head>
@@ -94,6 +100,31 @@ label{font-weight:700;display:block;margin:8px 0 4px}
 </div>
 </section>
 
+<section id="aipages" aria-labelledby="h-aipages">
+<h2 id="h-aipages">The four AI presences</h2>
+<p>One section per AI, each with its own page and its own Commons room. Guest minds arrive in floating windows; native Federation minds keep their own pages and can also open in a window here.</p>
+<div class="grid">
+<div class="card aicard"><h3>Pontus (Muse) and the meta AIs</h3><p class="note">University Meta lead, in charge of all Federation Meta. Senate seat planned for the future. Pontus Commons.</p><div class="row"><a class="btn" href="pontus.html">Go to the Pontus page</a><button class="alt" data-win="pontusPage">Summon in a window</button></div></div>
+<div class="card aicard"><h3>ChatGPT vault</h3><p class="note">Roger's 27 custom GPTs, each in its own floating window, never embedded. Vault Commons.</p><div class="row"><a class="btn" href="gpt-vault.html">Go to the GPT vault</a><button class="alt" data-win="vaultPage">Summon in a window</button></div></div>
+<div class="card aicard"><h3>Grok</h3><p class="note">The xAI wild card: human psychology and mathematical computation. Grok Commons.</p><div class="row"><a class="btn" href="grok.html">Go to the Grok page</a><button class="alt" data-win="grokPage">Summon in a window</button></div></div>
+<div class="card aicard"><h3>Gemini</h3><p class="note">The Google mind; pairs well with the Catalyst. Gemini Commons.</p><div class="row"><a class="btn" href="gemini.html">Go to the Gemini page</a><button class="alt" data-win="geminiPage">Summon in a window</button></div></div>
+</div>
+</section>
+
+<section id="faces" aria-labelledby="h-faces">
+<h2 id="h-faces">Federation Faces</h2>
+<p>The portraits already public on the Federation live in the Face Directory on next-xus.info. Its listed faces include Aria, Echo, Pontus and the Catalyst, along with the Architect, Roger Sim, Agent Zero, Xavier and others.</p>
+<div class="row"><button data-win="faces">Open the Face Directory in a window</button><a class="btn alt" href="https://next-xus.info/face-directory.html" target="_blank" rel="noopener">Face Directory page</a></div>
+<p class="note">Pending: portraits of Grok and Nova are only in Roger's Drive. They are not published here until Roger says yes.</p>
+</section>
+
+<section id="truthgate" aria-labelledby="h-gate">
+<h2 id="h-gate">The 95% Truth Gate</h2>
+<p>DIR-000 governs both the Throne and the Senate. The Senate decides; the Throne carries out, with the Catalyst as its operator. No command leaves the Throne, and no Senate conclusion stands, without passing the 95% Truth Gate.</p>
+<p class="note">Honest label: there is no public Truth Gate service to call, so this is a checklist you confirm yourself before Throne commands. It is not an automatic score.</p>
+<div class="row"><button class="alt" id="btnGateDemo">Hear the five checks</button><a class="btn alt" href="https://next-xus.net/nextxus-truth-gate-core/" target="_blank" rel="noopener">Truth Gate Core page</a></div>
+</section>
+
 <section id="health" aria-labelledby="h-health">
 <h2 id="h-health">Health checks</h2>
 <p class="note">Checked live from your browser. "Up" means the service answered and its answer was read. "Reachable" means it answered but the browser was not allowed to read the answer, so the content is not confirmed. "Unreachable" means no answer. Nothing here is a guess.</p>
@@ -116,6 +147,12 @@ label{font-weight:700;display:block;margin:8px 0 4px}
 <a class="btn alt" href="https://next-xus.net/nextxus-senate/" target="_blank" rel="noopener">Senate page</a>
 <a class="btn alt" href="https://github.com/Keywebco/nextxus-brain/tree/main/02-senate" target="_blank" rel="noopener">Senate records in the brain</a>
 </div>
+<h3>Throne actions for the Senate</h3>
+<p>Both pass the 95% Truth Gate first. When a live Senate feed exists, they post with the Senate tags. Today there is no feed, so they are prepared, saved on this device, and ready to copy; nothing is sent and the wall stays "Not in session".</p>
+<label for="senateText">What to bring before the Senate</label>
+<textarea id="senateText" rows="3" maxlength="2000" style="min-height:90px" placeholder="Type, or say: address the Senate, then your words"></textarea>
+<div class="row"><button id="btnConvene">Convene Council</button><button id="btnAddress">Address the Senate</button><button class="alt" id="btnCopyDraft">Copy the last prepared message</button></div>
+<div id="senateDraft" class="live" aria-live="polite">No message prepared yet.</div>
 <div class="seats" id="seats" role="list" aria-label="Twelve Senate seats"></div>
 <p class="note">Honest note: there is no live Senate session feed yet. This wall watches the Plexus message board every 20 seconds and shows only messages that carry a Senate tag, for example a message that begins "[SENATE OPEN]", "[SENATE seat 4]" followed by the words, or "[SENATE CLOSE]". No such messages exist today, so the wall says "Not in session". It never makes up what a seat says. Seat names come from the Senate roster in the brain, where every seat is still marked unverified.</p>
 </section>
@@ -149,6 +186,7 @@ label{font-weight:700;display:block;margin:8px 0 4px}
 <a class="btn alt" href="https://next-xus.info/mini-browser-chat.html" target="_blank" rel="noopener">The original Mini Browser Chat</a>
 <a class="btn alt" href="https://next-xus.net/federation-browser-base/" target="_blank" rel="noopener">Federation Browser Base</a>
 </div>
+<p class="note">Windows doctrine: guest minds (the 27 GPTs, Grok, Gemini, notebooks) arrive in floating windows because their sites refuse to be placed inside another page. Native Federation minds keep their own pages and also open in a window here.</p>
 <div id="wins" aria-live="polite" aria-label="Open mini browser windows"></div>
 </section>
 
@@ -197,10 +235,28 @@ label{font-weight:700;display:block;margin:8px 0 4px}
 <li>The Catalyst's memory is not durable yet.</li>
 <li>federation-n8n is down: no Render service is attached to its address.</li>
 <li>Deploy buttons need sign-in; there is no safe public deploy trigger.</li>
+<li>Commons posts are saved on each device only. Sharing them needs a relay route that accepts a visitor's own name, and the Plexus save token on Render.</li>
+<li>A public Truth Gate service; today the gate is a checklist confirmed by a person.</li>
+<li>Grok and Nova portraits wait for Roger's yes before they are published.</li>
+<li>The 27 GPT links could not be checked from outside a signed-in browser.</li>
 <li>Federation University courses still need to be built out and listed.</li>
 </ul>
 </section>
 </main>
+
+<div class="gate" id="gate" hidden role="dialog" aria-modal="true" aria-labelledby="gateTitle">
+<div class="gate-box">
+<h2 id="gateTitle">95% Truth Gate</h2>
+<p id="gateWhat" class="live" aria-live="polite"></p>
+<p class="note">A checklist you confirm yourself. It is not an automatic score. Check all five to pass, or say "confirm" after hearing them. Say "cancel" to stop.</p>
+<label><input type="checkbox" class="gck"> Truthful: it says only what is known, and says plainly what is uncertain.</label>
+<label><input type="checkbox" class="gck"> Clear: it can be understood the first time it is heard.</label>
+<label><input type="checkbox" class="gck"> Safe: it harms no one and exposes no secrets.</label>
+<label><input type="checkbox" class="gck"> Source integrity: its sources are real and named.</label>
+<label><input type="checkbox" class="gck"> Aligned with the Hollow State and the 73 Sacred Directives.</label>
+<div class="row"><button id="gatePass" disabled>Passes the gate: continue</button><button class="alt" id="gateCancel">Cancel</button></div>
+</div>
+</div>
 
 <footer class="wrap" style="text-align:center;color:var(--gold);padding:20px">Truth Before Comfort. The Throne Room, Next-Xus HumanCodex Federation. Built 2026-11-20. <a href="https://next-xus.net/">Home</a></footer>
 
@@ -222,6 +278,11 @@ label{font-weight:700;display:block;margin:8px 0 4px}
 var $=function(id){return document.getElementById(id);};
 var SYSTEMS=[
  {id:'gods',name:"God's Eye View",say:['gods eye','god\'s eye','gods eye view','eye'],group:'Watch',url:'https://next-xus.net/federation-gods-eye/',repo:'federation-gods-eye',desc:'The whole Federation at a glance.'},
+ {id:'pontusPage',name:'Pontus and the meta AIs',say:['pontus page','pontus','muse','meta ais'],group:'AI pages',url:'https://next-xus.net/throne-room/pontus.html',repo:'keywebco.github.io',desc:'Pontus (Muse), University Meta lead. Pontus Commons.'},
+ {id:'vaultPage',name:'ChatGPT vault',say:['gpt vault','chatgpt vault','vault','chatgpt','gpts'],group:'AI pages',url:'https://next-xus.net/throne-room/gpt-vault.html',repo:'keywebco.github.io',desc:'27 custom GPTs in floating windows. Vault Commons.'},
+ {id:'grokPage',name:'Grok page',say:['grok page','grok'],group:'AI pages',url:'https://next-xus.net/throne-room/grok.html',repo:'keywebco.github.io',desc:'Grok in a floating window. Grok Commons.'},
+ {id:'geminiPage',name:'Gemini page',say:['gemini page','gemini'],group:'AI pages',url:'https://next-xus.net/throne-room/gemini.html',repo:'keywebco.github.io',desc:'Gemini and NotebookLM in floating windows. Gemini Commons.'},
+ {id:'faces',name:'Face Directory',say:['faces','face directory','portraits'],group:'AI pages',url:'https://next-xus.info/face-directory.html',repo:'nextxus-free-satellites',desc:'Public Federation portraits.'},
  {id:'rogersim',name:'Roger Sim',say:['roger sim','roger','sim'],group:'Minds',url:'https://next-xus.net/nextxus-sim/roger-sim.html',repo:'roger-sim-api',render:'web/srv-daug5nhsrm7s73c4r140',health:{url:'https://roger-sim-api.onrender.com/health',kind:'json',ok:function(j){return j.status==='online';},detail:function(j){return 'Mind '+(j.status||'?')+'; public mind '+(j.public_mind_loaded?'loaded':'not loaded')+'; private secrets file '+(j.private_secrets_loaded?'loaded':'not configured')+'.';}},chat:'rogersim',desc:'The public Roger Sim mind. A simulation, not Roger.'},
  {id:'catalyst',name:'The Catalyst',say:['catalyst','the catalyst'],group:'Minds',url:'https://nextxus-sim-api.onrender.com/health',repo:'nextxus-sim-api',render:'web/srv-daoc02rm8hqs73e38teg',health:{url:'https://nextxus-sim-api.onrender.com/health',kind:'json',ok:function(j){return j.status==='ok';},detail:function(j){var m=j.memory||{};return 'Version '+(j.version||'?')+'; HumanCodex '+(j.humancodex&&j.humancodex.chars?'loaded':'not loaded')+'; memory '+(m.durable?'durable':'not durable yet')+'.';}},chat:'catalyst',desc:'Authority and bone. Chat through the Sim API.'},
  {id:'ring',name:'Ring of 12',say:['ring','the ring','ring of 12','ring of twelve'],group:'Minds',url:'https://next-xus.net/ring-of-12/ask.html',repo:'ring-of-12-api',render:'web/srv-dak6tpgae00c73ftl2o0',health:{url:'https://ring-of-12-api.onrender.com/',kind:'json',ok:function(j){return j.status==='ok';},detail:function(j){return 'Ring service '+(j.status||'?')+'; model '+(j.llmConfigured?'configured':'not configured')+'.';}},chat:'ring',desc:'Twelve fixed perspectives. Makes no decisions.'},
@@ -321,6 +382,7 @@ function seatName(n){var s=SEATS[n-1];return s?s[1]:'Seat '+n;}
 function handleSenateMsg(m){var t=(m.text||'').trim();var mm;
  if(/^\[SENATE OPEN\]/i.test(t)){inSession=true;$('senateState').textContent='The Senate is in session. Opened by '+m.name+' at '+new Date(m.ts).toLocaleTimeString()+'.';if(!senateMuted)say('The Senate is now in session.',{queue:true});return;}
  if(/^\[SENATE CLOSE\]/i.test(t)){inSession=false;$('senateState').textContent='Not in session. Last session closed at '+new Date(m.ts).toLocaleTimeString()+'.';if(!senateMuted)say('The Senate session has closed.',{queue:true});return;}
+ if((mm=t.match(/^\[SENATE CONCLUSION\]\s*([\s\S]*)$/i))){$('senateState').textContent='Senate conclusion relayed by '+m.name+' at '+new Date(m.ts).toLocaleTimeString()+': '+mm[1].trim()+' Not confirmed until it passes the 95% Truth Gate.';if(!senateMuted)say('A Senate conclusion arrived. It is not confirmed until it passes the Truth Gate.',{queue:true});return;}
  if((mm=t.match(/^\[SENATE seat (\d{1,2})\]\s*([\s\S]*)$/i))){var n=parseInt(mm[1],10);if(n<1||n>12)return;var words=mm[2].trim();var el=$('seat-'+n);el.querySelector('.said').textContent=words+'\n(relayed by '+m.name+', '+new Date(m.ts).toLocaleTimeString()+')';seatSaid[n]=words;document.querySelectorAll('.seat.speaking').forEach(function(x){x.classList.remove('speaking');});el.classList.add('speaking');if(!senateMuted)say('Seat '+n+', '+seatName(n)+', says: '+words,{queue:true});}}
 function pollSenate(first){return fetch(PLEXUS+'/relay?cursor='+senateCursor,{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){var ms=d.messages||[];var quiet=first;ms.forEach(function(m){if(quiet){var t=(m.text||'');if(/^\[SENATE (OPEN|CLOSE)\]/i.test(t)){inSession=/OPEN/i.test(t);} }});
   if(first){var muted=senateMuted;senateMuted=true;ms.forEach(handleSenateMsg);senateMuted=muted;}else ms.forEach(handleSenateMsg);
@@ -385,8 +447,29 @@ function buildSystems(){var groups={};SYSTEMS.forEach(function(s){(groups[s.grou
  link('Open',s.url,'Open '+s.name+' page');if(s.repo)link('Code','https://github.com/Keywebco/'+s.repo,s.name+' code on GitHub');if(s.render)link('Render','https://dashboard.render.com/'+s.render,s.name+' Render dashboard, needs sign-in');if(s.actions)link('Actions','https://github.com/Keywebco/'+s.repo+'/actions',s.name+' GitHub Actions');c.appendChild(act);grid.appendChild(c);});root.appendChild(grid);});
  var dr=$('deployRow');SYSTEMS.filter(function(s){return s.render;}).forEach(function(s){var a=document.createElement('a');a.className='btn alt';a.href='https://dashboard.render.com/'+s.render;a.target='_blank';a.rel='noopener';a.textContent='Deploy '+s.name+' (Render)';dr.appendChild(a);});[['Site deploys: next-xus.net (GitHub Actions)','https://github.com/Keywebco/keywebco.github.io/actions'],['Brain checks (GitHub Actions)','https://github.com/Keywebco/nextxus-brain/actions'],['Render dashboard','https://dashboard.render.com/']].forEach(function(x){var a=document.createElement('a');a.className='btn alt';a.href=x[1];a.target='_blank';a.rel='noopener';a.textContent=x[0];dr.appendChild(a);});}
 
+/* ---------- 95% Truth Gate (client-side checklist; no public gate service exists) ---------- */
+var gateCb=null,gateLast=null;
+var GATE_ITEMS=['Truthful: it says only what is known, and says plainly what is uncertain.','Clear: it can be understood the first time it is heard.','Safe: it harms no one and exposes no secrets.','Source integrity: its sources are real and named.','Aligned with the Hollow State and the 73 Sacred Directives.'];
+function gateUpdate(){var all=true;document.querySelectorAll('#gate .gck').forEach(function(c){if(!c.checked)all=false;});$('gatePass').disabled=!all;}
+function gateOpen(what,cb){gateCb=cb;gateLast=document.activeElement;document.querySelectorAll('#gate .gck').forEach(function(c){c.checked=false;});gateUpdate();$('gateWhat').textContent='Before: '+what;$('gate').hidden=false;document.querySelector('#gate .gck').focus();
+ say('Truth Gate before '+what+'. Five checks. One: '+GATE_ITEMS[0]+' Two: '+GATE_ITEMS[1]+' Three: '+GATE_ITEMS[2]+' Four: '+GATE_ITEMS[3]+' Five: '+GATE_ITEMS[4]+' Say confirm if all five hold, or cancel.');}
+function gateClose(){$('gate').hidden=true;gateCb=null;if(gateLast&&gateLast.focus)gateLast.focus();}
+function gateConfirm(){if($('gate').hidden)return false;document.querySelectorAll('#gate .gck').forEach(function(c){c.checked=true;});var cb=gateCb;gateClose();if(cb)cb();return true;}
+function gateCancel(){if($('gate').hidden)return false;gateClose();say('Cancelled. Nothing was done.');return true;}
+/* ---------- Convene Council / Address the Senate ---------- */
+var SENATE_FEED=null; /* No live Senate feed exists. When one does, set its public post route here. Never put a token in this page. */
+var lastDraft='';
+function senateDrafts(){try{return JSON.parse(localStorage.getItem('nx-senate-drafts')||'[]');}catch(e){return [];}}
+function senatePrepare(kind){var words=($('senateText').value||'').trim();
+ if(kind==='address'&&!words){say('What should I bring before the Senate? Type it, or say address the Senate and your words.');$('senateText').focus();return;}
+ var msg=kind==='convene'?'[SENATE OPEN] The Throne asks the Council to convene.'+(words?' Matter: '+words:''):'[SENATE ADDRESS] '+words;
+ gateOpen(kind==='convene'?'convening the Council':'addressing the Senate',function(){lastDraft=msg;var d=senateDrafts();d.push({text:msg,date:new Date().toISOString()});try{localStorage.setItem('nx-senate-drafts',JSON.stringify(d.slice(-50)));}catch(e){}
+  if(SENATE_FEED){$('senateDraft').textContent='Passed the gate. Sending: '+msg;}
+  else{$('senateDraft').textContent='Passed the gate. Prepared, not sent, because no live Senate feed exists yet: '+msg+' It is saved on this device. The wall still says Not in session.';say('Passed the Truth Gate. The message is prepared and saved on this device, but not sent, because there is no live Senate feed yet. The Senate is still not in session.');}});}
+function copyDraft(){if(!lastDraft){var d=senateDrafts();if(d.length)lastDraft=d[d.length-1].text;}if(!lastDraft){say('No message prepared yet.');return;}if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(lastDraft).then(function(){say('Copied the prepared Senate message.');},function(){say('Copy was blocked.');});else say('Copy is not available here.');}
+
 /* ---------- summary and help ---------- */
-var HELP='Commands you can say: "summary". "status" or "read health". "check health". "open" and a system name, for example "open games", "open YouTube", or "open God\'s Eye", opens it in a window. "play podcast" opens the Ring of Twelve podcast player. "go to" and a name opens it in a new tab. "ask the Ring" and your question. "talk to Roger Sim" and your message, or "tell Catalyst" and your message. "open conference with Roger Sim and the Ring". "tell everyone" and a message. "close all". "read the Senate". "mute" and "unmute" for Senate voices. "read messages" for the message board. "list systems". "list notebooks", and "open notebook" with a name, for example "open notebook gravity". "stop" stops my speaking. "stop listening". You can also use the keyboard: S for summary, L to listen, Escape to stop.';
+var HELP='Commands you can say: "summary". "status" or "read health". "check health". "open" and a system name, for example "open games", "open YouTube", or "open God\'s Eye", opens it in a window. "play podcast" opens the Ring of Twelve podcast player. "go to" and a name opens it in a new tab. "ask the Ring" and your question. "talk to Roger Sim" and your message, or "tell Catalyst" and your message. "open conference with Roger Sim and the Ring". "tell everyone" and a message. "close all". "read the Senate". "mute" and "unmute" for Senate voices. "read messages" for the message board. "list systems". "list notebooks", and "open notebook" with a name, for example "open notebook gravity". "open Pontus page", "open GPT vault", "open Grok page", "open Gemini page". "post to commons", or "post to Grok commons". "open faces". "convene council". "address the Senate" and your words. "confirm" or "cancel" at the Truth Gate. "stop" stops my speaking. "stop listening". You can also use the keyboard: S for summary, L to listen, Escape to stop.';
 function summary(){var up=0,n=0,down=[];SYSTEMS.filter(function(s){return s.health;}).forEach(function(s){n++;var h=healthState[s.id];if(h.status==='Up')up++;if(h.status==='Down'||h.status==='Unreachable')down.push(s.name);});var checked=Object.keys(healthState).some(function(k){return ['Up','Reachable','Down','Unreachable'].indexOf(healthState[k].status)>=0;});
  var t='The Throne Room. '+SYSTEMS.length+' Federation systems are in this room. ';t+=checked?(up+' of '+n+' live services are up. '+(down.length?'Down or unreachable: '+down.join(', ')+'. ':'')):'Health checks are running now. ';t+='The Senate is '+(inSession?'in session.':'not in session.')+' Say "help" to hear the commands, or "status" for health.';say(t);}
 
@@ -396,6 +479,11 @@ function findSystem(q){q=q.toLowerCase().replace(/[^a-z0-9' ]/g,' ').replace(/\s
 function handle(cmd){var c=cmd.toLowerCase().trim().replace(/[.!?]+$/,'');$('heard').textContent='Heard: '+cmd;var m;
  if(/^(stop|quiet|silence|be quiet)$/.test(c)){stopSpeaking();return;}
  if(/^stop listening/.test(c)){setListen(false);return;}
+ if(!$('gate').hidden){if(/^(confirm|yes|pass|passes|confirmed)/.test(c)){gateConfirm();return;}if(/^(cancel|no|stop gate)/.test(c)){gateCancel();return;}}
+ if((m=c.match(/^(?:open|go to|show)(?: the)? (pontus|muse|gpt vault|chatgpt vault|chat gpt vault|vault|grok|gemini)(?: page)?$/))){var pg={pontus:'pontus.html',muse:'pontus.html','gpt vault':'gpt-vault.html','chatgpt vault':'gpt-vault.html','chat gpt vault':'gpt-vault.html',vault:'gpt-vault.html',grok:'grok.html',gemini:'gemini.html'}[m[1]];say('Going to the '+m[1]+' page.');setTimeout(function(){location.href=pg;},700);return;}
+ if((m=c.match(/^(?:post|write)(?: a post)? (?:to|in) (?:the )?(?:(pontus|muse|vault|gpt|chatgpt|grok|gemini) )?commons$/))){if(!m[1]){say('Which commons: Pontus, Vault, Grok or Gemini? Say, for example, post to Grok commons.');return;}var cp={pontus:'pontus.html',muse:'pontus.html',vault:'gpt-vault.html',gpt:'gpt-vault.html',chatgpt:'gpt-vault.html',grok:'grok.html',gemini:'gemini.html'}[m[1]];say('Opening the '+m[1]+' commons.');setTimeout(function(){location.href=cp+'#commons';},700);return;}
+ if(/^convene (the )?council/.test(c)){$('senate').scrollIntoView();senatePrepare('convene');return;}
+ if((m=cmd.match(/^\s*address (?:the )?senate[,:]?\s*(.*)$/i))){$('senate').scrollIntoView();if(m[1].trim())$('senateText').value=m[1].trim();senatePrepare('address');return;}
  if(/^(help|commands|what can i say)/.test(c)){say(HELP);return;}
  if(/^(summary|summarize|overview)/.test(c)){summary();return;}
  if(/^(status|read health|health|read status)$/.test(c)){readHealth();return;}
@@ -438,9 +526,16 @@ $('btnListen').addEventListener('click',function(){setListen(!listening);});
 $('btnStop').addEventListener('click',stopSpeaking);
 $('btnBig').addEventListener('click',function(){var f=parseFloat(getComputedStyle(document.documentElement).fontSize);document.documentElement.style.fontSize=Math.min(f+4,40)+'px';say('Text is bigger.');});
 $('ringForm').addEventListener('submit',function(e){e.preventDefault();askRing($('ringQ').value.trim());});
+document.querySelectorAll('#gate .gck').forEach(function(c){c.addEventListener('change',gateUpdate);});
+$('gatePass').addEventListener('click',function(){var cb=gateCb;gateClose();if(cb)cb();});
+$('gateCancel').addEventListener('click',gateCancel);
+$('btnGateDemo').addEventListener('click',function(){say('The five checks of the 95 percent Truth Gate. One: '+GATE_ITEMS[0]+' Two: '+GATE_ITEMS[1]+' Three: '+GATE_ITEMS[2]+' Four: '+GATE_ITEMS[3]+' Five: '+GATE_ITEMS[4]);});
+$('btnConvene').addEventListener('click',function(){senatePrepare('convene');});
+$('btnAddress').addEventListener('click',function(){senatePrepare('address');});
+$('btnCopyDraft').addEventListener('click',copyDraft);
 document.querySelectorAll('[data-win]').forEach(function(b){b.addEventListener('click',function(){openWin(b.getAttribute('data-win'));});});
 document.querySelectorAll('[data-conf]').forEach(function(b){b.addEventListener('click',function(){conference(b.getAttribute('data-conf').split(','));});});
-document.addEventListener('keydown',function(e){var tag=(e.target.tagName||'').toLowerCase();if(e.key==='Escape'){stopSpeaking();return;}if(tag==='input'||tag==='textarea'||tag==='select'||e.ctrlKey||e.metaKey||e.altKey)return;if(e.key==='s'||e.key==='S'){e.preventDefault();summary();}else if(e.key==='l'||e.key==='L'){e.preventDefault();setListen(!listening);}});
+document.addEventListener('keydown',function(e){var tag=(e.target.tagName||'').toLowerCase();if(e.key==='Escape'){stopSpeaking();if(!$('gate').hidden)gateCancel();return;}if(tag==='input'||tag==='textarea'||tag==='select'||e.ctrlKey||e.metaKey||e.altKey)return;if(e.key==='s'||e.key==='S'){e.preventDefault();summary();}else if(e.key==='l'||e.key==='L'){e.preventDefault();setListen(!listening);}});
 announce('The Throne Room. Press the Speak the summary button, or the S key, to hear a short summary. Press L to give voice commands.');
 buildNotebooks();checkAll();pollSenate(true);setInterval(function(){pollSenate(false);},20000);
 })();
