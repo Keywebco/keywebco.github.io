@@ -1,0 +1,14 @@
+{
+  "directives_repo": "Keywebco/nextxus-brain",
+  "directives_path": "directives/sacred-directives.json",
+  "directives_commit": "bbb4f4202305c76cbd5760393d644cd7f32f4d38",
+  "directives_sha256": "3d8d9dd54b7c4f981407e6ac9b88785865a8ad51d320c87aced13e4fbdcd37a2",
+  "directives_raw_url": "https://raw.githubusercontent.com/Keywebco/nextxus-brain/bbb4f4202305c76cbd5760393d644cd7f32f4d38/directives/sacred-directives.json",
+  "directives_edition": "Cathedral Edition v1.1",
+  "counted_directives": 73,
+  "official_since": "2026-11-20 18:01 America/Chicago (Roger Keyserling, spoken decision)",
+  "wording_authority": "Keywebco/nextxus-brain 00-immutable/directives.yaml (sealed; read-only, never edited)",
+  "wording_authority_sha256": "990f186f518afb48a61aafa5164e8158636dd016b0d3a843bf4ec700d38caa7f",
+  "truth_gate": "DIR-000",
+  "note": "The canon copy in this folder is a byte-for-byte copy of the file at the pinned commit. Never edit it; to update, re-pin from Keywebco/nextxus-brain and let CI check the hash."
+}

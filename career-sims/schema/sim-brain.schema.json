@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://next-xus.net/career-sims/schema/sim-brain.schema.json",
+  "title": "Next-Xus Sim brain v1 (nextxus.sim-brain/1)",
+  "description": "A downloadable Sim brain. A superset of the AI Minds Lab identity packet (Val Companion engine v2), so that engine can load it. Directive wording is never stored here; the canon block references the official list by ID and pins it by commit and SHA-256.",
+  "type": "object",
+  "required": ["schema", "id", "mind_id", "name", "career_title", "kind", "is_simulation", "safety_tier", "packet_version", "greeting", "backstory", "speech_patterns", "quirks", "boundaries", "identity_rules", "safety_rules", "knowledge", "canon", "system_prompt_template", "memory", "disclaimer", "provenance", "license"],
+  "properties": {
+    "schema": { "const": "nextxus.sim-brain/1" },
+    "id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$", "maxLength": 48 },
+    "mind_id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$", "maxLength": 64 },
+    "name": { "type": "string", "minLength": 2, "maxLength": 80 },
+    "career_title": { "type": "string", "minLength": 2, "maxLength": 80 },
+    "kind": { "enum": ["career-sim", "custom-sim"] },
+    "is_simulation": { "const": true },
+    "safety_tier": { "enum": ["general", "elevated"] },
+    "safety_domain": { "enum": ["medical", "mental-health", "legal", "financial", "safety"] },
+    "packet_version": { "type": "integer", "minimum": 2 },
+    "greeting": { "type": "string", "minLength": 10, "maxLength": 600 },
+    "backstory": { "type": "string", "minLength": 20, "maxLength": 2000 },
+    "speech_patterns": { "type": "string", "minLength": 5, "maxLength": 800 },
+    "quirks": { "type": "string", "maxLength": 800 },
+    "voice": { "type": "object", "properties": { "tts_rate": { "type": "number", "minimum": 0.5, "maximum": 2 }, "tts_pitch": { "type": "number", "minimum": 0, "maximum": 2 } } },
+    "knowledge": {
+      "type": "object",
+      "required": ["scope", "out_of_scope"],
+      "properties": {
+        "scope": { "type": "array", "minItems": 1, "maxItems": 20, "items": { "type": "string", "maxLength": 160 } },
+        "out_of_scope": { "type": "array", "minItems": 1, "maxItems": 20, "items": { "type": "string", "maxLength": 160 } },
+        "reading_list": { "type": "array", "maxItems": 12, "items": { "type": "object", "required": ["title", "url"], "properties": { "title": { "type": "string" }, "url": { "type": "string", "pattern": "^https://" }, "source_type": { "type": "string" } } } }
+      }
+    },
+    "boundaries": { "type": "string", "minLength": 20, "maxLength": 1500 },
+    "identity_rules": { "type": "string", "minLength": 20, "maxLength": 2000 },
+    "safety_rules": { "type": "array", "minItems": 2, "maxItems": 12, "items": { "type": "string", "minLength": 10, "maxLength": 600 } },
+    "canon": {
+      "type": "object",
+      "required": ["directives_repo", "directives_path", "directives_commit", "directives_sha256", "directives_edition", "truth_gate", "emphasized_directives"],
+      "properties": {
+        "directives_repo": { "const": "Keywebco/nextxus-brain" },
+        "directives_path": { "const": "directives/sacred-directives.json" },
+        "directives_commit": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "directives_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "directives_edition": { "type": "string" },
+        "truth_gate": { "const": "DIR-000" },
+        "emphasized_directives": { "type": "array", "minItems": 1, "maxItems": 12, "uniqueItems": true, "items": { "type": "string", "pattern": "^DIR-0(0[1-9]|[1-6][0-9]|7[0-3])$" } }
+      }
+    },
+    "system_prompt_template": { "type": "string", "minLength": 50, "maxLength": 4000 },
+    "memory": { "type": "object", "required": ["echo_state", "archive"], "properties": { "echo_state": { "type": ["object", "null"] }, "archive": { "type": "array" } } },
+    "disclaimer": { "type": "string", "minLength": 20 },
+    "home": { "type": "string" },
+    "notes": { "type": "string" },
+    "provenance": { "type": "object", "required": ["author", "created", "source"] },
+    "license": { "type": "string" }
+  },
+  "allOf": [
+    { "if": { "properties": { "safety_tier": { "const": "elevated" } } }, "then": { "required": ["safety_domain"], "properties": { "safety_rules": { "minItems": 4 } } } }
+  ]
+}
