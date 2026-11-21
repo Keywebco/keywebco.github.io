@@ -160,12 +160,13 @@ label{font-weight:700;display:block;margin:8px 0 4px}
 
 <section id="university" aria-labelledby="h-uni">
 <h2 id="h-uni">Federation University</h2>
-<p>Retraining classes, certifications, teaching about the Federation, astrophysics, and free NASA study materials. The University's current home is being confirmed; these working pages answer today.</p>
+<p>Retraining classes, certifications, teaching about the Federation, astrophysics, and free NASA study materials. The University's home is the Next-Xus University course hub, with Xavier the Scholar, foundation training, and science training that uses NASA materials.</p>
 <div class="row">
 <button data-win="university">University in a window</button>
+<a class="btn" href="https://next-xus.net/nextxus-ai-course-hub/" target="_blank" rel="noopener">Open Next-Xus University</a>
+<a class="btn alt" href="https://github.com/Keywebco/nextxus-ai-course-hub" target="_blank" rel="noopener">University code</a>
 <a class="btn alt" href="https://next-xus.info/university-working.html" target="_blank" rel="noopener">University working model</a>
 <a class="btn alt" href="https://next-xus.info/academia-center.html" target="_blank" rel="noopener">Academia Research Science Center</a>
-<a class="btn alt" href="https://next-xus.net/nextxus-ai-course-hub/" target="_blank" rel="noopener">AI Course Hub</a>
 </div>
 </section>
 
@@ -189,7 +190,7 @@ label{font-weight:700;display:block;margin:8px 0 4px}
 <li>The Catalyst's memory is not durable yet.</li>
 <li>federation-n8n is down: no Render service is attached to its address.</li>
 <li>Deploy buttons need sign-in; there is no safe public deploy trigger.</li>
-<li>The Federation University's final home is being confirmed.</li>
+<li>Federation University courses still need to be built out and listed.</li>
 </ul>
 </section>
 </main>
@@ -234,17 +235,20 @@ var SYSTEMS=[
  {id:'buildsim',name:'Build a Sim',say:['build a sim','build sim'],group:'Create',url:'https://next-xus.net/nextxus-build-sim/',repo:'nextxus-build-sim',desc:'Sim builder.'},
  {id:'buildsite',name:'Build a Website',say:['build a website','build website'],group:'Create',url:'https://next-xus.net/nextxus-build-website/',repo:'nextxus-build-website',desc:'Website builder.'},
  {id:'browserbase',name:'Federation Browser Base',say:['browser base'],group:'Create',url:'https://next-xus.net/federation-browser-base/',repo:'federation-browser-base',desc:'Browser base.'},
- {id:'university',name:'Federation University',say:['university','federation university','school'],group:'Learn',url:'https://next-xus.info/university-working.html',repo:'nextxus-free-satellites',desc:'Retraining, certifications, the Federation, astrophysics, free NASA study. Home being confirmed.'},
+ {id:'university',name:'Federation University',say:['university','federation university','school','next-xus university'],group:'Learn',url:'https://next-xus.net/nextxus-ai-course-hub/',repo:'nextxus-ai-course-hub',render:'static/srv-da6s1aqd0e5s73d6qacg',desc:'Next-Xus University: retraining, certifications, the Federation, astrophysics, free NASA study. Xavier the Scholar teaches.'},
+ {id:'uniworking',name:'University working model',say:['university working model','working model'],group:'Learn',url:'https://next-xus.info/university-working.html',repo:'nextxus-free-satellites',desc:'The University working model page.'},
  {id:'academia',name:'Academia Research Science Center',say:['academia','science center'],group:'Learn',url:'https://next-xus.info/academia-center.html',repo:'nextxus-free-satellites',desc:'Research and science center.'},
- {id:'coursehub',name:'AI Course Hub',say:['course hub','courses'],group:'Learn',url:'https://next-xus.net/nextxus-ai-course-hub/',repo:'nextxus-ai-course-hub',desc:'AI courses.'},
  {id:'library',name:'Galactic Living Library',say:['library','living library','galactic library','galactic living library'],group:'Learn',url:'https://next-xus.org/library/',repo:'nextxus-humancodex',desc:'Poems and volumes. Volume 1 edited; the rest in progress.'},
  {id:'research',name:'Research Hub',say:['research','research hub'],group:'Learn',url:'https://next-xus.net/nextxus-research-hub/',repo:'nextxus-research-hub',desc:'Research hub.'},
  {id:'blog',name:'Blog',say:['blog'],group:'Learn',url:'https://next-xus.net/nextxus-blog/',repo:'nextxus-blog',desc:'Federation blog.'},
  {id:'archives',name:'Archives',say:['archives','archive'],group:'Learn',url:'https://next-xus.net/nextxus-archives/',repo:'nextxus-archives',desc:'Archives.'},
- {id:'games',name:'NextGames',say:['games','next games','game'],group:'Play and listen',url:'https://next-xus.net/NextGames/',repo:'NextGames',desc:'Federation Defense, Token Defense, 2048 and more.'},
+ {id:'games',name:'NextGames',say:['games','next games','game'],group:'Play and listen',url:'https://next-xus.net/NextGames/',repo:'NextGames',desc:'Six free games: Federation Defense, Token Defense, 2048, Echo Recall, Sovereign Run, Sector Flip.'},
  {id:'fedDefense',name:'Federation Defense',say:['federation defense','shooter'],group:'Play and listen',url:'https://next-xus.net/NextGames/federation-defense/',repo:'NextGames',desc:'Space shooter.'},
  {id:'tokenDefense',name:'Token Defense',say:['token defense','tank'],group:'Play and listen',url:'https://next-xus.net/NextGames/token-defense/',repo:'NextGames',desc:'One tank against waves.'},
  {id:'g2048',name:'2048',say:['2048','twenty forty eight'],group:'Play and listen',url:'https://next-xus.net/NextGames/2048/',repo:'NextGames',desc:'Number puzzle.'},
+ {id:'echoRecall',name:'Echo Recall',say:['echo recall','memory game'],group:'Play and listen',url:'https://next-xus.net/NextGames/echo-recall/',repo:'NextGames',desc:'Memory puzzle: repeat a growing run of tones.'},
+ {id:'sovRun',name:'Sovereign Run',say:['sovereign run','runner'],group:'Play and listen',url:'https://next-xus.net/NextGames/sovereign-run/',repo:'NextGames',desc:'Runner: low beep jump, high beep duck.'},
+ {id:'sectorFlip',name:'Sector Flip',say:['sector flip','strategy game'],group:'Play and listen',url:'https://next-xus.net/NextGames/sector-flip/',repo:'NextGames',desc:'Strategy board game against the computer.'},
  {id:'music',name:'Music',say:['music','songs'],group:'Play and listen',url:'https://next-xus.net/nextxus-music/',repo:'nextxus-music',desc:'Federation music.'},
  {id:'player',name:'Music player',say:['music player','player'],group:'Play and listen',url:'https://next-xus.net/nextxus-music/player.html',repo:'nextxus-music',desc:'Play the music.'},
  {id:'brain',name:'YAML brain',say:['brain','yaml brain','yaml'],group:'Knowledge and law',url:'https://github.com/Keywebco/nextxus-brain',repo:'nextxus-brain',actions:true,desc:'The Federation brain: rings, Senate, minds, builds, wiring.'},
