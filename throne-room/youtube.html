@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Keyhole Today — Next-Xus</title>
+<meta name="description" content="Keyhole Today, the Federation YouTube channel. The player loads only when you ask for it. No tracking on this page.">
+<link rel="canonical" href="https://next-xus.net/throne-room/youtube.html">
+<style>
+:root{--bg:#050805;--text:#f4f7f2;--dim:#c9d6cb;--green:#3dff8a;--gold:#ffd34d}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,sans-serif;font-size:18px;line-height:1.55;padding:20px}
+a{color:var(--green)}
+h1{color:var(--gold);font-size:1.6rem;margin:0 0 12px}
+.wrap{max-width:880px;margin:0 auto}
+button{background:var(--gold);color:#000;font-weight:800;border:none;border-radius:10px;padding:12px 20px;font-size:1rem;cursor:pointer}
+.box{position:relative;width:100%;padding-top:56.25%;margin-top:16px;background:#000;border:1px solid var(--gold);border-radius:10px;overflow:hidden}
+.box iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+p{max-width:40rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Keyhole Today</h1>
+<p>This is the Federation YouTube channel. Press the button to load a player. Nothing from YouTube is loaded until you do.</p>
+<p><a href="https://www.youtube.com/@keyholetoday">Open the Keyhole Today channel</a></p>
+<p><button type="button" id="load">Load Keyhole Today player</button></p>
+<div class="box" id="box" hidden></div>
+</div>
+<script>
+document.getElementById("load").addEventListener("click", function(){
+  var box=document.getElementById("box");
+  if(box.hasChildNodes()){box.hidden=false;return;}
+  var f=document.createElement("iframe");
+  f.src="https://www.youtube-nocookie.com/embed/videoseries?list=PLM9vg3bOgbD_80B36YRXgKBKZ2Xlr0MlC";
+  f.title="Keyhole Today playlist";
+  f.allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+  f.setAttribute("allowfullscreen","");
+  f.setAttribute("referrerpolicy","no-referrer");
+  box.appendChild(f);
+  box.hidden=false;
+});
+</script>
+</body>
+</html>
