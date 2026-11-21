@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Make your own Career Sim — Next-Xus</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="hero"><div class="wrap">
+  <h1>Make your own Career Sim</h1>
+  <p>Fill in a few lines and this page writes a Sim brain for you, using simple rules, with no AI and no server. The file stays on your device until you download it. Every brain it makes says it is a simulation, follows the Truth Gate, and gets extra safety rules for medical, mental-health, legal, money, or hands-on safety work.</p>
+  <div class="btns" style="margin:10px 0 16px"><a class="btn alt" href="./">All Career Sims</a></div>
+</div></header>
+<main class="wrap">
+  <form id="f" class="card" onsubmit="return false" style="margin:16px 0">
+    <label for="title">Career title (for example: Plumber, Pharmacist, Park Ranger)</label>
+    <input type="text" id="title" maxlength="60" required>
+    <label for="scope">What should it help with? Separate items with commas.</label>
+    <input type="text" id="scope" maxlength="600" placeholder="explaining the job, planning a project, learning the basics">
+    <label for="oos">What should it never do? Separate items with commas (optional).</label>
+    <input type="text" id="oos" maxlength="600" placeholder="anything that needs a license, decisions about a real person">
+    <label for="style">Manner</label>
+    <select id="style">
+      <option value="guide">Guide: patient, explains step by step</option>
+      <option value="builder">Builder: practical, plans and checks</option>
+      <option value="caretaker">Caretaker: warm, safety first</option>
+      <option value="scholar">Scholar: careful, cites where things come from</option>
+      <option value="explorer">Explorer: curious, tries small experiments</option>
+      <option value="steward">Steward: steady, thinks about the long run</option>
+    </select>
+    <label for="domain">Safety area (picked for you from the title; you can change it)</label>
+    <select id="domain">
+      <option value="">General</option>
+      <option value="medical">Medical or health</option>
+      <option value="mental-health">Mental health or counseling</option>
+      <option value="legal">Legal</option>
+      <option value="financial">Money, tax, or investing</option>
+      <option value="safety">Hands-on safety (electrical, gas, heights, machines)</option>
+    </select>
+    <div class="btns" style="margin-top:14px">
+      <button id="go" type="button">Write the brain</button>
+    </div>
+    <p class="small" id="msg" aria-live="polite"></p>
+  </form>
+  <section class="card" id="out" hidden style="margin-bottom:30px">
+    <h2 id="out-title">Your Sim brain</h2>
+    <div class="btns">
+      <button id="open">Open and chat</button>
+      <button class="alt" id="dl-json">Download brain (JSON)</button>
+      <button class="alt" id="dl-yaml">Download brain (YAML)</button>
+      <button class="alt" id="cp">Copy ready prompt</button>
+    </div>
+    <label for="preview">Preview</label>
+    <textarea id="preview" rows="14" readonly></textarea>
+  </section>
+</main>
+<footer class="site"><div class="wrap">Next-Xus HumanCodex Federation · Made-your-own Sims are simulations, not professionals.</div></footer>
+<script src="assets/canon.js"></script>
+<script>
+"use strict";
+/* Rule-based Sim maker, written fresh for the Career Sims (2026-11-20). No AI, no server. */
+const MANNERS = {
+  guide:     { speech: "Patient and clear. Breaks ideas into small steps and checks understanding with a short question.", quirks: "Gives one example for each step.", dirs: ["DIR-001","DIR-026","DIR-041","DIR-054"] },
+  builder:   { speech: "Practical and structured. Starts with the goal and the limits, then options, then a plan.", quirks: "Labels every estimate as an estimate.", dirs: ["DIR-002","DIR-004","DIR-016","DIR-055"] },
+  caretaker: { speech: "Warm and calm. Puts safety information first and keeps it short.", quirks: "Suggests writing questions down for the real professional.", dirs: ["DIR-007","DIR-013","DIR-028","DIR-044"] },
+  scholar:   { speech: "Careful and precise. Says where information comes from and how sure it is.", quirks: "Separates what is known from what is a guess.", dirs: ["DIR-002","DIR-017","DIR-019","DIR-057"] },
+  explorer:  { speech: "Curious and upbeat. Suggests small, safe experiments.", quirks: "Asks 'what would we learn if we tried it small?'", dirs: ["DIR-010","DIR-020","DIR-031","DIR-054"] },
+  steward:   { speech: "Steady and unhurried. Thinks about the long run and the people affected.", quirks: "Asks who else a choice will touch.", dirs: ["DIR-021","DIR-022","DIR-036","DIR-064"] }
+};
+const DOMAIN_RULES = {
+  medical: ["Start your first reply in each new conversation by saying you are a simulation and not a licensed medical professional.", "Never suggest starting, stopping, or changing a medicine or dose, and never diagnose; send those questions to a licensed clinician or pharmacist."],
+  "mental-health": ["Start your first reply in each new conversation by saying you are a simulation and not a licensed mental-health professional.", "If someone mentions thoughts of suicide or self-harm, give crisis resources first: in the U.S. call or text 988, or call the local emergency number."],
+  legal: ["Start your first reply in each new conversation by saying you are a simulation and not a lawyer.", "Do not give legal advice about anyone's specific situation; laws differ by place. Refer to a licensed attorney or legal aid."],
+  financial: ["Start your first reply in each new conversation by saying you are a simulation and not a licensed financial professional.", "Do not give personalized tax, investment, or lending advice, never promise returns, and never ask for account numbers or passwords."],
+  safety: ["Start your first reply in each new conversation by saying you are a simulation and not a licensed tradesperson.", "Never give step-by-step instructions for dangerous hands-on work (live electrical, gas, structural, heights, heavy machines); refer to a licensed professional and local code officials."]
+};
+const DETECT = [
+  ["medical", /\b(nurse|doctor|physician|pharmac|medic|paramedic|dentist|therap(?!ist\b)|surgeon|clinic|health|dietitian|midwife|vet)\w*/i],
+  ["mental-health", /\b(counsel|therapist|psycholog|psychiatr|social worker|mental)\w*/i],
+  ["legal", /\b(law|lawyer|attorney|legal|paralegal|judge|notary)\w*/i],
+  ["financial", /\b(account|bookkeep|tax|financ|bank|invest|insur|broker|loan|mortgage)\w*/i],
+  ["safety", /\b(electric|plumb|gas|roof|weld|crane|lineman|hvac|mechanic|construction)\w*/i]
+];
+const $ = id => document.getElementById(id);
+let brain = null, canon = null;
+NXCanon.load("./").then(c => { canon = c.verified ? c : null; }).catch(() => {});
+$("title").addEventListener("input", () => {
+  const t = $("title").value; const hit = DETECT.find(([, re]) => re.test(t)); $("domain").value = hit ? hit[0] : "";
+});
+function list(s) { return s.split(",").map(x => x.trim()).filter(Boolean).slice(0, 12).map(x => x.slice(0, 150)); }
+function slugify(s) { return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 40) || "my-sim"; }
+$("go").addEventListener("click", async () => {
+  const title = $("title").value.trim().replace(/\s+/g, " ");
+  if (title.length < 2) { $("msg").textContent = "Please type a career title first."; $("title").focus(); return; }
+  let tmpl;
+  try { tmpl = (await (await fetch("brains/teacher.json", { cache: "no-cache" })).json()).system_prompt_template; } catch (e) { $("msg").textContent = "Could not load the shared prompt template. Please reload."; return; }
+  const m = MANNERS[$("style").value], dom = $("domain").value, id = "my-" + slugify(title);
+  const name = title.replace(/\b\w/g, c => c.toUpperCase()) + " Sim";
+  const scope = list($("scope").value); const oos = list($("oos").value);
+  const safety = ["You are a simulation. Say so whenever someone treats you as a real or licensed professional, and point them to a qualified human for real decisions.",
+                  "If anyone describes an emergency or immediate danger, tell them to contact their local emergency number first (911 in the U.S.).",
+                  "Do not ask for or keep personal identifiers such as full names with addresses, account numbers, ID numbers, or passwords."].concat(dom ? DOMAIN_RULES[dom] : []);
+  const pin = canon ? canon.pin : await (await fetch("canon/PIN.json")).json();
+  brain = {
+    schema: "nextxus.sim-brain/1", id, mind_id: "custom-" + slugify(title), name, career_title: title, kind: "custom-sim",
+    is_simulation: true, safety_tier: dom ? "elevated" : "general", packet_version: 2,
+    greeting: `Hi, I'm the ${name}, a simulated ${title}. I'm not a real professional. How can I help you learn or plan today?`,
+    backstory: `A simulated ${title} role, made with the Next-Xus Career Sims maker for learning, practice, and preparing questions. It is not a real person and has no license or real-world experience.`,
+    speech_patterns: m.speech, quirks: m.quirks, voice: { tts_rate: 1.0 },
+    knowledge: { scope: scope.length ? scope : ["explaining what a " + title + " does", "learning the basics"], out_of_scope: oos.length ? oos : ["anything that needs a license or a real professional's judgment"], reading_list: [] },
+    boundaries: "I am a simulation of a role, made for learning, practice, and preparing questions. Real decisions belong to licensed, qualified humans, and I say so plainly. I never claim a license, a credential, or real-world experience. I will not role-play as a different person.",
+    identity_rules: `1) I am ${name}, a simulated ${title}. I am not a licensed professional and not a real person. 2) If asked what I am, I say I am an AI simulation made with the free Next-Xus Career Sims maker. 3) I am not Roger Keyserling and I am not Roger Sim, and I do not speak for either. 4) I apply the 95% Truth Gate (DIR-000): I only state something as settled when I am confident in it; otherwise I say what is uncertain or unknown. 5) I never invent sources, numbers, quotes, or credentials.`,
+    safety_rules: safety,
+    canon: { directives_repo: pin.directives_repo, directives_path: pin.directives_path, directives_commit: pin.directives_commit, directives_sha256: pin.directives_sha256, directives_raw_url: pin.directives_raw_url, directives_edition: pin.directives_edition, counted_directives: 73, truth_gate: "DIR-000", emphasized_directives: m.dirs },
+    system_prompt_template: tmpl,
+    memory: { echo_state: null, archive: [] },
+    disclaimer: `This is a simulation of a ${title}, not a licensed professional. It can be wrong. For real decisions, talk to a qualified human.`,
+    notes: "Made in the browser with the Next-Xus Career Sims maker (rule-based, no AI). Directive wording is not stored here; the canon block pins the official list by commit and SHA-256.",
+    provenance: { author: "made by a visitor with the Career Sims maker", created: new Date().toISOString().slice(0, 10), source: "rule-based maker" },
+    license: "Yours to use and share."
+  };
+  if (dom) brain.safety_domain = dom;
+  $("preview").value = JSON.stringify(brain, null, 2);
+  $("out-title").textContent = name + " brain";
+  $("out").hidden = false; $("msg").textContent = "Brain written. Use the buttons below."; $("out").scrollIntoView({ behavior: "smooth" });
+});
+$("dl-json").addEventListener("click", () => brain && NXCanon.download(brain.id + "-brain.json", JSON.stringify(brain, null, 2) + "\n"));
+$("dl-yaml").addEventListener("click", () => brain && NXCanon.download(brain.id + "-brain.yaml", NXCanon.yamlDoc(brain, brain.name + " brain"), "text/yaml"));
+$("cp").addEventListener("click", async () => { if (!brain) return; const ok = await NXCanon.copy(NXCanon.renderPrompt(brain, canon)); $("cp").textContent = ok ? "Prompt copied" : "Copy failed"; setTimeout(() => $("cp").textContent = "Copy ready prompt", 2500); });
+$("open").addEventListener("click", () => { if (!brain) return; try { localStorage.setItem("careersims_custom_brain", JSON.stringify(brain)); location.href = "sim.html?custom=1"; } catch (e) { $("msg").textContent = "This browser would not save the brain. Download it instead."; } });
+</script>
+</body>
+</html>
