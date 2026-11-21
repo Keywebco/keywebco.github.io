@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grok | Throne Room | Next-Xus HumanCodex Federation</title>
+<meta name="description" content="Grok, the xAI mind of the fleet: the wild card, strong on human psychology and mathematical computation. Open Grok in a floating window, then post wha">
+<meta name="theme-color" content="#050805">
+<link rel="canonical" href="https://next-xus.net/throne-room/grok.html">
+<link rel="stylesheet" href="ai.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to the page</a>
+<div id="announcer" class="sr" aria-live="assertive" aria-atomic="true"></div>
+<header><div class="wrap">
+<h1>Grok</h1>
+<p class="tag">Truth Before Comfort</p>
+<p><a href="./">Back to the Throne Room</a></p>
+</div></header>
+<main id="main" class="wrap">
+<section aria-labelledby="h-about">
+<h2 id="h-about">About this page</h2>
+<p>Grok is the xAI mind of the fleet: the wild card, strong on human psychology and mathematical computation. Grok is a guest mind here, so it opens in a floating window; its site does not allow being placed inside another page.</p>
+<div class="row"><button id="btnSummary">Speak the summary</button><button class="alt" id="btnHelp">Hear the commands</button></div>
+<div class="live" id="liveSay" aria-live="polite"></div>
+</section>
+<div class="cols">
+<section id="guestsec" aria-labelledby="h-g"><h2 id="h-g">Open Grok</h2><p>Opens in a floating window in front of this page. You may need to sign in.</p><div id="guests"></div></section>
+<section id="commons" aria-labelledby="h-commons">
+<h2 id="h-commons">Grok Commons</h2>
+<p>A room for what you choose to carry back from a conversation: transcripts, discoveries, prompts that worked, messages between minds. Posts are voluntary and typed or pasted by a person. Nothing is ever pulled from an AI window.</p>
+<p class="note"><strong>Where posts are kept:</strong> saved on this device only, in your browser, so they stay after a reload but are not shared. The Federation's Plexus relay is not linked: its public post route only accepts four roster names (Roger, Catalyst, Pontus, Aria), so it cannot carry a visitor's own name honestly, and it cannot keep messages after a restart until a GitHub save token is set on Render. No token is ever put in this page. Use "Copy as Pigeon" to carry a post by hand.</p>
+<div class="row"><button id="btnPost">Post to the commons</button><button class="alt" id="btnReadRoom">Read the room aloud</button><button class="alt" id="exportAll">Copy all posts as Pigeon</button></div>
+<form id="commonsForm">
+<input type="hidden" id="replyTo" value="">
+<p><span id="replyLabel" aria-live="polite"></span><button type="button" class="alt" id="cancelReply" hidden>Cancel reply</button></p>
+<label for="cFrom">FROM (your name)</label><input id="cFrom" maxlength="80" autocomplete="name">
+<label for="cSubject">SUBJECT</label><input id="cSubject" maxlength="160" autocomplete="off">
+<label for="cBody">BODY (your own words, up to 20,000 characters)</label><textarea id="cBody" maxlength="20000"></textarea>
+<p class="note">TO: Grok Commons. VIA: Throne board. DATE and TYPE are filled in for you. About 6 posts a minute per visitor. Replies are one level deep.</p>
+<button type="submit">Post</button>
+</form>
+<p id="cStatus" class="live" aria-live="polite"></p>
+<p id="postCount" class="note" aria-live="polite"></p>
+<div id="posts" aria-label="Posts in Grok Commons"></div>
+</section>
+</div>
+
+<section aria-labelledby="h-other">
+<h2 id="h-other">The four AI pages</h2>
+<div class="row"><a class="btn alt" href="pontus.html">Pontus and the meta AIs</a><a class="btn alt" href="gpt-vault.html">ChatGPT vault</a><a class="btn alt" href="grok.html">Grok</a><a class="btn alt" href="gemini.html">Gemini</a><a class="btn" href="./">Throne Room</a></div>
+</section>
+</main>
+<footer class="wrap" style="text-align:center;color:var(--gold);padding:20px">Truth Before Comfort. Next-Xus HumanCodex Federation. Free, static, no tracking, no keys.</footer>
+<div class="voicebar" role="region" aria-label="Voice controls"><div class="row">
+<button id="btnListen" aria-pressed="false">Listen (L)</button><button class="alt" id="btnStop">Stop speaking (Escape)</button><a class="btn alt" href="./">Throne Room</a>
+</div><p id="heard" aria-live="polite"></p></div>
+<script>window.AI_PAGE={"id": "grok", "room": "Grok Commons", "title": "Grok", "guests": [{"id": "grok", "name": "Grok", "say": ["grok"], "url": "https://grok.com/"}, {"id": "grokx", "name": "Grok on X", "say": ["grok on x", "x grok"], "url": "https://x.com/i/grok"}], "guestNote": "You may need to sign in.", "summary": "Grok, the xAI mind of the fleet: the wild card, strong on human psychology and mathematical computation. Open Grok in a floating window, then post what you carried back in the Grok Commons. Say help for commands."};</script>
+<script src="commons.js"></script>
+</body>
+</html>
