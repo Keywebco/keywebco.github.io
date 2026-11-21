@@ -6,7 +6,7 @@
 <title>NextXus HumanCodex Federation | Sovereign AI Architecture</title>
 <meta name="description" content="Truth-first AI architecture. Games, music, Galactic Library, tools. Own your code. No subscriptions. No tracking.">
 <meta name="theme-color" content="#050805">
-<link rel="canonical" href="https://keywebco.github.io/">
+<link rel="canonical" href="https://next-xus.net/">
 <style>
 :root{--bg:#050805;--panel:#0d140e;--line:#1f3a24;--text:#f4f7f2;--dim:#c9d6cb;--green:#3dff8a;--gold:#ffd34d}
 *{box-sizing:border-box}
@@ -54,8 +54,10 @@ h2{color:var(--green)}
 <div class="cta">
 <a class="btn" href="https://next-xus.info/federation-directory.html">System Directory</a>
 <a class="btn" href="https://next-xus.net/throne-room/">Throne Room</a>
-<a class="btn alt" href="https://keywebco.github.io/nextxus-tools/">Tools</a>
-<a class="btn alt" href="https://keywebco.github.io/nextxus-music/">Music</a>
+<a class="btn alt" href="https://next-xus.net/nextxus-tools/">Tools</a>
+<a class="btn alt" href="https://next-xus.net/nextxus-music/">Music</a>
+<a class="btn alt" href="https://next-xus.net/nextxus-music/podcast.html">Podcasts</a>
+<a class="btn alt" href="https://www.youtube.com/@keyholetoday">YouTube</a>
 <a class="btn alt" href="https://next-xus.net/NextGames/">Games</a>
 </div>
 </div>
@@ -72,12 +74,13 @@ h2{color:var(--green)}
 <ul>
 <li><a href="https://next-xus.info/federation-directory.html">System Directory</a> — full map</li>
 <li><a href="https://next-xus.net/throne-room/">Throne Room</a> — one voice-operated control center for every Federation system</li>
-<li><a href="https://keywebco.github.io/nextxus-tools/">Tools Directory</a></li>
-<li><a href="https://keywebco.github.io/ring-of-12/">Ring of 12</a></li>
+<li><a href="https://next-xus.net/nextxus-tools/">Tools Directory</a></li>
+<li><a href="https://next-xus.net/ring-of-12/">Ring of 12</a></li>
 <li><a href="https://next-xus.net/NextGames/">Games</a> — free Federation games: play in your browser, no accounts, no ads</li>
 <li><a href="https://next-xus.net/career-sims/">Career Sims</a> — free career Sims with downloadable brains (simulations, not professionals)</li>
 <li><a href="https://next-xus.net/nextxus-ai-course-hub/">University</a> — free courses, Xavier, and NASA study materials</li>
-<li><a href="https://keywebco.github.io/federation-browser-base/">Browser Base</a></li>
+<li>Watch and listen — <a href="https://www.youtube.com/@keyholetoday">Keyhole Today on YouTube</a>; the <a href="https://next-xus.net/nextxus-music/podcast.html">Ring of Twelve podcast player</a> or <a href="https://open.spotify.com/show/24ji2KxwhpJ1ORNxc9rKnr">Ring of Twelve on Spotify</a>; and <a href="https://open.spotify.com/show/0JP7csjWLqKNKOHbFMp3CR">The HumanCodex on Spotify</a></li>
+<li><a href="https://next-xus.net/federation-browser-base/">Browser Base</a></li>
 </ul>
 </div>
 <div class="card">
@@ -230,12 +233,12 @@ async function hybridRespond(q) {
   }
   const intent = await classifyIntent(q);
   if (intent === 'games') return 'The Federation has free games at next-xus.net/NextGames. Federation Defense, Token Defense, 2048 and new ones keep arriving. No accounts, no ads.';
-  if (intent === 'music') return 'Music is at keywebco.github.io/nextxus-music/. AI-generated tracks from the Federation.';
+  if (intent === 'music') return 'Music is at next-xus.net slash nextxus-music. AI-generated tracks from the Federation.';
   if (intent === 'library') return 'The Galactic Living Library has poems and volumes. Volume 1 is edited. The other five volumes need editing and approval.';
   if (intent === 'ownership') return 'The point is to show what you can do for free or near-free. Own your code. Own your sites. Do not just lease them.';
   if (intent === 'directory') return 'The full map is at next-xus.info/federation-directory.html.';
   if (lower.includes('game')) return 'The Federation has free games at next-xus.net/NextGames. Federation Defense, Token Defense, 2048 and new ones keep arriving. No accounts, no ads.';
-  if (lower.includes('music') || lower.includes('song')) return 'Music is at keywebco.github.io/nextxus-music/. AI-generated tracks from the Federation.';
+  if (lower.includes('music') || lower.includes('song')) return 'Music is at next-xus.net slash nextxus-music. AI-generated tracks from the Federation.';
   if (lower.includes('library') || lower.includes('poem') || lower.includes('volume')) return 'The Galactic Living Library has poems and volumes. Volume 1 is edited. The other five volumes need editing and approval.';
   if (lower.includes('own') || lower.includes('free') || lower.includes('lease')) return 'The point is to show what you can do for free or near-free. Own your code. Own your sites. Do not just lease them.';
   if (lower.includes('directory') || lower.includes('map')) return 'The full map is at next-xus.info/federation-directory.html.';
