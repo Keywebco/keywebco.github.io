@@ -80,6 +80,21 @@ h2{color:var(--green)}
 <li><a href="https://keywebco.github.io/federation-browser-base/">Browser Base</a></li>
 </ul>
 </div>
+<div class="card">
+<h2>Research notebooks</h2>
+<p>Roger's NotebookLM research notebooks. Google blocks embedding, so each opens in a small floating window in front of this page, not a new tab. Google asks you to sign in to view.</p>
+<p><button type="button" data-nb="0" style="margin:4px 6px 4px 0">Federation Knowledge</button><button type="button" data-nb="1" style="margin:4px 6px 4px 0">HumanCodex System Summary</button><button type="button" data-nb="2" style="margin:4px 6px 4px 0">Galactic Gravity Research</button></p>
+<p id="nbStatus" aria-live="polite"></p>
+<script>
+(function(){var NB=[
+ {name:'Federation Knowledge',url:'https://notebooklm.google.com/notebook/890fbd8d-0f0c-45c1-bae9-51893d8d775d'},
+ {name:'HumanCodex System Summary',url:'https://notebooklm.google.com/notebook/a2bf34b6-65a3-44db-be71-b739bd433125'},
+ {name:'Galactic Gravity Research',url:'https://notebooklm.google.com/notebook/9967d98f-7c01-4d6a-93dd-8c2d27d76ad4'}];
+var NOTE='Google blocks embedding, so this opens in a floating window.';
+function tell(t){var s=document.getElementById('nbStatus');if(s)s.textContent=t;try{if(window.speechSynthesis){speechSynthesis.cancel();speechSynthesis.speak(new SpeechSynthesisUtterance(t));}}catch(e){}}
+document.querySelectorAll('[data-nb]').forEach(function(b){b.addEventListener('click',function(){var i=+b.getAttribute('data-nb'),nb=NB[i];if(!nb)return;var W=520,H=720,sw=(window.screen&&screen.availWidth)||1280;var p=window.open(nb.url,'nxnb_'+i,'popup,width='+W+',height='+H+',left='+Math.max(0,sw-W-20-i*30)+',top='+(60+i*30));if(p){try{p.focus();}catch(e){}tell(NOTE+' Opened '+nb.name+'.');}else tell(NOTE.slice(0,-1)+', but your browser blocked it. Allow pop-ups for this site and press the button again.');});});})();
+</script>
+</div>
 </section>
 </main>
 
