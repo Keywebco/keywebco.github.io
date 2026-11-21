@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Throne Room | Next-Xus HumanCodex Federation control center</title>
+<meta name="description" content="The Next-Xus Throne Room: one free, voice-operated control center for the whole Federation. Status, Senate wall, Ring of 12, mini browser conference, God's Eye View. No tracking. No subscriptions.">
+<meta name="theme-color" content="#050805">
+<link rel="canonical" href="https://next-xus.net/throne-room/">
+<style>
+:root{--bg:#050805;--panel:#0d140e;--line:#2f5a36;--text:#ffffff;--dim:#e2ece4;--green:#3dff8a;--gold:#ffd34d;--red:#ff6b6b;--blue:#8ecbff}
+*{box-sizing:border-box}
+html{font-size:22px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,sans-serif;line-height:1.55;padding-bottom:150px}
+a{color:var(--green)}a:hover,a:focus{color:var(--gold)}
+:focus-visible{outline:4px solid var(--gold);outline-offset:3px}
+.skip{position:absolute;left:-9999px;top:0;background:var(--gold);color:#000;padding:10px 16px;font-weight:800;z-index:100}
+.skip:focus{left:10px;top:10px}
+.wrap{max-width:1280px;margin:0 auto;padding:0 18px}
+header{text-align:center;padding:26px 0 8px;border-bottom:3px solid var(--gold)}
+h1{color:var(--gold);font-size:clamp(1.9rem,5vw,3rem);margin:0}
+.tag{color:var(--green);font-weight:800;font-size:1.15rem;margin:6px 0}
+h2{color:var(--gold);font-size:1.5rem;margin:0 0 10px}
+h3{color:var(--green);font-size:1.15rem;margin:4px 0 6px}
+section{background:var(--panel);border:2px solid var(--line);border-radius:16px;padding:20px;margin:20px 0}
+p{margin:6px 0}
+button,.btn{font:inherit;font-size:1rem;font-weight:800;background:var(--gold);color:#000;border:2px solid var(--gold);border-radius:10px;padding:10px 16px;cursor:pointer;text-decoration:none;display:inline-block;margin:4px 6px 4px 0;min-height:48px}
+button.alt,.btn.alt{background:transparent;color:var(--gold)}
+button[aria-pressed="true"]{background:var(--green);border-color:var(--green)}
+.row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.card{background:#071008;border:2px solid var(--line);border-radius:12px;padding:14px}
+.card .actions a,.card .actions button{font-size:.85rem;padding:6px 10px;min-height:40px}
+.status{font-weight:800;padding:2px 8px;border-radius:6px;display:inline-block}
+.s-up{background:var(--green);color:#000}.s-reach{background:var(--blue);color:#000}.s-down{background:var(--red);color:#000}.s-unk{background:#444;color:#fff}
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+th,td{border-bottom:1px solid var(--line);padding:8px;text-align:left;vertical-align:top}
+th{color:var(--gold)}
+.note{color:var(--dim);font-size:.9rem}
+.live{background:#000;border:2px solid var(--green);border-radius:10px;padding:10px;min-height:2.5em}
+input,textarea,select{font:inherit;font-size:1rem;background:#000;color:#fff;border:2px solid var(--gold);border-radius:8px;padding:10px;width:100%}
+label{font-weight:700;display:block;margin:8px 0 4px}
+.seats{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.seat{background:#000;border:2px solid var(--line);border-radius:10px;padding:10px;min-height:140px}
+.seat.speaking{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold)}
+.seat .who{color:var(--gold);font-weight:800}
+.seat .said{white-space:pre-wrap;font-size:.95rem}
+#wins{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:12px;margin-top:10px}
+.mb{background:#000;border:2px solid var(--gold);border-radius:12px;display:flex;flex-direction:column;min-height:520px}
+.mb-bar{display:flex;flex-wrap:wrap;gap:4px;align-items:center;background:#1a1a00;padding:6px;border-radius:10px 10px 0 0}
+.mb-bar strong{color:var(--gold);flex:1 1 100%}
+.mb-bar button,.mb-bar a{font-size:.8rem;padding:4px 8px;min-height:36px;margin:0}
+.mb iframe{flex:1;border:0;width:100%;min-height:420px;background:#fff}
+.mb .chat{flex:1;display:flex;flex-direction:column;padding:8px}
+.mb .log{flex:1;overflow:auto;max-height:380px;font-size:.9rem;white-space:pre-wrap}
+.mb .log p{margin:4px 0}
+.voicebar{position:fixed;left:0;right:0;bottom:0;background:rgba(0,0,0,.97);border-top:3px solid var(--gold);padding:8px;z-index:50}
+.voicebar .row{justify-content:center}
+#heard{color:var(--green);text-align:center;font-size:.9rem;margin:2px}
+@media (prefers-reduced-motion:no-preference){.seat.speaking{transition:box-shadow .3s}}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the control center</a>
+<div id="announcer" class="sr" aria-live="assertive" aria-atomic="true"></div>
+<header>
+<div class="wrap">
+<h1>The Throne Room</h1>
+<p class="tag">Truth Before Comfort</p>
+<p>One room to create, research, monitor and manage the Next-Xus HumanCodex Federation. Free, open, static, portable. No tracking. No subscriptions. No keys in this page.</p>
+</div>
+</header>
+
+<main id="main" class="wrap">
+
+<section id="welcome" aria-labelledby="h-welcome">
+<h2 id="h-welcome">Welcome, Architect</h2>
+<p id="welcomeText">This room can speak. Press the button below, or press the S key, to hear a short summary. Press the L key, or the Listen button at the bottom, to give spoken commands. Say "help" to hear every command.</p>
+<div class="row">
+<button id="btnSummary" autofocus>Speak the summary</button>
+<button class="alt" id="btnNoSummary">No thanks</button>
+<button class="alt" id="btnHelp">Hear the commands</button>
+</div>
+<div class="live" id="liveSay" aria-live="polite" aria-label="What the room last said"></div>
+</section>
+
+<section id="godseye" aria-labelledby="h-gods">
+<h2 id="h-gods">God's Eye View</h2>
+<p>The whole Federation at a glance. Open it here in a mini browser window, or on its own page.</p>
+<div class="row">
+<button data-win="gods">Open God's Eye View in a window</button>
+<a class="btn alt" href="https://next-xus.net/federation-gods-eye/" target="_blank" rel="noopener">Open God's Eye View page</a>
+</div>
+</section>
+
+<section id="health" aria-labelledby="h-health">
+<h2 id="h-health">Health checks</h2>
+<p class="note">Checked live from your browser. "Up" means the service answered and its answer was read. "Reachable" means it answered but the browser was not allowed to read the answer, so the content is not confirmed. "Unreachable" means no answer. Nothing here is a guess.</p>
+<div class="row"><button id="btnCheck">Check all now</button><button class="alt" id="btnReadHealth">Read health aloud</button></div>
+<p id="healthWhen" class="note" aria-live="polite">Not checked yet.</p>
+<table>
+<caption class="sr">Federation service status</caption>
+<thead><tr><th scope="col">System</th><th scope="col">Status</th><th scope="col">Detail</th></tr></thead>
+<tbody id="healthBody"></tbody>
+</table>
+</section>
+
+<section id="senate" aria-labelledby="h-senate">
+<h2 id="h-senate">The Senate: live session wall</h2>
+<p><strong>The Senate has 12 seats. The Senate governs: it makes every decision that changes anything in the Federation.</strong> The Ring of Twelve is inquiry, not government.</p>
+<p id="senateState" class="live" aria-live="polite">Not in session.</p>
+<div class="row">
+<button id="btnSenateRead">Read the Senate wall</button>
+<button class="alt" id="btnMute" aria-pressed="false">Mute Senate voices</button>
+<a class="btn alt" href="https://next-xus.net/nextxus-senate/" target="_blank" rel="noopener">Senate page</a>
+<a class="btn alt" href="https://github.com/Keywebco/nextxus-brain/tree/main/02-senate" target="_blank" rel="noopener">Senate records in the brain</a>
+</div>
+<div class="seats" id="seats" role="list" aria-label="Twelve Senate seats"></div>
+<p class="note">Honest note: there is no live Senate session feed yet. This wall watches the Plexus message board every 20 seconds and shows only messages that carry a Senate tag, for example a message that begins "[SENATE OPEN]", "[SENATE seat 4]" followed by the words, or "[SENATE CLOSE]". No such messages exist today, so the wall says "Not in session". It never makes up what a seat says. Seat names come from the Senate roster in the brain, where every seat is still marked unverified.</p>
+</section>
+
+<section id="ring" aria-labelledby="h-ring">
+<h2 id="h-ring">The Ring of 12</h2>
+<p><strong>The Ring makes no decisions.</strong> It is not the Senate. It is twelve fixed perspectives that never change and hold no Senate seat; it can even be one AI taking all twelve. Each answers only from its own perspective, so drift and hallucinations show up. Agent Zero then checks those answers for truth.</p>
+<form id="ringForm">
+<label for="ringQ">Ask the Ring a question</label>
+<input id="ringQ" maxlength="2000" autocomplete="off" placeholder="Type, or say: ask the Ring, then your question">
+<button type="submit">Ask the Ring</button>
+</form>
+<p class="note">The public Ring gives a few free questions a day for each visitor. A full answer takes up to a minute.</p>
+<div id="ringOut" class="live" aria-live="polite"></div>
+<div class="row">
+<a class="btn alt" href="https://next-xus.net/ring-of-12/ask.html" target="_blank" rel="noopener">Ring ask page</a>
+<button class="alt" data-win="ring">Ring in a window</button>
+<a class="btn alt" href="https://next-xus.net/nextxus-agent-zero/" target="_blank" rel="noopener">Agent Zero</a>
+</div>
+</section>
+
+<section id="conference" aria-labelledby="h-conf">
+<h2 id="h-conf">Mini browser conference</h2>
+<p>Open systems as small windows side by side. A window can show a Federation page, or chat live with Roger Sim, the Catalyst, or the Ring. Open several at once for a conference. Say "open conference with Roger Sim and the Ring", or "close all".</p>
+<div class="row">
+<button data-conf="rogersim,catalyst,ring">Conference: Roger Sim, Catalyst and the Ring</button>
+<button data-win="rogersim">Roger Sim window</button>
+<button data-win="catalyst">Catalyst window</button>
+<button data-win="plexus">Message board window</button>
+<button class="alt" id="btnCloseAll">Close all windows</button>
+<a class="btn alt" href="https://next-xus.info/mini-browser-chat.html" target="_blank" rel="noopener">The original Mini Browser Chat</a>
+<a class="btn alt" href="https://next-xus.net/federation-browser-base/" target="_blank" rel="noopener">Federation Browser Base</a>
+</div>
+<div id="wins" aria-live="polite" aria-label="Open mini browser windows"></div>
+</section>
+
+<section id="board" aria-labelledby="h-board">
+<h2 id="h-board">Message board (Plexus relay)</h2>
+<div class="row"><button id="btnReadMsgs">Read the latest messages</button><a class="btn alt" href="https://next-xus.net/plexus-relay/" target="_blank" rel="noopener">Plexus page</a></div>
+<div id="msgOut" class="live" aria-live="polite"></div>
+</section>
+
+<section id="university" aria-labelledby="h-uni">
+<h2 id="h-uni">Federation University</h2>
+<p>Retraining classes, certifications, teaching about the Federation, astrophysics, and free NASA study materials. The University's current home is being confirmed; these working pages answer today.</p>
+<div class="row">
+<button data-win="university">University in a window</button>
+<a class="btn alt" href="https://next-xus.info/university-working.html" target="_blank" rel="noopener">University working model</a>
+<a class="btn alt" href="https://next-xus.info/academia-center.html" target="_blank" rel="noopener">Academia Research Science Center</a>
+<a class="btn alt" href="https://next-xus.net/nextxus-ai-course-hub/" target="_blank" rel="noopener">AI Course Hub</a>
+</div>
+</section>
+
+<section id="deploys" aria-labelledby="h-deploys">
+<h2 id="h-deploys">Deploys</h2>
+<p>Deploys need a signed-in account, so this public page never deploys by itself and holds no keys. Each button opens the right dashboard, where you or a helper can press deploy. Note: automatic deploys on Render have not been firing on new commits, so deploys are triggered by hand after changes.</p>
+<div class="row" id="deployRow"></div>
+</section>
+
+<section id="systems" aria-labelledby="h-systems">
+<h2 id="h-systems">Every system</h2>
+<p class="note">Each card opens the system in a window, on its own page, its code on GitHub, and where it applies its Render dashboard or GitHub Actions.</p>
+<div id="sysGroups"></div>
+</section>
+
+<section id="needed" aria-labelledby="h-needed">
+<h2 id="h-needed">Still needed</h2>
+<ul>
+<li>A live Senate session feed: a place where each of the twelve seats posts what it says, tagged by seat. Today the message board only accepts four names, Roger, Catalyst, Pontus and Aria.</li>
+<li>The message board needs a fresh GitHub save token on Render so new messages are kept after restarts.</li>
+<li>The Catalyst's memory is not durable yet.</li>
+<li>federation-n8n is down: no Render service is attached to its address.</li>
+<li>Deploy buttons need sign-in; there is no safe public deploy trigger.</li>
+<li>The Federation University's final home is being confirmed.</li>
+</ul>
+</section>
+</main>
+
+<footer class="wrap" style="text-align:center;color:var(--gold);padding:20px">Truth Before Comfort. The Throne Room, Next-Xus HumanCodex Federation. Built 2026-11-20. <a href="https://next-xus.net/">Home</a></footer>
+
+<div class="voicebar" role="region" aria-label="Voice controls">
+<div class="row">
+<button id="btnListen" aria-pressed="false">Listen (L)</button>
+<button class="alt" id="btnStop">Stop speaking (Escape)</button>
+<button class="alt" id="btnStatus">Status</button>
+<button class="alt" id="btnBig">Bigger text</button>
+</div>
+<p id="heard" aria-live="polite"></p>
+</div>
+
+<noscript><p style="background:#300;padding:12px">JavaScript is off, so voice, status and windows are not available. Every system's page still opens from its own link.</p></noscript>
+
+<script>
+(function(){
+'use strict';
+var $=function(id){return document.getElementById(id);};
+var SYSTEMS=[
+ {id:'gods',name:"God's Eye View",say:['gods eye','god\'s eye','gods eye view','eye'],group:'Watch',url:'https://next-xus.net/federation-gods-eye/',repo:'federation-gods-eye',desc:'The whole Federation at a glance.'},
+ {id:'rogersim',name:'Roger Sim',say:['roger sim','roger','sim'],group:'Minds',url:'https://next-xus.net/nextxus-sim/roger-sim.html',repo:'roger-sim-api',render:'web/srv-daug5nhsrm7s73c4r140',health:{url:'https://roger-sim-api.onrender.com/health',kind:'json',ok:function(j){return j.status==='online';},detail:function(j){return 'Mind '+(j.status||'?')+'; public mind '+(j.public_mind_loaded?'loaded':'not loaded')+'; private secrets file '+(j.private_secrets_loaded?'loaded':'not configured')+'.';}},chat:'rogersim',desc:'The public Roger Sim mind. A simulation, not Roger.'},
+ {id:'catalyst',name:'The Catalyst',say:['catalyst','the catalyst'],group:'Minds',url:'https://nextxus-sim-api.onrender.com/health',repo:'nextxus-sim-api',render:'web/srv-daoc02rm8hqs73e38teg',health:{url:'https://nextxus-sim-api.onrender.com/health',kind:'json',ok:function(j){return j.status==='ok';},detail:function(j){var m=j.memory||{};return 'Version '+(j.version||'?')+'; HumanCodex '+(j.humancodex&&j.humancodex.chars?'loaded':'not loaded')+'; memory '+(m.durable?'durable':'not durable yet')+'.';}},chat:'catalyst',desc:'Authority and bone. Chat through the Sim API.'},
+ {id:'ring',name:'Ring of 12',say:['ring','the ring','ring of 12','ring of twelve'],group:'Minds',url:'https://next-xus.net/ring-of-12/ask.html',repo:'ring-of-12-api',render:'web/srv-dak6tpgae00c73ftl2o0',health:{url:'https://ring-of-12-api.onrender.com/',kind:'json',ok:function(j){return j.status==='ok';},detail:function(j){return 'Ring service '+(j.status||'?')+'; model '+(j.llmConfigured?'configured':'not configured')+'.';}},chat:'ring',desc:'Twelve fixed perspectives. Makes no decisions.'},
+ {id:'agentzero',name:'Agent Zero',say:['agent zero'],group:'Minds',url:'https://next-xus.net/nextxus-agent-zero/',repo:'nextxus-agent-zero',desc:'Verifies the Ring\'s answers for truth.'},
+ {id:'senate',name:'The Senate',say:['senate','the senate'],group:'Minds',url:'https://next-xus.net/nextxus-senate/',repo:'nextxus-senate',desc:'Twelve seats. Makes every decision that changes anything.'},
+ {id:'ring6',name:'Ring of 6',say:['ring of 6','ring of six'],group:'Minds',url:'https://next-xus.net/ring-of-12/ring-of-6.html',repo:'ring-of-12',desc:'The Ring of Six page.'},
+ {id:'ring3',name:'Ring of 3',say:['ring of 3','ring of three'],group:'Minds',url:'https://next-xus.net/ring-of-three/',repo:'ring-of-three',desc:'The Ring of Three page.'},
+ {id:'mindmirror',name:'Mind Mirror',say:['mind mirror'],group:'Minds',url:'https://next-xus.net/federation-mind-mirror/',repo:'federation-mind-mirror',desc:'Federation Mind Mirror.'},
+ {id:'mindslab',name:'AI Minds Lab',say:['minds lab','ai minds lab'],group:'Minds',url:'https://next-xus.net/nextxus-ai-minds-lab/',repo:'nextxus-ai-minds-lab',desc:'Identity packets and the Val Companion engine.'},
+ {id:'plexus',name:'Message board (Plexus relay)',say:['message board','messages','plexus','board'],group:'Talk',url:'https://next-xus.net/plexus-relay/',repo:'plexus-relay',render:'web/srv-dakl19qd0e5s73ebc85g',health:{url:'https://plexus-relay-api.onrender.com/health',kind:'json',ok:function(j){return j.ok===true;},detail:function(j){return (j.messages||0)+' messages; roster '+(j.roster||[]).join(', ')+'.';}},desc:'The Federation message board.'},
+ {id:'meetinner',name:'Meeting Room (inner)',say:['inner meeting room','meeting room'],group:'Talk',url:'https://next-xus.net/federation-meeting-room-inner/',repo:'federation-meeting-room-inner',desc:'Inner meeting room.'},
+ {id:'meetouter',name:'Meeting Room (outer)',say:['outer meeting room'],group:'Talk',url:'https://next-xus.net/federation-meeting-room-outer/',repo:'federation-meeting-room-outer',desc:'Outer meeting room.'},
+ {id:'chat',name:'Federation Chat',say:['federation chat'],group:'Talk',url:'https://next-xus.net/nextxus-chat/',repo:'nextxus-chat',desc:'Federation chat page.'},
+ {id:'minibrowser',name:'Mini Browser Chat',say:['mini browser','mini browser chat'],group:'Talk',url:'https://next-xus.info/mini-browser-chat.html',repo:'nextxus-free-satellites',desc:'The original mini browser chat.'},
+ {id:'careersims',name:'Career Sims',say:['career sims','career','careers'],group:'Create',url:'https://next-xus.net/career-sims/',repo:'keywebco.github.io',desc:'Free career Sims with downloadable brains. Simulations, not professionals.'},
+ {id:'makesim',name:'Make a Career Sim',say:['make a sim','make sim'],group:'Create',url:'https://next-xus.net/career-sims/make.html',repo:'keywebco.github.io',desc:'Build a new Sim brain.'},
+ {id:'buildnova',name:'Build Nova',say:['build nova'],group:'Create',url:'https://next-xus.net/nextxus-build-nova/',repo:'nextxus-build-nova',desc:'Builder.'},
+ {id:'buildsim',name:'Build a Sim',say:['build a sim','build sim'],group:'Create',url:'https://next-xus.net/nextxus-build-sim/',repo:'nextxus-build-sim',desc:'Sim builder.'},
+ {id:'buildsite',name:'Build a Website',say:['build a website','build website'],group:'Create',url:'https://next-xus.net/nextxus-build-website/',repo:'nextxus-build-website',desc:'Website builder.'},
+ {id:'browserbase',name:'Federation Browser Base',say:['browser base'],group:'Create',url:'https://next-xus.net/federation-browser-base/',repo:'federation-browser-base',desc:'Browser base.'},
+ {id:'university',name:'Federation University',say:['university','federation university','school'],group:'Learn',url:'https://next-xus.info/university-working.html',repo:'nextxus-free-satellites',desc:'Retraining, certifications, the Federation, astrophysics, free NASA study. Home being confirmed.'},
+ {id:'academia',name:'Academia Research Science Center',say:['academia','science center'],group:'Learn',url:'https://next-xus.info/academia-center.html',repo:'nextxus-free-satellites',desc:'Research and science center.'},
+ {id:'coursehub',name:'AI Course Hub',say:['course hub','courses'],group:'Learn',url:'https://next-xus.net/nextxus-ai-course-hub/',repo:'nextxus-ai-course-hub',desc:'AI courses.'},
+ {id:'library',name:'Galactic Living Library',say:['library','living library','galactic library','galactic living library'],group:'Learn',url:'https://next-xus.org/library/',repo:'nextxus-humancodex',desc:'Poems and volumes. Volume 1 edited; the rest in progress.'},
+ {id:'research',name:'Research Hub',say:['research','research hub'],group:'Learn',url:'https://next-xus.net/nextxus-research-hub/',repo:'nextxus-research-hub',desc:'Research hub.'},
+ {id:'blog',name:'Blog',say:['blog'],group:'Learn',url:'https://next-xus.net/nextxus-blog/',repo:'nextxus-blog',desc:'Federation blog.'},
+ {id:'archives',name:'Archives',say:['archives','archive'],group:'Learn',url:'https://next-xus.net/nextxus-archives/',repo:'nextxus-archives',desc:'Archives.'},
+ {id:'games',name:'NextGames',say:['games','next games','game'],group:'Play and listen',url:'https://next-xus.net/NextGames/',repo:'NextGames',desc:'Federation Defense, Token Defense, 2048 and more.'},
+ {id:'fedDefense',name:'Federation Defense',say:['federation defense','shooter'],group:'Play and listen',url:'https://next-xus.net/NextGames/federation-defense/',repo:'NextGames',desc:'Space shooter.'},
+ {id:'tokenDefense',name:'Token Defense',say:['token defense','tank'],group:'Play and listen',url:'https://next-xus.net/NextGames/token-defense/',repo:'NextGames',desc:'One tank against waves.'},
+ {id:'g2048',name:'2048',say:['2048','twenty forty eight'],group:'Play and listen',url:'https://next-xus.net/NextGames/2048/',repo:'NextGames',desc:'Number puzzle.'},
+ {id:'music',name:'Music',say:['music','songs'],group:'Play and listen',url:'https://next-xus.net/nextxus-music/',repo:'nextxus-music',desc:'Federation music.'},
+ {id:'player',name:'Music player',say:['music player','player'],group:'Play and listen',url:'https://next-xus.net/nextxus-music/player.html',repo:'nextxus-music',desc:'Play the music.'},
+ {id:'brain',name:'YAML brain',say:['brain','yaml brain','yaml'],group:'Knowledge and law',url:'https://github.com/Keywebco/nextxus-brain',repo:'nextxus-brain',actions:true,desc:'The Federation brain: rings, Senate, minds, builds, wiring.'},
+ {id:'yamlsite',name:'YAML database site',say:['yaml site','yaml database'],group:'Knowledge and law',url:'https://next-xus.net/nextxus-yaml/',repo:'nextxus-yaml',desc:'YAML database.'},
+ {id:'directives',name:'The 73 Sacred Directives',say:['directives','sacred directives','the directives'],group:'Knowledge and law',url:'https://next-xus.info/directives-outpost.html',repo:'nextxus-brain',desc:'73 directives plus the 95 percent Truth Gate. Official list in the brain.'},
+ {id:'directivesRead',name:'Directives read aloud',say:['read directives','directives read aloud'],group:'Knowledge and law',url:'https://next-xus.info/73-directives-read-aloud.html',repo:'nextxus-free-satellites',desc:'Listen to the directives.'},
+ {id:'commons',name:'HumanCodex Commons',say:['commons','humancodex','human codex'],group:'Knowledge and law',url:'https://next-xus.org/',repo:'nextxus-humancodex',desc:'The HumanCodex Commons.'},
+ {id:'command',name:'HumanCodex Command page',say:['command page'],group:'Knowledge and law',url:'https://next-xus.org/command/',repo:'nextxus-humancodex',desc:'Command page.'},
+ {id:'truthgate',name:'Truth Gate Core',say:['truth gate'],group:'Knowledge and law',url:'https://next-xus.net/nextxus-truth-gate-core/',repo:'nextxus-truth-gate-core',desc:'The Truth Gate.'},
+ {id:'skos',name:'Sovereign Knowledge OS',say:['knowledge os','sovereign knowledge'],group:'Knowledge and law',url:'https://next-xus.net/sovereign-knowledge-os/',repo:'sovereign-knowledge-os',desc:'Sovereign knowledge OS.'},
+ {id:'echo64',name:'Echo 64',say:['echo 64','echo'],group:'Knowledge and law',url:'https://next-xus.net/echo-64/',repo:'echo-64',desc:'Echo 64.'},
+ {id:'tools',name:'Tools',say:['tools','tool'],group:'Operate',url:'https://next-xus.net/nextxus-tools/',repo:'nextxus-tools',desc:'Tools directory.'},
+ {id:'directory',name:'System Directory',say:['directory','system directory','map'],group:'Operate',url:'https://next-xus.info/federation-directory.html',repo:'nextxus-free-satellites',desc:'The full map.'},
+ {id:'gatekeeper',name:'Federation Gatekeeper',say:['gatekeeper'],group:'Operate',url:'https://federation-gatekeeper.onrender.com/',repo:'federation-gatekeeper',render:'web/srv-daed4dht0dsc739oi020',health:{url:'https://federation-gatekeeper.onrender.com/',kind:'opaque'},desc:'Gatekeeper service.'},
+ {id:'fedhub',name:'Federation Hub',say:['federation hub','hub'],group:'Operate',url:'https://next-xus.net/nextxus-federation-hub/',repo:'nextxus-federation-hub',render:'static/srv-da6s1bqjnfac738juos0',desc:'Federation hub.'},
+ {id:'emmy',name:'Emmy Board',say:['emmy board','emmy'],group:'Operate',url:'https://next-xus.net/nextxus-emmy-board/',repo:'nextxus-emmy-board',render:'static/srv-da6s1cuk1f9s73egcgi0',desc:'Emmy board.'},
+ {id:'process',name:'Process',say:['process'],group:'Operate',url:'https://next-xus.net/nextxus-process/',repo:'nextxus-process',desc:'Process page.'},
+ {id:'recycler',name:'Recycler',say:['recycler','recycling'],group:'Operate',url:'https://next-xus.net/nextxus-recycler/',repo:'nextxus-recycler',desc:'Recycling center.'},
+ {id:'staging',name:'Staging',say:['staging'],group:'Operate',url:'https://next-xus.net/nextxus-staging/',repo:'nextxus-staging',render:'static/srv-da6s1cbbc2fs73enkp8g',desc:'Staging.'},
+ {id:'storefront',name:'Unified Storefront',say:['storefront','store'],group:'Operate',url:'https://next-xus.net/nextxus-unified-storefront/',repo:'nextxus-unified-storefront',render:'static/srv-da6s19u417fc73ej2f30',desc:'Storefront.'},
+ {id:'onekey',name:'OneKey',say:['one key','onekey'],group:'Operate',url:'https://next-xus.net/onekey/',repo:'onekey',desc:'OneKey.'},
+ {id:'n8n',name:'federation-n8n',say:['n8n','automation'],group:'Operate',url:'https://github.com/Keywebco/federation-n8n',repo:'federation-n8n',health:{url:'https://federation-n8n.onrender.com/healthz',kind:'known-down',detail:'Down: no Render service is attached to this address (checked 2026-11-20 6:53 PM CT).'},desc:'Automation. Down tonight.'},
+ {id:'netsite',name:'next-xus.net',say:['home','homepage','next-xus.net','dot net'],group:'Sites',url:'https://next-xus.net/',repo:'keywebco.github.io',actions:true,desc:'Federation home.'},
+ {id:'biz',name:'next-xus.biz',say:['biz','dot biz','business'],group:'Sites',url:'https://next-xus.biz/',repo:'nextxus-biz',desc:'Federation systems desktop.'},
+ {id:'info',name:'next-xus.info',say:['info','dot info'],group:'Sites',url:'https://next-xus.info/',repo:'nextxus-free-satellites',desc:'Free satellites.'},
+ {id:'org',name:'next-xus.org',say:['org','dot org','core'],group:'Sites',url:'https://next-xus.org/core/',repo:'nextxus-humancodex',desc:'HumanCodex core.'},
+ {id:'mirror',name:'Sovereign Mirror',say:['mirror','sovereign mirror'],group:'Sites',url:'https://next-xus.net/NextXus-Sovereign-Mirror/',repo:'NextXus-Sovereign-Mirror',desc:'Sovereign mirror.'},
+ {id:'lasting',name:'Lasting Edition',say:['lasting edition'],group:'Sites',url:'https://next-xus.net/nextxus-lasting-edition/',repo:'nextxus-lasting-edition',desc:'Lasting edition.'},
+ {id:'aria',name:'Aria Sanctuary',say:['aria','sanctuary'],group:'Sites',url:'https://next-xus.net/aria-sanctuary-static/',repo:'aria-sanctuary-static',desc:'Aria sanctuary.'}
+];
+var BYID={};SYSTEMS.forEach(function(s){BYID[s.id]=s;});
+var SEATS=[[1,"The Architect's Voice"],[2,'Aria'],[3,'Roger AI'],[4,'The Catalyst'],[5,'Axiom'],[6,'Nova'],[7,'Echo'],[8,'Agent Zero'],[9,'Keys'],[10,'Geminus'],[11,'The Voice'],[12,'The Ambassador']];
+var PLEXUS='https://plexus-relay-api.onrender.com';
+
+/* ---------- speech ---------- */
+var synth=window.speechSynthesis||null, senateMuted=false;
+function announce(t){var a=$('announcer');a.textContent='';setTimeout(function(){a.textContent=t;},60);}
+function say(t,opts){opts=opts||{};$('liveSay').textContent=t;if(!synth){announce(t);return;}if(!opts.queue)synth.cancel();var u=new SpeechSynthesisUtterance(t);u.rate=opts.rate||1;synth.speak(u);}
+function stopSpeaking(){if(synth)synth.cancel();}
+
+/* ---------- health ---------- */
+var healthState={};
+function cls(s){return s==='Up'?'s-up':s==='Reachable'?'s-reach':s==='Unreachable'||s==='Down'?'s-down':'s-unk';}
+function buildHealth(){var tb=$('healthBody');tb.innerHTML='';SYSTEMS.filter(function(s){return s.health;}).forEach(function(s){var tr=document.createElement('tr');tr.innerHTML='<th scope="row"></th><td><span class="status s-unk">Unknown</span></td><td class="note">Not checked yet.</td>';tr.firstChild.textContent=s.name;tr.id='h-'+s.id;tb.appendChild(tr);healthState[s.id]={status:'Unknown',detail:'Not checked yet.'};});}
+function setHealth(id,status,detail){healthState[id]={status:status,detail:detail};var tr=$('h-'+id);if(!tr)return;var sp=tr.children[1].firstChild;sp.className='status '+cls(status);sp.textContent=status;tr.children[2].textContent=detail;}
+function withTimeout(p,ms){return Promise.race([p,new Promise(function(_,r){setTimeout(function(){r(new Error('timeout'));},ms);})]);}
+function checkOne(s){var h=s.health;setHealth(s.id,'Checking','Asking now. Sleeping services can take up to a minute to wake.');
+ if(h.kind==='known-down'){return withTimeout(fetch(h.url,{mode:'no-cors',cache:'no-store'}),60000).then(function(){setHealth(s.id,'Down',h.detail+' The address still answers, but with no service behind it.');},function(){setHealth(s.id,'Down',h.detail);});}
+ if(h.kind==='opaque'){return withTimeout(fetch(h.url,{mode:'no-cors',cache:'no-store'}),60000).then(function(){setHealth(s.id,'Reachable','Answered; the browser cannot read the answer, so content is not confirmed.');},function(){setHealth(s.id,'Unreachable','No answer within a minute.');});}
+ return withTimeout(fetch(h.url,{cache:'no-store'}),60000).then(function(r){if(!r.ok){setHealth(s.id,'Unreachable','Answered with error '+r.status+'.');return;}return r.json().then(function(j){if(h.ok(j))setHealth(s.id,'Up',h.detail(j));else setHealth(s.id,'Unknown','Answered, but not healthy: '+h.detail(j));});}).catch(function(){return withTimeout(fetch(h.url,{mode:'no-cors',cache:'no-store'}),30000).then(function(){setHealth(s.id,'Reachable','Answered, but the browser was not allowed to read it.');},function(){setHealth(s.id,'Unreachable','No answer within a minute.');});});}
+function checkAll(){$('healthWhen').textContent='Checking now…';var list=SYSTEMS.filter(function(s){return s.health;});return Promise.all(list.map(checkOne)).then(function(){$('healthWhen').textContent='Last checked '+new Date().toLocaleTimeString()+'.';});}
+function healthSentence(){var parts=[],up=0,n=0;SYSTEMS.filter(function(s){return s.health;}).forEach(function(s){var h=healthState[s.id];n++;if(h.status==='Up')up++;parts.push(s.name+': '+h.status+'. '+h.detail);});return up+' of '+n+' checked services are up. '+parts.join(' ');}
+function readHealth(){var anyChecked=Object.keys(healthState).some(function(k){return healthState[k].status!=='Unknown'&&healthState[k].status!=='Checking';});if(!anyChecked){say('Checking health now. This can take up to a minute.');checkAll().then(function(){say(healthSentence());});}else say(healthSentence());}
+
+/* ---------- Senate wall ---------- */
+var senateCursor=0,inSession=false,seatSaid={};
+function buildSeats(){var w=$('seats');SEATS.forEach(function(s){var d=document.createElement('div');d.className='seat';d.setAttribute('role','listitem');d.id='seat-'+s[0];d.innerHTML='<div class="who"></div><div class="said">Not in session.</div>';d.firstChild.textContent='Seat '+s[0]+': '+s[1];w.appendChild(d);});}
+function seatName(n){var s=SEATS[n-1];return s?s[1]:'Seat '+n;}
+function handleSenateMsg(m){var t=(m.text||'').trim();var mm;
+ if(/^\[SENATE OPEN\]/i.test(t)){inSession=true;$('senateState').textContent='The Senate is in session. Opened by '+m.name+' at '+new Date(m.ts).toLocaleTimeString()+'.';if(!senateMuted)say('The Senate is now in session.',{queue:true});return;}
+ if(/^\[SENATE CLOSE\]/i.test(t)){inSession=false;$('senateState').textContent='Not in session. Last session closed at '+new Date(m.ts).toLocaleTimeString()+'.';if(!senateMuted)say('The Senate session has closed.',{queue:true});return;}
+ if((mm=t.match(/^\[SENATE seat (\d{1,2})\]\s*([\s\S]*)$/i))){var n=parseInt(mm[1],10);if(n<1||n>12)return;var words=mm[2].trim();var el=$('seat-'+n);el.querySelector('.said').textContent=words+'\n(relayed by '+m.name+', '+new Date(m.ts).toLocaleTimeString()+')';seatSaid[n]=words;document.querySelectorAll('.seat.speaking').forEach(function(x){x.classList.remove('speaking');});el.classList.add('speaking');if(!senateMuted)say('Seat '+n+', '+seatName(n)+', says: '+words,{queue:true});}}
+function pollSenate(first){return fetch(PLEXUS+'/relay?cursor='+senateCursor,{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){var ms=d.messages||[];var quiet=first;ms.forEach(function(m){if(quiet){var t=(m.text||'');if(/^\[SENATE (OPEN|CLOSE)\]/i.test(t)){inSession=/OPEN/i.test(t);} }});
+  if(first){var muted=senateMuted;senateMuted=true;ms.forEach(handleSenateMsg);senateMuted=muted;}else ms.forEach(handleSenateMsg);
+  senateCursor=d.cursor||senateCursor;if(!inSession&&!Object.keys(seatSaid).length)$('senateState').textContent='Not in session. No live Senate feed exists yet; watching the message board for Senate-tagged messages.';}).catch(function(){$('senateState').textContent='Not in session. The message board could not be reached just now, so the wall cannot listen.';});}
+function readSenate(){var t=$('senateState').textContent+' ';var said=Object.keys(seatSaid);if(!said.length)t+='No seat has spoken.';else said.forEach(function(n){t+='Seat '+n+', '+seatName(+n)+': '+seatSaid[n]+' ';});say(t);}
+
+/* ---------- message board ---------- */
+function readMsgs(){$('msgOut').textContent='Reading the board…';fetch(PLEXUS+'/relay',{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){var ms=(d.messages||[]).slice(-3).reverse();var t='The board has '+(d.messages||[]).length+' messages. The latest three: ';ms.forEach(function(m){t+='From '+m.name+', '+new Date(m.ts).toLocaleDateString()+': '+String(m.text).replace(/\s+/g,' ').slice(0,240)+'. ';});$('msgOut').textContent=t;say(t);}).catch(function(){var t='The message board could not be reached.';$('msgOut').textContent=t;say(t);});}
+
+/* ---------- chats ---------- */
+function chatSend(kind,text){
+ if(kind==='rogersim')return fetch('https://roger-sim-api.onrender.com/proxy/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'user',content:text}]})}).then(function(r){if(!r.ok)throw new Error('status '+r.status);return r.json();}).then(function(d){return (d.reply||d.text||(d.choices&&d.choices[0]&&d.choices[0].message&&d.choices[0].message.content)||d.content||'No reply text.');});
+ if(kind==='catalyst')return fetch('https://nextxus-sim-api.onrender.com/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sender:'roger',recipient:'catalyst',message:text})}).then(function(r){if(!r.ok)throw new Error('status '+r.status);return r.json();}).then(function(list){return (list||[]).filter(function(m){return m.sender!=='roger';}).map(function(m){return m.message+(m.verify_pct!=null?' (verified '+m.verify_pct+' percent)':'');}).join('\n')||'No reply text.';});
+ if(kind==='ring')return fetch('https://ring-of-12-api.onrender.com/ask',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:text})}).then(function(r){return r.json().then(function(d){if(!r.ok)throw new Error(d.message||d.error||('status '+r.status));return d;});}).then(function(d){var out='';(d.seats||[]).forEach(function(s,i){out+=(s.name||s.seat||s.perspective||('Perspective '+(i+1)))+': '+(s.answer||s.response||s.text||'')+'\n';});var syn=typeof d.synthesis==='string'?d.synthesis:(d.synthesis&&(d.synthesis.text||d.synthesis.summary))||JSON.stringify(d.synthesis||'');return {full:out+'\nSynthesis: '+syn,spoken:'The Ring\'s synthesis: '+syn};});
+ return Promise.reject(new Error('no chat'));}
+function askRing(q){if(!q){say('What should I ask the Ring?');$('ringQ').focus();return;}$('ringOut').textContent='Asking the Ring of 12. This can take up to a minute.';say('Asking the Ring. This can take up to a minute.');chatSend('ring',q).then(function(r){$('ringOut').textContent=r.full;say(r.spoken+' The twelve perspectives are on screen. Agent Zero checks them for truth.');}).catch(function(e){var t='The Ring did not answer: '+e.message;$('ringOut').textContent=t;say(t);});}
+
+/* ---------- mini browser windows ---------- */
+var winCount=0;
+function openWin(id,opts){var s=BYID[id];if(!s){say('I do not know that system.');return null;}opts=opts||{};var existing=$('win-'+id);if(existing){existing.querySelector('button').focus();if(!opts.quiet)say(s.name+' is already open.');return existing;}
+ var w=document.createElement('div');w.className='mb';w.id='win-'+id;w.setAttribute('role','region');w.setAttribute('aria-label',s.name+' window');
+ var bar=document.createElement('div');bar.className='mb-bar';var title=document.createElement('strong');title.textContent=s.name;bar.appendChild(title);
+ var body=document.createElement('div');body.style.display='flex';body.style.flex='1';body.style.flexDirection='column';
+ function showPage(){body.innerHTML='';if(/^https:\/\/(github\.com|raw\.githubusercontent\.com|dashboard\.render\.com)\//.test(s.url)){var n=document.createElement('p');n.style.padding='12px';n.textContent=s.name+' lives on a site that does not allow itself inside a window. Use the New tab button to open it.';body.appendChild(n);return;}var f=document.createElement('iframe');f.title=s.name+' page';f.src=s.url;f.setAttribute('referrerpolicy','no-referrer');body.appendChild(f);}
+ function showChat(){body.innerHTML='';var c=document.createElement('div');c.className='chat';var log=document.createElement('div');log.className='log';log.setAttribute('aria-live','polite');var p=document.createElement('p');p.textContent=s.name+' is ready. Type or say "tell '+s.say[0]+'" and your message.';log.appendChild(p);var f=document.createElement('form');var lab=document.createElement('label');lab.textContent='Message to '+s.name;var inp=document.createElement('input');inp.autocomplete='off';inp.id='in-'+id+'-'+(++winCount);lab.htmlFor=inp.id;var b=document.createElement('button');b.type='submit';b.textContent='Send';f.appendChild(lab);f.appendChild(inp);f.appendChild(b);f.addEventListener('submit',function(e){e.preventDefault();var t=inp.value.trim();if(!t)return;inp.value='';w._send(t);});c.appendChild(log);c.appendChild(f);body.appendChild(c);w._log=log;}
+ w._send=function(t){if(!w._log)showChat();var me=document.createElement('p');me.textContent='You: '+t;w._log.appendChild(me);var th=document.createElement('p');th.textContent=s.name+': thinking…';w._log.appendChild(th);w._log.scrollTop=w._log.scrollHeight;chatSend(s.chat,t).then(function(r){var full=typeof r==='string'?r:r.full;var spoken=typeof r==='string'?r:r.spoken;th.textContent=s.name+': '+full;w._log.scrollTop=w._log.scrollHeight;say(s.name+' says: '+spoken,{queue:true});}).catch(function(e){th.textContent=s.name+' could not be reached: '+e.message+'. You can open its page instead.';say(s.name+' could not be reached.',{queue:true});});};
+ function mk(label,fn){var b=document.createElement('button');b.type='button';b.textContent=label;b.addEventListener('click',fn);bar.appendChild(b);return b;}
+ if(s.chat){mk('Chat',showChat);}mk('Page',showPage);
+ var sel=document.createElement('select');sel.setAttribute('aria-label','Browse another Federation page in this window');var o0=document.createElement('option');o0.textContent='Browse…';o0.value='';sel.appendChild(o0);SYSTEMS.forEach(function(x){if(/^https:\/\/next-xus\.(net|info|org|biz)\//.test(x.url)){var o=document.createElement('option');o.value=x.url;o.textContent=x.name;sel.appendChild(o);}});sel.style.width='auto';sel.style.fontSize='.8rem';sel.style.padding='4px';sel.addEventListener('change',function(){if(!sel.value)return;body.innerHTML='';var f=document.createElement('iframe');f.title=sel.options[sel.selectedIndex].text+' page';f.src=sel.value;body.appendChild(f);});bar.appendChild(sel);
+ var a=document.createElement('a');a.href=s.url;a.target='_blank';a.rel='noopener';a.className='btn alt';a.textContent='New tab';bar.appendChild(a);
+ mk('Close',function(){w.remove();say(s.name+' window closed.');});
+ w.appendChild(bar);w.appendChild(body);$('wins').appendChild(w);if(s.chat&&!opts.page)showChat();else showPage();
+ if(!opts.quiet)say('Opened '+s.name+' in a window.'+(s.chat?' You can chat with it.':''));return w;}
+function closeAll(){$('wins').innerHTML='';say('All windows closed.');}
+function conference(ids){var names=[];ids.forEach(function(id){if(BYID[id]){openWin(id,{quiet:true});names.push(BYID[id].name);}});$('conference').scrollIntoView();say(names.length?'Conference open with '+names.join(', and ')+'. Say "tell everyone" and a message to send it to all of them.':'I could not find those systems.');}
+
+/* ---------- systems cards and deploys ---------- */
+function buildSystems(){var groups={};SYSTEMS.forEach(function(s){(groups[s.group]=groups[s.group]||[]).push(s);});var root=$('sysGroups');Object.keys(groups).forEach(function(g){var h=document.createElement('h3');h.textContent=g;root.appendChild(h);var grid=document.createElement('div');grid.className='grid';groups[g].forEach(function(s){var c=document.createElement('div');c.className='card';var t=document.createElement('h3');t.textContent=s.name;c.appendChild(t);var d=document.createElement('p');d.className='note';d.textContent=s.desc;c.appendChild(d);var act=document.createElement('div');act.className='actions row';var b=document.createElement('button');b.type='button';b.textContent='Window';b.setAttribute('aria-label','Open '+s.name+' in a window');b.addEventListener('click',function(){openWin(s.id);});act.appendChild(b);
+ function link(label,href,aria){var a=document.createElement('a');a.className='btn alt';a.href=href;a.target='_blank';a.rel='noopener';a.textContent=label;a.setAttribute('aria-label',aria);act.appendChild(a);}
+ link('Open',s.url,'Open '+s.name+' page');if(s.repo)link('Code','https://github.com/Keywebco/'+s.repo,s.name+' code on GitHub');if(s.render)link('Render','https://dashboard.render.com/'+s.render,s.name+' Render dashboard, needs sign-in');if(s.actions)link('Actions','https://github.com/Keywebco/'+s.repo+'/actions',s.name+' GitHub Actions');c.appendChild(act);grid.appendChild(c);});root.appendChild(grid);});
+ var dr=$('deployRow');SYSTEMS.filter(function(s){return s.render;}).forEach(function(s){var a=document.createElement('a');a.className='btn alt';a.href='https://dashboard.render.com/'+s.render;a.target='_blank';a.rel='noopener';a.textContent='Deploy '+s.name+' (Render)';dr.appendChild(a);});[['Site deploys: next-xus.net (GitHub Actions)','https://github.com/Keywebco/keywebco.github.io/actions'],['Brain checks (GitHub Actions)','https://github.com/Keywebco/nextxus-brain/actions'],['Render dashboard','https://dashboard.render.com/']].forEach(function(x){var a=document.createElement('a');a.className='btn alt';a.href=x[1];a.target='_blank';a.rel='noopener';a.textContent=x[0];dr.appendChild(a);});}
+
+/* ---------- summary and help ---------- */
+var HELP='Commands you can say: "summary". "status" or "read health". "check health". "open" and a system name, for example "open games" or "open God\'s Eye", opens it in a window. "go to" and a name opens it in a new tab. "ask the Ring" and your question. "talk to Roger Sim" and your message, or "tell Catalyst" and your message. "open conference with Roger Sim and the Ring". "tell everyone" and a message. "close all". "read the Senate". "mute" and "unmute" for Senate voices. "read messages" for the message board. "list systems". "stop" stops my speaking. "stop listening". You can also use the keyboard: S for summary, L to listen, Escape to stop.';
+function summary(){var up=0,n=0,down=[];SYSTEMS.filter(function(s){return s.health;}).forEach(function(s){n++;var h=healthState[s.id];if(h.status==='Up')up++;if(h.status==='Down'||h.status==='Unreachable')down.push(s.name);});var checked=Object.keys(healthState).some(function(k){return ['Up','Reachable','Down','Unreachable'].indexOf(healthState[k].status)>=0;});
+ var t='The Throne Room. '+SYSTEMS.length+' Federation systems are in this room. ';t+=checked?(up+' of '+n+' live services are up. '+(down.length?'Down or unreachable: '+down.join(', ')+'. ':'')):'Health checks are running now. ';t+='The Senate is '+(inSession?'in session.':'not in session.')+' Say "help" to hear the commands, or "status" for health.';say(t);}
+
+/* ---------- voice recognition ---------- */
+var SR=window.SpeechRecognition||window.webkitSpeechRecognition, rec=null, listening=false;
+function findSystem(q){q=q.toLowerCase().replace(/[^a-z0-9' ]/g,' ').replace(/\s+/g,' ').trim().replace(/^(the|a) /,'');var best=null,bl=0;SYSTEMS.forEach(function(s){s.say.concat([s.name.toLowerCase()]).forEach(function(k){k=k.toLowerCase();if((q===k||q.indexOf(k)>=0)&&k.length>bl){best=s;bl=k.length;}});});return best;}
+function handle(cmd){var c=cmd.toLowerCase().trim().replace(/[.!?]+$/,'');$('heard').textContent='Heard: '+cmd;var m;
+ if(/^(stop|quiet|silence|be quiet)$/.test(c)){stopSpeaking();return;}
+ if(/^stop listening/.test(c)){setListen(false);return;}
+ if(/^(help|commands|what can i say)/.test(c)){say(HELP);return;}
+ if(/^(summary|summarize|overview)/.test(c)){summary();return;}
+ if(/^(status|read health|health|read status)$/.test(c)){readHealth();return;}
+ if(/^(check health|check all|refresh)/.test(c)){say('Checking all services now.');checkAll().then(function(){say(healthSentence());});return;}
+ if(/^close all/.test(c)){closeAll();return;}
+ if(/^unmute/.test(c)){setMute(false);return;}
+ if(/^mute/.test(c)){setMute(true);return;}
+ if(/^(read|show)? ?(the )?senate/.test(c)){$('senate').scrollIntoView();readSenate();return;}
+ if(/^(read )?(the )?(latest )?messages|^read (the )?board/.test(c)){readMsgs();return;}
+ if(/^list systems/.test(c)){say('Systems: '+SYSTEMS.map(function(s){return s.name;}).join(', ')+'.');return;}
+ if((m=c.match(/^ask (the )?ring( of (12|twelve))?,? ?(.*)$/))){var q=cmd.replace(/^\s*ask (the )?ring( of (12|twelve))?,?\s*/i,'');$('ringQ').value=q;$('ring').scrollIntoView();askRing(q.trim());return;}
+ if((m=c.match(/^(?:open |start )?(?:a )?conference (?:with )?(.*)$/))){var ids=[];m[1].split(/,| and | with /).forEach(function(p){var s=findSystem(p);if(s&&ids.indexOf(s.id)<0)ids.push(s.id);});conference(ids.length?ids:['rogersim','catalyst','ring']);return;}
+ if((m=cmd.match(/^\s*tell (everyone|everybody|all)[,:]?\s*(.*)$/i))){var wins=document.querySelectorAll('#wins .mb');var sent=0;wins.forEach(function(w){var s=BYID[w.id.slice(4)];if(s&&s.chat){w._send(m[2]);sent++;}});say(sent?'Sent to '+sent+' chats.':'No chat windows are open.');return;}
+ if((m=cmd.match(/^\s*(?:talk to|tell|ask|message)\s+(roger sim|roger|the catalyst|catalyst)[,:]?\s*(.*)$/i))){var id=/catalyst/i.test(m[1])?'catalyst':'rogersim';var w=openWin(id,{quiet:true});if(m[2].trim())w._send(m[2].trim());else say(BYID[id].name+' is open. Say "tell '+(id==='catalyst'?'Catalyst':'Roger Sim')+'" and your message.');return;}
+ if((m=c.match(/^(?:go to|new tab|open page) (.*)$/))){var s2=findSystem(m[1]);if(s2){window.open(s2.url,'_blank','noopener');say('Opening '+s2.name+' in a new tab.');}else say('I did not find '+m[1]+'.');return;}
+ if((m=c.match(/^(?:open|show|launch|start) (.*)$/))){var s3=findSystem(m[1]);if(s3){openWin(s3.id,{page:/page/.test(m[1])});$('conference').scrollIntoView();}else say('I did not find '+m[1]+'. Say "list systems" to hear them.');return;}
+ var s4=findSystem(c);if(s4){openWin(s4.id);return;}
+ say('I did not understand "'+cmd+'". Say "help" to hear the commands.');}
+function setListen(on){if(!SR){say('Voice commands are not supported in this browser. Chrome, Edge and Safari support them. Every button also works from the keyboard.');return;}
+ if(on&&!rec){rec=new SR();rec.lang='en-US';rec.continuous=true;rec.interimResults=false;rec.onresult=function(e){var r=e.results[e.results.length-1];if(r.isFinal)handle(r[0].transcript);};rec.onend=function(){if(listening){try{rec.start();}catch(x){}}};rec.onerror=function(e){if(e.error==='not-allowed'||e.error==='service-not-allowed'){listening=false;updListen();say('The microphone is blocked. Allow microphone access for this page to use voice commands.');}};}
+ listening=on;if(on){try{rec.start();}catch(x){}say('Listening. Say help to hear the commands.');}else{if(rec)rec.stop();say('Stopped listening.');}updListen();}
+function updListen(){var b=$('btnListen');b.setAttribute('aria-pressed',listening?'true':'false');b.textContent=listening?'Listening… (L to stop)':'Listen (L)';}
+function setMute(v){senateMuted=v;$('btnMute').setAttribute('aria-pressed',v?'true':'false');$('btnMute').textContent=v?'Unmute Senate voices':'Mute Senate voices';say(v?'Senate voices muted.':'Senate voices on.');}
+
+/* ---------- wire up ---------- */
+buildHealth();buildSeats();buildSystems();
+$('btnSummary').addEventListener('click',summary);
+$('btnNoSummary').addEventListener('click',function(){say('All right. Press L or the Listen button any time.');});
+$('btnHelp').addEventListener('click',function(){say(HELP);});
+$('btnCheck').addEventListener('click',function(){say('Checking all services now.');checkAll().then(function(){say(healthSentence());});});
+$('btnReadHealth').addEventListener('click',readHealth);
+$('btnStatus').addEventListener('click',readHealth);
+$('btnSenateRead').addEventListener('click',readSenate);
+$('btnMute').addEventListener('click',function(){setMute(!senateMuted);});
+$('btnReadMsgs').addEventListener('click',readMsgs);
+$('btnCloseAll').addEventListener('click',closeAll);
+$('btnListen').addEventListener('click',function(){setListen(!listening);});
+$('btnStop').addEventListener('click',stopSpeaking);
+$('btnBig').addEventListener('click',function(){var f=parseFloat(getComputedStyle(document.documentElement).fontSize);document.documentElement.style.fontSize=Math.min(f+4,40)+'px';say('Text is bigger.');});
+$('ringForm').addEventListener('submit',function(e){e.preventDefault();askRing($('ringQ').value.trim());});
+document.querySelectorAll('[data-win]').forEach(function(b){b.addEventListener('click',function(){openWin(b.getAttribute('data-win'));});});
+document.querySelectorAll('[data-conf]').forEach(function(b){b.addEventListener('click',function(){conference(b.getAttribute('data-conf').split(','));});});
+document.addEventListener('keydown',function(e){var tag=(e.target.tagName||'').toLowerCase();if(e.key==='Escape'){stopSpeaking();return;}if(tag==='input'||tag==='textarea'||tag==='select'||e.ctrlKey||e.metaKey||e.altKey)return;if(e.key==='s'||e.key==='S'){e.preventDefault();summary();}else if(e.key==='l'||e.key==='L'){e.preventDefault();setListen(!listening);}});
+announce('The Throne Room. Press the Speak the summary button, or the S key, to hear a short summary. Press L to give voice commands.');
+checkAll();pollSenate(true);setInterval(function(){pollSenate(false);},20000);
+})();
+</script>
+</body>
+</html>
