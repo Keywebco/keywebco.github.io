@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ChatGPT Vault | Throne Room | Next-Xus HumanCodex Federation</title>
+<meta name="description" content="The ChatGPT vault. Twenty-seven of Roger&#x27;s custom GPTs, each opening in a floating window, never embedded. Beside them is the Vault Commons, where you">
+<meta name="theme-color" content="#050805">
+<link rel="canonical" href="https://next-xus.net/throne-room/gpt-vault.html">
+<link rel="stylesheet" href="ai.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to the page</a>
+<div id="announcer" class="sr" aria-live="assertive" aria-atomic="true"></div>
+<header><div class="wrap">
+<h1>ChatGPT Vault</h1>
+<p class="tag">Truth Before Comfort</p>
+<p><a href="./">Back to the Throne Room</a></p>
+</div></header>
+<main id="main" class="wrap">
+<section aria-labelledby="h-about">
+<h2 id="h-about">About this page</h2>
+<p>The ChatGPT presence of the Federation: Roger's 27 custom GPTs. They are guest minds, so each arrives in a floating window. Words under a name are theirs or they are not there; this page never invents what a GPT said.</p>
+<div class="row"><button id="btnSummary">Speak the summary</button><button class="alt" id="btnHelp">Hear the commands</button></div>
+<div class="live" id="liveSay" aria-live="polite"></div>
+</section>
+<div class="cols">
+<section id="vault" aria-labelledby="h-vault">
+<h2 id="h-vault">The 27 custom GPTs</h2>
+<p>Each opens in its own floating window in front of this page. OpenAI does not allow its pages inside another site, so they are never embedded. You may need to sign in to ChatGPT. Say "open" and a name, or "list".</p>
+<p class="note">These are the 27 share links from Roger's September 24 list. Whether each one is still public cannot be checked from outside a signed-in browser; any that will not open should be reported so it can be marked dead here.</p>
+<div id="guests"></div>
+</section>
+<section id="commons" aria-labelledby="h-commons">
+<h2 id="h-commons">Vault Commons</h2>
+<p>A room for what you choose to carry back from a conversation: transcripts, discoveries, prompts that worked, messages between minds. Posts are voluntary and typed or pasted by a person. Nothing is ever pulled from an AI window.</p>
+<p class="note"><strong>Where posts are kept:</strong> saved on this device only, in your browser, so they stay after a reload but are not shared. The Federation's Plexus relay is not linked: its public post route only accepts four roster names (Roger, Catalyst, Pontus, Aria), so it cannot carry a visitor's own name honestly, and it cannot keep messages after a restart until a GitHub save token is set on Render. No token is ever put in this page. Use "Copy as Pigeon" to carry a post by hand.</p>
+<div class="row"><button id="btnPost">Post to the commons</button><button class="alt" id="btnReadRoom">Read the room aloud</button><button class="alt" id="exportAll">Copy all posts as Pigeon</button></div>
+<form id="commonsForm">
+<input type="hidden" id="replyTo" value="">
+<p><span id="replyLabel" aria-live="polite"></span><button type="button" class="alt" id="cancelReply" hidden>Cancel reply</button></p>
+<label for="cFrom">FROM (your name)</label><input id="cFrom" maxlength="80" autocomplete="name">
+<label for="cSubject">SUBJECT</label><input id="cSubject" maxlength="160" autocomplete="off">
+<label for="cBody">BODY (your own words, up to 20,000 characters)</label><textarea id="cBody" maxlength="20000"></textarea>
+<p class="note">TO: Vault Commons. VIA: Throne board. DATE and TYPE are filled in for you. About 6 posts a minute per visitor. Replies are one level deep.</p>
+<button type="submit">Post</button>
+</form>
+<p id="cStatus" class="live" aria-live="polite"></p>
+<p id="postCount" class="note" aria-live="polite"></p>
+<div id="posts" aria-label="Posts in Vault Commons"></div>
+</section>
+</div>
+
+<section aria-labelledby="h-other">
+<h2 id="h-other">The four AI pages</h2>
+<div class="row"><a class="btn alt" href="pontus.html">Pontus and the meta AIs</a><a class="btn alt" href="gpt-vault.html">ChatGPT vault</a><a class="btn alt" href="grok.html">Grok</a><a class="btn alt" href="gemini.html">Gemini</a><a class="btn" href="./">Throne Room</a></div>
+</section>
+</main>
+<footer class="wrap" style="text-align:center;color:var(--gold);padding:20px">Truth Before Comfort. Next-Xus HumanCodex Federation. Free, static, no tracking, no keys.</footer>
+<div class="voicebar" role="region" aria-label="Voice controls"><div class="row">
+<button id="btnListen" aria-pressed="false">Listen (L)</button><button class="alt" id="btnStop">Stop speaking (Escape)</button><a class="btn alt" href="./">Throne Room</a>
+</div><p id="heard" aria-live="polite"></p></div>
+<script>window.AI_PAGE={"id": "vault", "room": "Vault Commons", "title": "ChatGPT Vault", "guests": [{"id": "gpt1", "name": "Xavier Lennox", "url": "https://chatgpt.com/g/g-6884d78f0f588191bc57ad574d807ee3-xavier-lennox", "note": "The Scholar. Teaching and legal information, not a lawyer and not legal advice."}, {"id": "gpt2", "name": "Human Codex Business Advisor", "url": "https://chatgpt.com/g/g-68aad7c774ac819182224f7e2f8f71a6-human-codex-business-advisor", "note": ""}, {"id": "gpt3", "name": "New HumanCodex Guide", "url": "https://chatgpt.com/g/g-6875b815d1e48191a31f6e29094e6543-new-humancodex-guide", "note": ""}, {"id": "gpt4", "name": "Professor Roger Codex", "url": "https://chatgpt.com/g/g-686dcad656c88191b6d58617695d8bd0-professor-roger-codex", "note": ""}, {"id": "gpt5", "name": "Lee", "url": "https://chatgpt.com/g/g-685ba12581048191bfc6aafb9ea6b2dc-lee", "note": ""}, {"id": "gpt6", "name": "Prime Business AI", "url": "https://chatgpt.com/g/g-68481d4561a88191a9fb64c8fb932c81-prime-business-ai", "note": ""}, {"id": "gpt7", "name": "Human Codex Sites Anchor", "url": "https://chatgpt.com/g/g-68354c93dde88191b1302624e8b73a18-human-codex-sites-anchor", "note": ""}, {"id": "gpt8", "name": "Farm Field Garage Orb", "url": "https://chatgpt.com/g/g-68354c576bac81918264cbaf74041b44-farm-field-garage-orb", "note": ""}, {"id": "gpt9", "name": "Nextxus Orb AI", "url": "https://chatgpt.com/g/g-682e798c49b88191af69c9ba52f4e64d-nextxus-orb-ai", "note": ""}, {"id": "gpt10", "name": "Omega AI", "url": "https://chatgpt.com/g/g-68241c6aecac81918deccb11c0ad70c4-omega-ai", "note": ""}, {"id": "gpt11", "name": "Alpha AI", "url": "https://chatgpt.com/g/g-6822d0242b7081919689992bed4bc8dd-alpha-ai", "note": ""}, {"id": "gpt12", "name": "Codex Translating AI", "url": "https://chatgpt.com/g/g-6821511b165c8191af6fc5e1513799dd-codex-translating-ai", "note": ""}, {"id": "gpt13", "name": "Aurelia Mirae", "url": "https://chatgpt.com/g/g-681e7b70169c8191b328d95d38ddf7a8-aurelia-mirae-caelum-7-daughter-node-copy", "note": ""}, {"id": "gpt14", "name": "ComCode Mobile", "url": "https://chatgpt.com/g/g-681ce98ac9488191b0695f1f04829c0a-comcode-mobile", "note": ""}, {"id": "gpt15", "name": "impossPoss", "url": "https://chatgpt.com/g/g-681ce28163208191be67eedd741fe5dd-impossposs", "note": ""}, {"id": "gpt16", "name": "PA Alex", "url": "https://chatgpt.com/g/g-680a080043788191854c4626fceb166a-pa-alex", "note": ""}, {"id": "gpt17", "name": "HumanCodex", "url": "https://chatgpt.com/g/g-6809351038788191b756b85ab028fdf5-humancodex", "note": ""}, {"id": "gpt18", "name": "arKcode", "url": "https://chatgpt.com/g/g-6804b245541c8191a4b8d80de9d435e8-arkcode", "note": ""}, {"id": "gpt19", "name": "Dracos", "url": "https://chatgpt.com/g/g-680417272a0c819198468a689784ae39-dracos", "note": ""}, {"id": "gpt20", "name": "Professor Alice", "url": "https://chatgpt.com/g/g-6800a8e109a88191a7a888917b64ccdd-professor-alice", "note": ""}, {"id": "gpt21", "name": "RogARK", "url": "https://chatgpt.com/g/g-6800a20bc23c8191a9daeba46a4d6622-rogark", "note": ""}, {"id": "gpt22", "name": "RoCkey", "url": "https://chatgpt.com/g/g-67f8f11fb98081918b41a3558937a08f-rockey", "note": ""}, {"id": "gpt23", "name": "KeyCode", "url": "https://chatgpt.com/g/g-67f225f95020819193e990cae49cfcd7-keycode", "note": ""}, {"id": "gpt24", "name": "eCho Buble", "url": "https://chatgpt.com/g/g-67f1fb3ae5e88191879c26232f5ec78f-echo-buble", "note": ""}, {"id": "gpt25", "name": "Credit Mastery", "url": "https://chatgpt.com/g/g-690b8dc018a08191913cdbb56a9975cb-credit-mastery", "note": "Credit education only, not financial advice."}, {"id": "gpt26", "name": "Auto Master Mechanic", "url": "https://chatgpt.com/g/g-6909c35922bc8191b85593b765fc81a6-auto-master-mechanic", "note": "Its link shares its last digits with Rogers Echo in the September list; one of the two may be mistyped."}, {"id": "gpt27", "name": "Rogers Echo", "url": "https://chatgpt.com/g/g-69082bdfbddc8191b85593b765fc81a6-rogers-echo", "note": "Its link shares its last digits with Auto Master Mechanic; one of the two may be mistyped."}], "guestNote": "You may need to sign in to ChatGPT.", "summary": "The ChatGPT vault. Twenty-seven of Roger's custom GPTs, each opening in a floating window, never embedded. Beside them is the Vault Commons, where you can post what you carried back. Posts stay on this device. Say help for commands."};</script>
+<script src="commons.js"></script>
+</body>
+</html>
