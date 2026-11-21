@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Next-Xus Career Sims: free downloadable Sim brains</title>
+<meta name="description" content="Free career Sims from the Next-Xus HumanCodex Federation. Download a Sim brain as JSON or YAML, chat offline or with your own AI. Simulations, not professionals.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="hero"><div class="wrap">
+  <h1>Next-Xus Career Sims</h1>
+  <p>Free Sims of everyday careers. Each one has a small brain file you can download and keep, as JSON or YAML. Use it offline in any AI you already have, or chat with it here. Each brain follows the official 73 Sacred Directives and the 95% Truth Gate of the Next-Xus HumanCodex Federation, pinned by hash.</p>
+  <div class="btns" style="margin:10px 0 16px">
+    <a class="btn alt" href="make.html">Make your own Sim</a>
+    <a class="btn alt" href="catalog.json">Catalog (JSON)</a>
+    <a class="btn alt" href="schema/sim-brain.schema.json">Brain schema</a>
+    <a class="btn alt" href="https://next-xus.net/">Next-Xus home</a>
+  </div>
+</div></header>
+<main class="wrap">
+  <div class="notice" role="note"><strong>These are simulations, not professionals.</strong> A Career Sim is an AI playing a role for learning and practice. It can be wrong. It is not a licensed nurse, counselor, lawyer, accountant, electrician, or engineer, and it does not replace one. For real decisions, talk to a qualified human. In an emergency, call your local emergency number (911 in the U.S.; for a mental-health crisis in the U.S., call or text 988).</div>
+  <label for="q">Search the Sims</label>
+  <input type="search" id="q" placeholder="Type a career or topic, for example: nurse, budget, lesson" aria-controls="grid">
+  <p class="small" id="count" aria-live="polite">Loading the catalog…</p>
+  <div class="grid" id="grid"></div>
+  <section class="card" style="margin-bottom:30px">
+    <h2>How to use a brain offline</h2>
+    <p>Press <b>Copy ready prompt</b> on a Sim, then paste it as the first message (or the custom instructions) in any AI chat you already use, or in a local model on your own computer. The prompt includes the Sim's role, its safety rules, and the exact wording of the Truth Gate and its chosen directives from the official list. The <b>Download</b> buttons save the brain file itself, so you can keep it, share it, or load it into the chat page later.</p>
+    <p class="small" id="canon-status">Checking the pinned directives…</p>
+  </section>
+</main>
+<footer class="site"><div class="wrap">Next-Xus HumanCodex Federation · Career Sims, free and open · No accounts, no tracking, no payments · Brains stay on your device · Built on the AI Minds Lab companion engine</div></footer>
+<script src="assets/canon.js"></script>
+<script>
+"use strict";
+const grid = document.getElementById("grid"), q = document.getElementById("q"), countEl = document.getElementById("count");
+let sims = [], canon = null;
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+function draw(){
+  const t = q.value.trim().toLowerCase();
+  const list = sims.filter(s => !t || (s.name+" "+s.career_title+" "+s.summary+" "+s.scope.join(" ")).toLowerCase().includes(t));
+  grid.innerHTML = list.map(s => `
+    <article class="card" aria-labelledby="h-${s.id}">
+      <h2 id="h-${s.id}">${esc(s.name)}</h2>
+      <div><span class="tag">${esc(s.career_title)}</span>${s.safety_tier==="elevated"?`<span class="tag elevated">Extra safety rules (${esc(s.safety_domain)})</span>`:""}</div>
+      <p>${esc(s.summary)}</p>
+      <p class="small">Helps with: ${esc(s.scope.slice(0,4).join(", "))}.</p>
+      <div class="btns">
+        <a class="btn" href="sim.html?id=${encodeURIComponent(s.id)}">Open and chat</a>
+        <a class="btn alt" href="${esc(s.json)}" download="${esc(s.id)}-brain.json" aria-label="Download the ${esc(s.name)} brain as JSON">Download brain (JSON)</a>
+        <a class="btn alt" href="${esc(s.yaml)}" download="${esc(s.id)}-brain.yaml" aria-label="Download the ${esc(s.name)} brain as YAML">Download brain (YAML)</a>
+        <button class="alt" data-copy="${esc(s.id)}" aria-label="Copy a ready prompt for ${esc(s.name)}">Copy ready prompt</button>
+      </div>
+      <p class="small">SHA-256 (JSON): <code>${esc(s.json_sha256.slice(0,16))}…</code></p>
+    </article>`).join("");
+  countEl.textContent = list.length + " of " + sims.length + " Sims shown.";
+}
+grid.addEventListener("click", async e => {
+  const b = e.target.closest("button[data-copy]"); if (!b) return;
+  const s = sims.find(x => x.id === b.dataset.copy);
+  const brain = await (await fetch(s.json, {cache:"no-cache"})).json();
+  const ok = await NXCanon.copy(NXCanon.renderPrompt(brain, canon));
+  b.textContent = ok ? "Prompt copied" : "Copy failed: open the Sim and use its menu";
+  setTimeout(() => b.textContent = "Copy ready prompt", 2500);
+});
+q.addEventListener("input", draw);
+(async () => {
+  try { const c = await (await fetch("catalog.json", {cache:"no-cache"})).json(); sims = c.sims; draw(); }
+  catch (e) { countEl.textContent = "The catalog could not be loaded. Please reload the page."; }
+  try { canon = await NXCanon.load("./");
+    document.getElementById("canon-status").textContent = canon.verified
+      ? `Directives check: the official list (${canon.edition}, 73 directives plus DIR-000) matches its pinned hash at commit ${canon.pin.directives_commit.slice(0,7)}.`
+      : (canon.hashChecked ? "Directives check FAILED: the local copy does not match its pinned hash, so prompts will name directive IDs only." : "This browser cannot check hashes, so prompts name directive IDs only.");
+    if (!canon.verified) canon = null;
+  } catch (e) { document.getElementById("canon-status").textContent = "The pinned directives could not be loaded; prompts will name directive IDs only."; }
+})();
+</script>
+</body>
+</html>
