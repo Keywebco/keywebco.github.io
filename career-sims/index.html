@@ -45,7 +45,7 @@
 "use strict";
 const grid = document.getElementById("grid"), q = document.getElementById("q"), countEl = document.getElementById("count");
 let sims = [], canon = null;
-function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"""}[c]));}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&"+"amp;","<":"&"+"lt;",">":"&"+"gt;",'"':"&"+"quot;"}[c]));}
 function draw(){
   const t = q.value.trim().toLowerCase();
   const list = sims.filter(s => !t || (s.name+" "+s.career_title+" "+s.summary+" "+s.scope.join(" ")).toLowerCase().includes(t));
