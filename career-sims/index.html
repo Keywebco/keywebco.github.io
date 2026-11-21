@@ -4,8 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Next-Xus Career Sims: free downloadable Sim brains</title>
+<meta name="twitter:card" content="summary">
+<meta property="og:site_name" content="Next-Xus Federation">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://next-xus.net/career-sims/">
+<meta property="og:description" content="Free career Sims from the Next-Xus HumanCodex Federation. Download a Sim brain as JSON or YAML, chat offline or with your own AI. Simulations, not professionals.">
+<meta property="og:title" content="Next-Xus Career Sims: free downloadable Sim brains">
+<link rel="canonical" href="https://next-xus.net/career-sims/">
+<meta name="robots" content="index, follow">
 <meta name="description" content="Free career Sims from the Next-Xus HumanCodex Federation. Download a Sim brain as JSON or YAML, chat offline or with your own AI. Simulations, not professionals.">
 <link rel="stylesheet" href="assets/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Next-Xus Career Sims: free downloadable Sim brains","url":"https://next-xus.net/career-sims/","isPartOf":{"@type":"WebSite","name":"Next-Xus Federation","url":"https://next-xus.net/"}}</script>
 </head>
 <body>
 <header class="hero"><div class="wrap">
@@ -36,7 +45,7 @@
 "use strict";
 const grid = document.getElementById("grid"), q = document.getElementById("q"), countEl = document.getElementById("count");
 let sims = [], canon = null;
-function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"<",">":">",'"':"""}[c]));}
 function draw(){
   const t = q.value.trim().toLowerCase();
   const list = sims.filter(s => !t || (s.name+" "+s.career_title+" "+s.summary+" "+s.scope.join(" ")).toLowerCase().includes(t));
