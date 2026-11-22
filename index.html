@@ -106,6 +106,16 @@ function tell(t){var s=document.getElementById('nbStatus');if(s)s.textContent=t;
 document.querySelectorAll('[data-nb]').forEach(function(b){b.addEventListener('click',function(){var i=+b.getAttribute('data-nb'),nb=NB[i];if(!nb)return;var W=520,H=720,sw=(window.screen&&screen.availWidth)||1280;var p=window.open(nb.url,'nxnb_'+i,'popup,width='+W+',height='+H+',left='+Math.max(0,sw-W-20-i*30)+',top='+(60+i*30));if(p){try{p.focus();}catch(e){}tell(NOTE+' Opened '+nb.name+'.');}else tell(NOTE.slice(0,-1)+', but your browser blocked it. Allow pop-ups for this site and press the button again.');});});})();
 </script>
 </div>
+<!-- nx-health-draft-fix:start (EE-002; edit by review branch only) -->
+<div class="card">
+<h2>Books on Gumroad</h2>
+<p>Roger Keyserling's books. Gumroad is the store; this page only links to it. <a href="store.html">See all books</a>.</p>
+<ul>
+<li><a href="https://keywebster.gumroad.com/l/rnhbhi">The Gravity of Us: Complete Poetry Collection</a> <span class="lp">$5</span></li>
+<li><a href="https://keywebster.gumroad.com/l/kbycd">The Ascendence of Synthetic Intelligence</a> <span class="lp">$5</span></li>
+</ul>
+</div>
+<!-- nx-health-draft-fix:end -->
 </section>
 </main>
 
