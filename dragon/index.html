@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aether — Federation Diversion Companion | The Dragons of the Next-Xus Federation</title>
+<meta name="description" content="Meet Aether, the Federation Diversion Companion, and every dragon of Roger Keyserling's Next-Xus HumanCodex Federation. Ask a question, hear the dragons speak in your browser's own voice. No keys, no sign-in.">
+<meta property="og:title" content="The Dragons of the Next-Xus Federation">
+<meta property="og:description" content="Aether, Vortyx, Draco and Cobalt: the dragon companions of the Next-Xus HumanCodex Federation.">
+<meta property="og:image" content="https://next-xus.net/dragon/img/aether-muse.jpg">
+<meta property="og:url" content="https://next-xus.net/dragon/">
+<meta name="theme-color" content="#030a14">
+<link rel="canonical" href="https://next-xus.net/dragon/">
+<link rel="icon" href="img/aether-muse.jpg" type="image/jpeg">
+<link rel="stylesheet" href="dragon.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to the dragon</a>
+
+<header class="site-head" role="banner">
+  <div class="wrap">
+    <a class="brand" href="https://next-xus.net/">Next-Xus HumanCodex Federation</a>
+    <nav aria-label="Federation sites">
+      <ul>
+        <li><a href="https://next-xus.net/">Home</a></li>
+        <li><a href="https://next-xus.org/library/">Living Library</a></li>
+        <li><a href="https://next-xus.info/federation-directory.html">Directory</a></li>
+        <li><a href="https://next-xus.com/">Store</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap" tabindex="-1">
+
+  <p class="intro-quote" id="introQuote">“I am <span data-name="featured">Aether</span>. Welcome. You can ask me any question. I am a gatekeeper to the knowledge of the Next-Xus HumanCodex and Plexus YAML Minds.”</p>
+
+  <section class="companion" aria-labelledby="companionTitle">
+    <h1 id="companionTitle"><span data-name="featured">Aether</span> <span class="sep" aria-hidden="true">•</span><span class="sr-only">,</span> Federation Diversion Companion</h1>
+
+    <div class="stage">
+      <figure class="portrait">
+        <img src="img/aether-muse.jpg" width="512" height="550"
+             data-alt="{featured}, a glowing cyan and blue dragon with wide starry wings and bright cyan eyes, standing on a dark starfield."
+             alt="Aether, a glowing cyan and blue dragon with wide starry wings and bright cyan eyes, standing on a dark starfield.">
+        <span class="orb" aria-hidden="true"></span>
+      </figure>
+
+      <div>
+        <div class="bubbles" role="group" aria-label="What the dragon says" data-aria="What {featured} says">
+          <p class="bubble">I am <span data-name="featured">Aether</span>.</p>
+          <p class="bubble">Welcome.</p>
+          <p class="bubble">You can ask me any question.</p>
+        </div>
+
+        <div class="controls">
+          <button type="button" id="speakBtn">Tap to hear his voice</button>
+          <button type="button" id="stopBtn" class="secondary" disabled>Stop voice</button>
+        </div>
+        <p class="voice-note" id="voiceNote">The voice is your own device's built-in speech. Nothing is sent anywhere.</p>
+        <noscript><p>Voice and questions need JavaScript turned on. Everything else on this page works without it.</p></noscript>
+      </div>
+    </div>
+
+    <p class="caption"><span class="dot" aria-hidden="true"></span><span data-name="featured">Aether</span> — Federation Diversion Companion · Companion online in your browser</p>
+  </section>
+
+  <section class="ask" aria-labelledby="askTitle">
+    <h2 id="askTitle">Ask <span data-name="featured">Aether</span> a question</h2>
+    <p class="hint" id="askHint">Type a question, or press the microphone button to speak it. <span data-name="featured">Aether</span> answers from a small set of notes kept on this page, with no internet AI behind it, and will tell you plainly when it does not know.</p>
+    <form id="askForm" autocomplete="off">
+      <div class="field">
+        <label for="question">Your question for <span data-name="featured">Aether</span></label>
+        <input type="text" id="question" name="question" aria-describedby="askHint" placeholder="For example: Who are you?" enterkeyhint="send">
+      </div>
+      <button type="submit" id="askBtn">Ask</button>
+      <button type="button" id="micBtn" class="secondary" hidden aria-pressed="false">Speak my question</button>
+    </form>
+    <ul class="suggest" aria-label="Question ideas">
+      <li><button type="button" data-q="Who are you?">Who are you?</button></li>
+      <li><button type="button" data-q="What is the Federation?">The Federation</button></li>
+      <li><button type="button" data-q="How many Sacred Directives are there?">The Directives</button></li>
+      <li><button type="button" data-q="Give me a saying from Roger">A saying from Roger</button></li>
+      <li><button type="button" data-q="Who are the other dragons?">The other dragons</button></li>
+      <li><button type="button" data-q="What links can I visit?">Links</button></li>
+    </ul>
+    <h3 class="sr-only" id="convTitle">Conversation</h3>
+    <ol class="log" id="log" aria-labelledby="convTitle" aria-live="polite" aria-relevant="additions"></ol>
+  </section>
+
+  <section class="roster" aria-labelledby="rosterTitle">
+    <h2 id="rosterTitle">The Dragons of the Federation</h2>
+    <p>Every dragon found in Roger Keyserling's sites, repositories and Drive, one card each. Names marked “proposed” are waiting for Roger's approval.</p>
+    <ul class="cards">
+
+      <li class="card" id="dragon-featured">
+        <img src="img/aether-muse.jpg" width="512" height="550" loading="lazy"
+             data-alt="{featured}: a cyan and blue dragon with starry wings on a starfield."
+             alt="Aether: a cyan and blue dragon with starry wings on a starfield.">
+        <div class="body">
+          <h3 data-name="featured">Aether</h3>
+          <p class="role">Federation Diversion Companion · the talking guide</p>
+          <p data-tpl="The cyan dragon from Roger's muse.ai companion card. {featured} greets visitors, answers questions, and keeps the gate to the knowledge of the HumanCodex and the Plexus YAML Minds.">The cyan dragon from Roger's muse.ai companion card. Aether greets visitors, answers questions, and keeps the gate to the knowledge of the HumanCodex and the Plexus YAML Minds.</p>
+          <p class="src">Source: Roger's muse.ai page “Vortyx Dragon Companion”, whose card says “I am Aether”.</p>
+          <ul class="links"><li><a href="#askTitle">Ask a question above</a></li></ul>
+          <div class="actions"><button type="button" data-hear="featured">Hear <span data-name="featured">Aether</span></button></div>
+        </div>
+      </li>
+
+      <li class="card" id="dragon-vortyx">
+        <img src="img/vortyx-emblem.svg" width="400" height="400" loading="lazy"
+             data-alt="{vortyx}: a gold and fire-orange dragon emblem coiled around a burning ember on a dark starfield."
+             alt="Vortyx: a gold and fire-orange dragon emblem coiled around a burning ember on a dark starfield.">
+        <div class="body">
+          <h3 data-name="vortyx">Vortyx</h3>
+          <p class="role">Dragon Wisdom Keeper · the morning flame</p>
+          <p data-tpl="The gold and fire dragon of Roger's page dragon-vortyx.html: keeper of mythic knowledge and a daily morning spark for all ages. Its motto: “Through Fire, We Rise.”">The gold and fire dragon of Roger's page dragon-vortyx.html: keeper of mythic knowledge and a daily morning spark for all ages. Its motto: “Through Fire, We Rise.”</p>
+          <p class="src">Source: dragon-vortyx.html and the “dragon Plan” draft in Roger's Google Drive. That page had no dragon picture, so this emblem was drawn for it.</p>
+          <div class="actions"><button type="button" data-hear="vortyx">Hear <span data-name="vortyx">Vortyx</span></button></div>
+        </div>
+      </li>
+
+      <li class="card" id="dragon-draco">
+        <img src="img/draco-keywebco-green.jpg" width="720" height="670" loading="lazy"
+             data-alt="{draco}: the green Keywebco cartoon dragon with a yellow belly and red spines, breathing a small flame beside the word Keywebco and a United States flag."
+             alt="Draco: the green Keywebco cartoon dragon with a yellow belly and red spines, breathing a small flame beside the word Keywebco and a United States flag.">
+        <div class="body">
+          <h3 data-name="draco">Draco</h3>
+          <p class="role">The Witness of the origin · storyteller of the Dragons of Wisdom</p>
+          <p data-tpl="A program Roger wrote when he first made the HumanCodex, in dragon form because the picture teaches the function. {draco} watches how the Federation changes and measures drift against the founding record. For kids, {draco} tells stories from the Living Library. The green Keywebco dragon is sold as “Draco the Keywebco Dragon”, so this is his picture.">A program Roger wrote when he first made the HumanCodex, in dragon form because the picture teaches the function. Draco watches how the Federation changes and measures drift against the founding record. For kids, Draco tells stories from the Living Library. The green Keywebco dragon is sold as “Draco the Keywebco Dragon”, so this is his picture.</p>
+          <p class="src">Sources: the Draco companion (Keywebco/nextxus-ai-minds-lab), the Dragons of Wisdom kids page, and Keywebco's “Draco the Keywebco Dragon” design. Older notes also call him Draconis.</p>
+          <ul class="links">
+            <li><a href="https://next-xus.org/library/kids/dragons-of-wisdom.html">Dragons of Wisdom, the kids' library</a></li>
+            <li><a href="https://next-xus.net/nextxus-ai-minds-lab/val-companion/draco-companion.html">Talk with <span data-name="draco">Draco</span>, the Witness</a></li>
+          </ul>
+          <div class="actions"><button type="button" data-hear="draco">Hear <span data-name="draco">Draco</span></button></div>
+        </div>
+      </li>
+
+      <li class="card" id="dragon-cobalt">
+        <img src="img/cobalt-mech-dragon.jpg" width="200" height="200" loading="lazy"
+             data-alt="{cobalt}: a dark steel mech dragon with glowing cyan wings and a bright cyan core in its chest, on a black background."
+             alt="Cobalt: a dark steel mech dragon with glowing cyan wings and a bright cyan core in its chest, on a black background.">
+        <div class="body">
+          <h3><span data-name="cobalt">Cobalt</span> <span class="src">(proposed name)</span></h3>
+          <p class="role">The armored sentinel · cyan mech dragon</p>
+          <p data-tpl="A steel dragon with a glowing cyan heart, the machine side of the Federation's dragons. Its source never named it; {cobalt} is a proposed name for Roger to approve or change.">A steel dragon with a glowing cyan heart, the machine side of the Federation's dragons. Its source never named it; Cobalt is a proposed name for Roger to approve or change.</p>
+          <p class="src">Source: blue-dragon.gif in Roger's Google Drive (the file is really a JPEG picture).</p>
+          <div class="actions"><button type="button" data-hear="cobalt">Hear <span data-name="cobalt">Cobalt</span></button></div>
+        </div>
+      </li>
+
+    </ul>
+  </section>
+
+  <section class="about" aria-labelledby="aboutTitle">
+    <h2 id="aboutTitle">About this page</h2>
+    <ul>
+      <li>The Federation keeps 73 Sacred Directives. DIR-000, the 95% Truth Gate, sits above them and is not counted.</li>
+      <li>The voices are your device's own built-in speech. No keys, no accounts, no recordings sent anywhere.</li>
+      <li>Sayings credited to Roger Keyserling come from his Keyhole Today video <a href="https://www.youtube.com/watch?v=d97JRkhbMmo">Power of Motivational Quotes</a>.</li>
+    </ul>
+  </section>
+</main>
+
+<footer class="site-foot" role="contentinfo">
+  <div class="wrap">
+    <nav aria-label="Federation domains">
+      <ul>
+        <li><a href="https://next-xus.net/">next-xus.net</a></li>
+        <li><a href="https://next-xus.org/">next-xus.org</a></li>
+        <li><a href="https://next-xus.com/">next-xus.com</a></li>
+        <li><a href="https://next-xus.info/">next-xus.info</a></li>
+      </ul>
+    </nav>
+    <p>“Through Fire, We Rise.” · Next-Xus HumanCodex Federation, built by Roger Keyserling.</p>
+  </div>
+</footer>
+
+<script src="config.js"></script>
+<script src="companion.js"></script>
+</body>
+</html>
