@@ -1,0 +1,88 @@
+/* Next-Xus Federation shared theme. Free, static, no web fonts, no tracking.
+   Served from https://next-xus.net/federation-ui/theme.css
+   Tokens use the --nx- prefix and components use .nx- classes so they never
+   collide with a site's own styles. Add class="nx-theme" to <body> to opt in
+   to the shared page background, text colour and typography. */
+:root{
+  --nx-bg:#070d16;
+  --nx-bg-2:#0b1522;
+  --nx-surface:#0f1c2e;
+  --nx-surface-2:#14263d;
+  --nx-line:#2a4362;
+  --nx-text:#eef3f8;
+  --nx-dim:#c2cedb;
+  --nx-gold:#f2c14e;
+  --nx-gold-soft:#f7dc94;
+  --nx-on-gold:#111111;
+  --nx-link:#a9ddff;
+  --nx-focus:#ffe066;
+  --nx-ok:#5fd39a;
+  --nx-font:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --nx-radius:12px;
+  --nx-max:1100px;
+  --nx-s1:4px;--nx-s2:8px;--nx-s3:12px;--nx-s4:16px;--nx-s5:24px;--nx-s6:32px;--nx-s7:48px;
+}
+
+/* ---------- base (opt-in) ---------- */
+body.nx-theme{
+  margin:0;
+  background:var(--nx-bg);
+  background-image:radial-gradient(ellipse at 50% -10%,#10243d 0%,transparent 55%);
+  background-attachment:fixed;
+  color:var(--nx-text);
+  font-family:var(--nx-font);
+  -webkit-text-size-adjust:100%;
+  text-rendering:optimizeLegibility;
+}
+body.nx-theme img,body.nx-theme video{max-width:100%}
+.nx-theme :focus-visible{outline:3px solid var(--nx-focus);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){.nx-theme *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* ---------- reusable building blocks ---------- */
+.nx-wrap{max-width:var(--nx-max);margin:0 auto;padding:0 var(--nx-s5)}
+.nx-card{background:var(--nx-surface);border:1px solid var(--nx-line);border-radius:var(--nx-radius);padding:var(--nx-s5);margin:var(--nx-s4) 0}
+.nx-eyebrow{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--nx-dim);margin:0 0 var(--nx-s2)}
+.nx-btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--nx-s2);min-height:44px;padding:10px 18px;border-radius:10px;border:2px solid var(--nx-gold);background:var(--nx-gold);color:var(--nx-on-gold);font:700 16px/1.2 var(--nx-font);text-decoration:none;cursor:pointer}
+.nx-btn:hover{background:var(--nx-gold-soft);border-color:var(--nx-gold-soft)}
+.nx-btn--ghost{background:transparent;color:var(--nx-gold)}
+.nx-btn--ghost:hover{background:rgba(242,193,78,.12);color:var(--nx-gold-soft)}
+
+/* ---------- skip link ---------- */
+.nx-skip{position:absolute!important;left:-9999px;top:0;z-index:1000;background:var(--nx-focus);color:#000;padding:10px 16px;font:700 16px/1.2 var(--nx-font);border-radius:0 0 8px 0;text-decoration:none}
+a.nx-skip.nx-skip:focus,a.nx-skip.nx-skip:focus-visible{left:0;top:0;z-index:1000;background:var(--nx-focus);color:#000;padding:10px 16px;outline:3px solid #000;outline-offset:-3px}
+
+/* ---------- shared top bar ---------- */
+.nx-bar{position:relative;z-index:40;background:rgba(7,13,22,.97);border-bottom:1px solid var(--nx-line);font:16px/1.4 var(--nx-font);color:var(--nx-text);text-align:left;box-sizing:border-box;width:100%;margin:0}
+.nx-bar *,.nx-foot *{box-sizing:border-box}
+.nx-bar .nx-bar-inner{max-width:var(--nx-max);margin:0 auto;padding:10px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 24px}
+.nx-bar .nx-brand{display:inline-flex;align-items:center;gap:10px;color:var(--nx-text);text-decoration:none;font-weight:700;font-size:17px;letter-spacing:.01em;padding:6px 0;margin:0;white-space:nowrap}
+.nx-bar .nx-brand:hover{color:var(--nx-gold-soft)}
+.nx-bar .nx-mark{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;border:2px solid var(--nx-gold);color:var(--nx-gold);font-size:12px;font-weight:800;letter-spacing:0}
+.nx-bar .nx-links{display:flex;flex-wrap:wrap;gap:2px 4px;list-style:none;margin:0 0 0 auto;padding:0}
+.nx-bar .nx-links li{margin:0;padding:0;list-style:none}
+.nx-bar .nx-links a{display:inline-block;padding:8px 10px;border-radius:8px;color:var(--nx-dim);text-decoration:none;font-weight:600;font-size:16px;border-bottom:0;background:none}
+.nx-bar .nx-links a:hover{color:var(--nx-text);background:var(--nx-surface-2)}
+.nx-bar .nx-links a[aria-current="page"]{color:var(--nx-gold);box-shadow:inset 0 -2px 0 var(--nx-gold)}
+.nx-bar .nx-toggle{display:none;margin:0 0 0 auto;min-height:44px;min-width:44px;padding:8px 14px;border-radius:10px;border:2px solid var(--nx-line);background:var(--nx-surface);color:var(--nx-text);font:700 16px/1.2 var(--nx-font);cursor:pointer}
+.nx-bar .nx-toggle:hover{border-color:var(--nx-gold)}
+@media (max-width:760px){
+  .nx-bar .nx-bar-inner{padding:8px 14px}
+  .nx-bar.nx-js .nx-toggle{display:inline-flex;align-items:center;gap:8px}
+  .nx-bar.nx-js .nx-links{display:none;flex-basis:100%;flex-direction:column;margin:0;padding:4px 0 8px}
+  .nx-bar.nx-js.nx-open .nx-links{display:flex}
+  .nx-bar.nx-js .nx-links a{display:block;padding:12px 10px;font-size:17px}
+  .nx-bar:not(.nx-js) .nx-links{margin:0;flex-basis:100%}
+}
+
+/* ---------- shared footer ---------- */
+.nx-foot{margin:var(--nx-s7) 0 0;border-top:1px solid var(--nx-line);background:var(--nx-bg-2);color:var(--nx-dim);font:15px/1.6 var(--nx-font);text-align:left;clear:both}
+.nx-foot .nx-foot-inner{max-width:var(--nx-max);margin:0 auto;padding:28px 20px 32px;display:flex;flex-wrap:wrap;gap:16px 40px;justify-content:space-between}
+.nx-foot .nx-foot-brand{font-weight:700;color:var(--nx-text);margin:0 0 4px;font-size:16px}
+.nx-foot p{margin:0 0 4px}
+.nx-foot ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:4px 18px}
+.nx-foot li{margin:0;padding:0}
+.nx-foot a{color:var(--nx-link);text-decoration:underline;text-underline-offset:3px}
+.nx-foot a:hover{color:var(--nx-text)}
+.nx-foot .nx-foot-motto{color:var(--nx-gold-soft);font-style:italic}
+
+@media print{.nx-bar,.nx-foot,.nx-skip{display:none!important}}

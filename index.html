@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/federation-ui/theme.css">
 <title>NextXus HumanCodex Federation | Sovereign AI Architecture</title>
 <meta name="twitter:card" content="summary">
 <meta property="og:site_name" content="Next-Xus Federation">
@@ -45,16 +46,26 @@ h2{color:var(--green)}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Next-Xus Federation","url":"https://next-xus.net/","description":"Truth-first AI architecture. Games, music, Galactic Library, tools. Own your code. No subscriptions. No tracking.","publisher":{"@type":"Organization","name":"Next-Xus Federation","url":"https://next-xus.net/"}}</script>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style id="nx-align">
+/* Next-Xus shared theme alignment: maps this page onto federation-ui tokens. */
+body.nx-theme{--bg:var(--nx-bg,#070d16);--panel:var(--nx-surface,#0f1c2e);--line:var(--nx-line,#2a4362);--text:var(--nx-text,#eef3f8);--dim:var(--nx-dim,#c2cedb);--green:var(--nx-link,#a9ddff);--gold:var(--nx-gold,#f2c14e);font-size:19px}
+body.nx-theme header.hero{padding:48px 0 24px}
+body.nx-theme .hero h1{color:var(--nx-text,#eef3f8);letter-spacing:-.01em}
+body.nx-theme .hero p{color:var(--nx-dim,#c2cedb)}
+body.nx-theme h2{color:var(--nx-gold-soft,#f7dc94)}
+body.nx-theme .card{border-width:1px;border-radius:var(--nx-radius,12px)}
+body.nx-theme .btn{border-radius:10px;min-height:44px;color:var(--nx-on-gold,#111111)}
+body.nx-theme .btn.alt{color:var(--nx-gold,#f2c14e);border-width:2px}
+body.nx-theme .ai-greeting{max-width:none;margin:16px 0;border:1px solid var(--nx-gold,#f2c14e);border-radius:var(--nx-radius,12px);padding:18px 22px}
+body.nx-theme .ai-greeting h2{font-size:1.2rem;color:var(--nx-gold,#f2c14e)}
+body.nx-theme .ai-greeting .btn{margin-top:12px}
+body.nx-theme > footer{color:var(--nx-gold-soft,#f7dc94)!important}
+body.nx-theme .chat-panel{border-color:var(--nx-gold,#f2c14e);background:var(--nx-surface,#0f1c2e)}
+body.nx-theme .voice-bar{background:rgba(7,13,22,.97);border-top:1px solid var(--nx-gold,#f2c14e)}
+</style>
 </head>
-<body>
-<div class="ai-greeting">
-<div>
-<h2>Hello. I am the Federation Guide.</h2>
-<p>Ask me about this page, the games, music, Galactic Library, or how to own your code. Click Chat or use Voice below.</p>
-<button class="btn" id="openChat">Open Chat</button>
-</div>
-</div>
-
+<body class="nx-theme" data-nx-site="home">
+<noscript><div class="nx-bar"><nav class="nx-bar-inner" aria-label="Next-Xus Federation"><a class="nx-brand" href="https://next-xus.net/"><span class="nx-mark" aria-hidden="true">NX</span>Next-Xus Federation</a><ul class="nx-links"><li><a href="https://next-xus.net/" aria-current="page">Home</a></li><li><a href="https://next-xus.org/">Codex</a></li><li><a href="https://next-xus.net/dragon/">Dragons</a></li><li><a href="https://next-xus.net/nextxus-music/">Music</a></li><li><a href="https://next-xus.biz/">Business</a></li><li><a href="https://next-xus.info/">Info</a></li></ul></nav></div></noscript>
 <header class="hero">
 <div class="wrap">
 <h1>NextXus HumanCodex Federation</h1>
@@ -73,6 +84,13 @@ h2{color:var(--green)}
 
 <main>
 <section class="wrap">
+<div class="ai-greeting" role="region" aria-label="Federation Guide">
+<div>
+<h2>Hello. I am the Federation Guide.</h2>
+<p>Ask me about this page, the games, music, Galactic Library, or how to own your code. Click Chat or use Voice below.</p>
+<button class="btn" id="openChat">Open Chat</button>
+</div>
+</div>
 <div class="card">
 <h2>What lives here</h2>
 <p>Games, music, the Galactic Living Library (poems and volumes), tools, and sovereign mirrors — all free, all yours to own. Volume 1 of the library is edited; the remaining volumes are in progress.</p>
@@ -129,7 +147,7 @@ document.querySelectorAll('[data-nb]').forEach(function(b){b.addEventListener('c
 </div>
 </div>
 
-<div class="voice-bar">
+<div class="voice-bar" role="region" aria-label="Voice controls">
 <span id="voiceStatus">Voice off</span>
 <button id="btnEnable">Enable Voice</button>
 <button class="alt" id="btnThisPage" disabled>What’s on this page?</button>
@@ -320,5 +338,6 @@ document.getElementById('sendChat').onclick = async () => {
 };
 chatInput.onkeypress = e => { if (e.key === 'Enter') document.getElementById('sendChat').click(); };
 </script>
+<script src="/federation-ui/chrome.js" defer></script>
 </body>
 </html>
