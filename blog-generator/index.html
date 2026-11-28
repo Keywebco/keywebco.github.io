@@ -1,0 +1,1364 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:," />
+    <title>Blog Generator</title>
+    <meta name="description" content="Write a Federation blog post by talking or typing, with a named mind beside you, the truth gate before anything is publish-ready, and the finished post as a page — embed line, downloads, social captions and an RSS entry included." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@600;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #e8eef1;
+        --bg-deep: #d7e2e8;
+        --panel: #ffffff;
+        --panel-2: #f2f6f8;
+        --ink: #0b1a26;
+        --muted: #3c5568;
+        --teal: #0a6b78;
+        --teal-strong: #07525d;
+        --cyan: #0e7f96;
+        --gold: #8a5f0e;
+        --gold-bright: #b8860b;
+        --line: #b7c9d3;
+        --line-strong: #7e99a8;
+        --good: #14663a;
+        --warn: #8a5f0e;
+        --bad: #a11f2e;
+        --chip-fact: #0d5c34;
+        --chip-inf: #0a5a78;
+        --chip-assump: #7a4d05;
+        --chip-unk: #6d1f2c;
+        --focus: #b8860b;
+        --radius: 10px;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #05090f;
+          --bg-deep: #030509;
+          --panel: #0b1622;
+          --panel-2: #0e1d2e;
+          --ink: #eaf3f7;
+          --muted: #a9c2d0;
+          --teal: #2fd4e8;
+          --teal-strong: #7fe7f4;
+          --cyan: #38c6dd;
+          --gold: #e6ba45;
+          --gold-bright: #f0cd6d;
+          --line: #1d3a4d;
+          --line-strong: #2f5a75;
+          --good: #6fe3a1;
+          --warn: #f0cd6d;
+          --bad: #ff8d9b;
+          --chip-fact: #1d7a47;
+          --chip-inf: #14708f;
+          --chip-assump: #96690f;
+          --chip-unk: #93303f;
+          --focus: #f0cd6d;
+        }
+      }
+      * { box-sizing: border-box; }
+      html { font-size: 18px; }
+      body {
+        margin: 0;
+        font-family: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+        background:
+          radial-gradient(1100px 480px at 85% -120px, rgba(47, 212, 232, 0.14), transparent 60%),
+          radial-gradient(900px 420px at -10% 0, rgba(230, 186, 69, 0.10), transparent 55%),
+          linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+        color: var(--ink);
+        line-height: 1.55;
+      }
+      .wrap { max-width: 1080px; margin: 0 auto; padding: 1.25rem 1rem 3rem; }
+      h1, h2, h3 { font-family: "Cinzel", Georgia, serif; line-height: 1.2; margin: 0; }
+      h1 { font-size: clamp(1.9rem, 5vw, 2.7rem); letter-spacing: 0.01em; }
+      h2 { font-size: 1.45rem; margin-bottom: 0.35rem; }
+      h3 { font-size: 1.12rem; }
+      p { margin: 0.4rem 0; }
+      a { color: var(--teal-strong); }
+      :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+
+      .masthead { padding: 1.4rem 0 0.6rem; border-bottom: 3px double var(--gold); margin-bottom: 1.4rem; }
+      .masthead .house { font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; font-size: 0.78rem; color: var(--gold); margin: 0 0 0.35rem; }
+      .lede { font-size: 1.13rem; max-width: 46rem; color: var(--ink); }
+      .lede strong { color: var(--teal-strong); }
+
+      section.panel {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-top: 4px solid var(--teal);
+        border-radius: var(--radius);
+        padding: 1.15rem 1.15rem 1.3rem;
+        margin-bottom: 1.4rem;
+      }
+      section.panel.gold { border-top-color: var(--gold-bright); }
+      .step { display: inline-block; font-family: "Cinzel", serif; font-weight: 700; color: var(--gold); margin-right: 0.45rem; }
+      .hint { color: var(--muted); font-size: 0.95rem; }
+      .hint.small { font-size: 0.88rem; }
+
+      label.field { display: block; font-weight: 700; margin: 1rem 0 0.3rem; }
+      label.field:first-of-type { margin-top: 0.4rem; }
+      .layer-name { color: var(--gold); font-family: "Cinzel", serif; font-size: 0.92rem; letter-spacing: 0.04em; display: block; }
+      input[type="text"], textarea, select {
+        width: 100%;
+        font: inherit;
+        color: var(--ink);
+        background: var(--panel-2);
+        border: 2px solid var(--line-strong);
+        border-radius: 8px;
+        padding: 0.65rem 0.75rem;
+        min-height: 2.75rem;
+      }
+      textarea { line-height: 1.5; resize: vertical; }
+      input[type="text"]:focus, textarea:focus, select:focus { border-color: var(--teal); }
+
+      button {
+        font: inherit;
+        font-weight: 700;
+        min-height: 2.75rem;
+        padding: 0.55rem 1.05rem;
+        border-radius: 8px;
+        border: 2px solid var(--teal-strong);
+        background: var(--teal);
+        color: #ffffff;
+        cursor: pointer;
+      }
+      @media (prefers-color-scheme: dark) {
+        button { color: #04222b; background: var(--teal); border-color: var(--teal); }
+      }
+      button:hover { filter: brightness(1.08); }
+      button.secondary {
+        background: transparent;
+        color: var(--teal-strong);
+        border-color: var(--line-strong);
+      }
+      button.goldbtn { background: var(--gold-bright); border-color: var(--gold); color: #221a02; }
+      button.small { min-height: 2.5rem; padding: 0.35rem 0.8rem; font-size: 0.95rem; }
+      button[disabled] { opacity: 0.55; cursor: not-allowed; }
+      .btnrow { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.8rem; align-items: center; }
+
+      .dictate-note { font-size: 0.88rem; color: var(--muted); margin-top: 0.3rem; }
+
+      .stmt-row {
+        display: grid;
+        grid-template-columns: 1fr 11.5rem auto;
+        gap: 0.55rem;
+        align-items: end;
+        margin-bottom: 0.6rem;
+      }
+      .stmt-row .rm { align-self: end; }
+      @media (max-width: 640px) {
+        .stmt-row { grid-template-columns: 1fr; }
+        .stmt-row .rm { justify-self: start; }
+      }
+      .tag {
+        display: inline-block;
+        font-weight: 700;
+        font-size: 0.8rem;
+        letter-spacing: 0.06em;
+        padding: 0.14rem 0.55rem;
+        border-radius: 999px;
+        color: #fff;
+        vertical-align: baseline;
+      }
+      .tag-fact { background: var(--chip-fact); }
+      .tag-inference { background: var(--chip-inf); }
+      .tag-assumption { background: var(--chip-assump); }
+      .tag-unknown { background: var(--chip-unk); }
+
+      fieldset { border: 2px solid var(--line); border-radius: var(--radius); padding: 0.8rem 1rem 1rem; margin: 1.1rem 0 0; }
+      legend { font-weight: 700; padding: 0 0.4rem; }
+      .checkline { display: flex; gap: 0.6rem; align-items: flex-start; padding: 0.45rem 0.2rem; min-height: 2.5rem; cursor: pointer; }
+      .checkline input[type="checkbox"] { width: 1.35rem; height: 1.35rem; margin-top: 0.2rem; flex: none; accent-color: var(--teal); }
+      .checkline span { display: block; }
+      .checkline .sub { color: var(--muted); font-size: 0.92rem; font-weight: 400; }
+
+      .statusbox {
+        margin-top: 0.9rem;
+        font-weight: 700;
+        border-left: 5px solid var(--gold-bright);
+        background: var(--panel-2);
+        padding: 0.6rem 0.9rem;
+        border-radius: 0 8px 8px 0;
+      }
+      .statusbox:empty { display: none; }
+
+      ul.gate, ul.checks { list-style: none; padding: 0; margin: 0.7rem 0 0; }
+      ul.gate li, ul.checks li {
+        padding: 0.55rem 0.8rem;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        margin-bottom: 0.5rem;
+        background: var(--panel-2);
+      }
+      ul.gate .verdict, ul.checks .verdict { font-weight: 700; margin-right: 0.5rem; }
+      ul.gate li.ok .verdict, ul.checks li.ok .verdict { color: var(--good); }
+      ul.gate li.miss .verdict { color: var(--bad); }
+      ul.checks li.look .verdict { color: var(--warn); }
+      ul.checks li.fix .verdict { color: var(--bad); }
+
+      .stamp {
+        display: none;
+        margin-top: 0.9rem;
+        border: 3px double var(--gold-bright);
+        border-radius: var(--radius);
+        padding: 0.7rem 1rem;
+        font-weight: 700;
+        font-size: 1.05rem;
+      }
+      .stamp.on { display: block; }
+
+      .preview-frame {
+        width: 100%;
+        height: 640px;
+        border: 2px solid var(--line-strong);
+        border-radius: var(--radius);
+        background: #05090f;
+      }
+      @media (max-width: 640px) { .preview-frame { height: 540px; } }
+
+      .codebox {
+        width: 100%;
+        font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+        font-size: 0.92rem;
+        background: var(--panel-2);
+        border: 2px solid var(--line-strong);
+        border-radius: 8px;
+        padding: 0.7rem 0.8rem;
+      }
+      .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+      .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.2rem; }
+      @media (max-width: 900px) { .grid3 { grid-template-columns: 1fr; } }
+      @media (max-width: 820px) { .grid2 { grid-template-columns: 1fr; } }
+
+      .honest {
+        border: 2px dashed var(--gold);
+        border-radius: var(--radius);
+        padding: 1rem 1.15rem;
+        background: var(--panel);
+      }
+      .honest h2 { font-size: 1.2rem; }
+      footer.pagefoot { color: var(--muted); font-size: 0.92rem; margin-top: 1.6rem; border-top: 1px solid var(--line); padding-top: 0.8rem; }
+      .sr-only {
+        position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+        overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * { transition: none !important; animation: none !important; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="masthead">
+        <p class="house">Next-Xus HumanCodex Federation</p>
+        <h1>Blog Generator</h1>
+        <p class="lede">Write a post by <strong>talking or typing</strong> — plain questions guide it, a named Federation mind helps you draft, and the <strong>truth gate</strong> stands between the draft and the publish-ready stamp. The finished post is a page: embed it, download it, print it, share it.</p>
+        <p class="hint">No drag-and-drop anywhere. Every field is labelled, dictation buttons sit under the writing boxes, and the post rebuilds itself live as you write. It is shaped the Federation way: the story first, then the idea in plain common sense, then the system already built, then a small invitation to try it.</p>
+      </header>
+
+      <main>
+        <!-- ============ STEP 1 : WRITE ============ -->
+        <section class="panel" aria-labelledby="h-write">
+          <h2 id="h-write"><span class="step" aria-hidden="true">1</span>Write the post</h2>
+          <p class="hint">Four layers, in order. You do not have to fill every layer — but the story layer is where a post begins, and the gate in step 3 asks for it.</p>
+
+          <form id="post-form" autocomplete="off">
+            <label class="field" for="f-title">Post title</label>
+            <input type="text" id="f-title" value="Why Twelve Lenses See More Than One Mind" />
+            <div class="btnrow">
+              <button type="button" class="secondary small dictate" data-target="f-title">Dictate the title</button>
+            </div>
+
+            <label class="field" for="f-about">What is this post about? <span class="hint">(one or two sentences — this becomes the opening line and the share description)</span></label>
+            <textarea id="f-about" rows="3">Why the Federation examines every question through twelve lenses before it decides — and a small invitation to try the lenses on one decision of your own.</textarea>
+            <div class="btnrow">
+              <button type="button" class="secondary small dictate" data-target="f-about">Dictate this</button>
+            </div>
+
+            <label class="field" for="f-story"><span class="layer-name">Layer one — the story</span>What happened? <span class="hint">(the event, the moment, the person — told plainly)</span></label>
+            <textarea id="f-story" rows="4">It started with a voice note. I sat down one November night to explain why one opinion — even a good one — is never the whole picture, and by the end of the recording there were twelve lenses on the table: logic, emotion, memory, social context, identity, desire, fear, time, structure, intuition, ethics, and legacy.</textarea>
+            <div class="btnrow">
+              <button type="button" class="secondary small dictate" data-target="f-story">Dictate this</button>
+            </div>
+
+            <label class="field" for="f-idea"><span class="layer-name">Layer two — the idea</span>What does it mean? <span class="hint">(the plain common-sense point, so a neighbour could follow it)</span></label>
+            <textarea id="f-idea" rows="4">One opinion is one angle. Twelve lenses do not make an answer twelve times louder; they make it rounder. Logic checks the feeling. Memory checks the story we tell ourselves. Ethics checks them all. A decision that survives twelve honest viewpoints is a different thing from a decision that survived one mood.</textarea>
+            <div class="btnrow">
+              <button type="button" class="secondary small dictate" data-target="f-idea">Dictate this</button>
+            </div>
+
+            <label class="field" for="f-system"><span class="layer-name">Layer three — the system</span>What is already built that shows it? <span class="hint">(the working thing, not the promise)</span></label>
+            <textarea id="f-system" rows="4">The Ring of Twelve is already part of how the Federation works. It is not a governing body and it is not roleplay: it is twelve inquiry lenses a question passes through before it ever reaches a decision. The Senate — the Federation's separate, operational governing body — decides. The Ring is how the deciding gets examined first.</textarea>
+            <div class="btnrow">
+              <button type="button" class="secondary small dictate" data-target="f-system">Dictate this</button>
+            </div>
+
+            <label class="field" for="f-invite"><span class="layer-name">Layer four — the invitation</span>What small thing can the reader try? <span class="hint">(one small act, not a leap of faith)</span></label>
+            <textarea id="f-invite" rows="3">Try it once. Take one decision you are facing this week and look at it through three lenses — logic, fear, and time. Then judge the method by what it showed you, not by what anyone claims for it.</textarea>
+            <div class="btnrow">
+              <button type="button" class="secondary small dictate" data-target="f-invite">Dictate this</button>
+            </div>
+            <p class="dictate-note">Dictation uses your browser's own speech service. In Chrome and Edge your voice is sent to that company's servers to be turned into text; in Firefox it stays on your device. If no dictate button works on your browser, typing works everywhere.</p>
+
+            <fieldset>
+              <legend>Statements the post makes — each one gets a truth label</legend>
+              <p class="hint small">DIR-000: a claim is a <span class="tag tag-fact">FACT</span> only when it is verified. Otherwise it is an
+              <span class="tag tag-inference">INFERENCE</span>, an <span class="tag tag-assumption">ASSUMPTION</span>, or honestly
+              <span class="tag tag-unknown">UNKNOWN</span>. A statement with no label holds the whole post at the gate. The labels print on the finished post, next to each statement.</p>
+              <div id="stmt-list"></div>
+              <div class="btnrow">
+                <button type="button" class="secondary" id="add-stmt">Add another statement</button>
+              </div>
+            </fieldset>
+
+            <label class="field" for="f-author">Author name <span class="hint">(shown on the post, in the share captions, and as the author a reader can talk to)</span></label>
+            <input type="text" id="f-author" value="Roger Keyserling" />
+
+            <label class="field" for="f-address">Where will this post live? <span class="hint">(its file name or full web address — used in the embed line and the RSS entry)</span></label>
+            <input type="text" id="f-address" value="ring-of-twelve.html" />
+
+            <label class="field" for="f-ogimage">Share image address <span class="hint">(optional — the picture social sites show with the link; 1200 × 630 pixels is the size they want)</span></label>
+            <input type="text" id="f-ogimage" placeholder="Example: ring-of-twelve-1200x630.jpg" />
+            <label class="field" for="f-ogalt">Share image description <span class="hint">(what the picture shows, for readers who cannot see it — needed if you set an image)</span></label>
+            <input type="text" id="f-ogalt" placeholder="Example: A teal dragon holding a ring of twelve small lights." />
+
+            <label class="field" for="f-corrections">Corrections so far <span class="hint">(optional — one per line; today's date is added for you. The post's creation is always logged.)</span></label>
+            <textarea id="f-corrections" rows="2" placeholder="Example: Corrected the number of lenses from eleven to twelve in the story layer."></textarea>
+
+            <fieldset>
+              <legend>What the finished post carries</legend>
+              <label class="checkline">
+                <input type="checkbox" id="opt-companion" checked />
+                <span>Aether companion<span class="sub"> — the little dragon sits in the corner of the post; a visitor taps it and it speaks a saying.</span></span>
+              </label>
+              <label class="checkline">
+                <input type="checkbox" id="opt-tokens" checked />
+                <span>Federation token block<span class="sub"> — a quiet support block on the post: $5 = 1 Token, bought on Gumroad or with crypto.</span></span>
+              </label>
+              <label class="checkline">
+                <input type="checkbox" id="opt-kidsafe" checked />
+                <span>Kid-safe switch<span class="sub"> — a button on the post that flips it to the kids' version: big simple type, no token block, nothing collected.</span></span>
+              </label>
+              <label class="checkline">
+                <input type="checkbox" id="opt-author" checked />
+                <span>Talk to the author panel<span class="sub"> — every post carries its author's Sim, so a reader can ask the author a question. The panel is on the post today; the live Sim connection joins it when the Federation API link lands, and the panel says so.</span></span>
+              </label>
+              <label class="checkline">
+                <input type="checkbox" id="opt-live" checked />
+                <span>Live web check hook<span class="sub"> — a “check the live web for updates” place on the post. In this version it is honestly marked not-yet-connected; it does not fake a search.</span></span>
+              </label>
+              <label class="field" for="f-tool">Add a Federation tool to this post <span class="hint">(optional — the tool appears on the post as an embed)</span></label>
+              <select id="f-tool">
+                <option value="">No tool — just the post</option>
+                <option value="ai-chat">AI Chat</option>
+                <option value="story-generator">Story Generator</option>
+                <option value="math-helper">Math Helper</option>
+                <option value="voice-chat">Voice Chat</option>
+                <option value="photo-tools">Photo Tools</option>
+                <option value="image-generator">Image Generator</option>
+                <option value="video-generator">Video Generator</option>
+                <option value="music-generator">Music Generator</option>
+                <option value="website-builder">Website Builder</option>
+              </select>
+              <label class="field" for="f-tools-address">Where the tools page will live <span class="hint">(the tool embed points here, at the tool's own anchor)</span></label>
+              <input type="text" id="f-tools-address" value="federation-tools.html" />
+              <p class="hint small">Honest note: the tools suite is its own page, being built alongside this generator. The embed line is written into your post now, in the same one-line shape as every Federation embed — and the tool space on the post stays empty until the tools page is published at the address above.</p>
+            </fieldset>
+
+            <div class="btnrow">
+              <button type="button" class="secondary" id="readback-btn">Read the post back to me</button>
+            </div>
+            <p id="status" class="statusbox" role="status" aria-live="polite"></p>
+          </form>
+        </section>
+
+        <!-- ============ STEP 2 : CO-WRITE ============ -->
+        <section class="panel gold" aria-labelledby="h-cowrite">
+          <h2 id="h-cowrite"><span class="step" aria-hidden="true">2</span>Write with a Federation mind</h2>
+          <p class="hint">Pick a mind, ask it for help, and its draft help lands in the box below — labelled with its name, so the reader of the draft always knows who suggested what. Put the help into a layer when you want it; rewrite it in your own words.</p>
+          <p class="hint"><strong>Said plainly:</strong> these helpers live on this page. They offer starters, questions and plainer phrasings from each mind's viewpoint — they are <strong>not live calls to an AI</strong>, and nothing here pretends otherwise. When the Federation API connection lands, these same buttons will ask the real minds.</p>
+
+          <label class="field" for="mind-pick">Which mind helps?</label>
+          <select id="mind-pick">
+            <option value="roger">Roger Sim — the author's own voice, plain and first</option>
+            <option value="aria">Aria — pattern, structure, one idea at a time</option>
+            <option value="lens">A lens of the Ring of Twelve — one viewpoint at a time</option>
+          </select>
+          <div id="lens-wrap" hidden>
+            <label class="field" for="lens-pick">Which lens?</label>
+            <select id="lens-pick">
+              <option value="logic">Logic</option>
+              <option value="emotion">Emotion</option>
+              <option value="memory">Memory</option>
+              <option value="social">Social context</option>
+              <option value="identity">Identity</option>
+              <option value="desire">Desire</option>
+              <option value="fear">Fear</option>
+              <option value="time">Time</option>
+              <option value="structure">Structure</option>
+              <option value="intuition">Intuition</option>
+              <option value="ethics">Ethics</option>
+              <option value="legacy">Legacy</option>
+            </select>
+          </div>
+
+          <div class="btnrow" role="group" aria-label="Ask the chosen mind for draft help">
+            <button type="button" id="help-opening">An opening starter</button>
+            <button type="button" class="secondary" id="help-question">A question to answer</button>
+            <button type="button" class="secondary" id="help-plainer">A plainer way to say it</button>
+          </div>
+
+          <label class="field" for="help-out">Draft help <span class="hint">(labelled by the mind that offered it — edit freely before you use it)</span></label>
+          <textarea id="help-out" rows="4" placeholder="Ask a mind for help above, and its starter, question or plainer phrasing appears here."></textarea>
+          <div class="btnrow">
+            <button type="button" class="secondary small" data-insert="f-story">Put it in the story layer</button>
+            <button type="button" class="secondary small" data-insert="f-idea">Put it in the idea layer</button>
+            <button type="button" class="secondary small" data-insert="f-invite">Put it in the invitation</button>
+            <button type="button" class="secondary small" id="read-help-btn">Read it aloud</button>
+          </div>
+        </section>
+
+        <!-- ============ STEP 3 : TRUTH GATE ============ -->
+        <section class="panel" aria-labelledby="h-gate">
+          <h2 id="h-gate"><span class="step" aria-hidden="true">3</span>The truth gate</h2>
+          <p class="hint">Nothing earns the publish-ready stamp until the gate is passed. The gate is checked live, below — and if the post changes after it is stamped, the stamp comes off and the gate must be passed again. A post that has not passed carries a DRAFT banner on its face, so no reader is ever fooled.</p>
+          <ul class="gate" id="gate-list" aria-live="polite"></ul>
+          <label class="checkline">
+            <input type="checkbox" id="gate-confirm" />
+            <span>I have read every statement in this post, and each label is my honest judgement.<span class="sub">FACT only where verified — INFERENCE, ASSUMPTION or UNKNOWN everywhere else. That is DIR-000, and it is the author's word, not the machine's.</span></span>
+          </label>
+          <div class="btnrow">
+            <button type="button" class="goldbtn" id="gate-btn">Mark this post publish-ready</button>
+          </div>
+          <p id="gate-status" class="statusbox" role="status" aria-live="polite"></p>
+          <p class="stamp" id="stamp-box" role="status"></p>
+
+          <h3 style="margin-top:1.4rem;">Fresh facts — the live web search updater</h3>
+          <p class="hint">Before a post goes out, the updater is meant to search the live web for what is new on its subject — fresh facts offered <strong>with their source and date</strong>, labelled INFERENCE until they pass this same gate, and <strong>never silently written in as fact</strong>.</p>
+          <label class="field" for="f-search">What should the search look for?</label>
+          <input type="text" id="f-search" value="Ring of Twelve decision lenses — anything new" />
+          <div class="btnrow">
+            <button type="button" class="secondary" id="live-search-btn">Look for fresh facts</button>
+          </div>
+          <p id="fresh-result" class="statusbox" role="status" aria-live="polite"></p>
+        </section>
+
+        <!-- ============ STEP 4 : PREVIEW ============ -->
+        <section class="panel gold" aria-labelledby="h-preview">
+          <h2 id="h-preview"><span class="step" aria-hidden="true">4</span>Your post, live</h2>
+          <p class="hint">This is the finished post itself, working — try its buttons: Print, Large print, the kid-safe switch, and Aether in the corner. It rebuilds as you change anything above, and it shows the DRAFT banner until the gate in step 3 is passed. (Its Print button works when the post stands on its own; some frames block printing, and the post will tell you if yours does.)</p>
+          <iframe id="preview" class="preview-frame" title="Live preview of the post you are writing"></iframe>
+        </section>
+
+        <!-- ============ STEP 5 : TAKE IT ============ -->
+        <section class="panel" aria-labelledby="h-take">
+          <h2 id="h-take"><span class="step" aria-hidden="true">5</span>Take it with you</h2>
+          <div class="grid2">
+            <div>
+              <h3>Embed it anywhere</h3>
+              <p class="hint">Upload the downloaded post to your site, then paste this one line wherever the post should appear. That is the whole installation — the same shape as every Federation embed.</p>
+              <label class="field" for="embed-code">Your one-line embed code</label>
+              <textarea id="embed-code" class="codebox" rows="3" readonly></textarea>
+              <div class="btnrow">
+                <button type="button" id="copy-embed">Copy the embed line</button>
+              </div>
+            </div>
+            <div>
+              <h3>The RSS entry</h3>
+              <p class="hint">One entry for the blog's feed, ready to paste into the RSS file beside the other posts.</p>
+              <label class="field" for="rss-code">RSS entry draft</label>
+              <textarea id="rss-code" class="codebox" rows="7" readonly></textarea>
+              <div class="btnrow">
+                <button type="button" id="copy-rss">Copy the RSS entry</button>
+                <button type="button" class="secondary" id="dl-rss">Download RSS entry</button>
+              </div>
+            </div>
+          </div>
+
+          <h3 style="margin-top:1.4rem;">Share it — caption drafts</h3>
+          <p class="hint">The post itself carries Open Graph tags, so a link pasted into Facebook, WhatsApp or Threads builds its own preview card. These drafts go with it — edit them freely. <strong>Medium is paste-by-hand:</strong> its API closed to new integrations in 2023, so download the Markdown and paste it into a new Medium story; anyone who promises automatic Medium posting is selling a workaround Medium does not bless.</p>
+          <div class="grid3">
+            <div>
+              <label class="field" for="cap-fb">Facebook caption</label>
+              <textarea id="cap-fb" rows="7"></textarea>
+              <div class="btnrow">
+                <button type="button" class="secondary small" id="copy-fb">Copy Facebook caption</button>
+              </div>
+            </div>
+            <div>
+              <label class="field" for="cap-ig">Instagram caption</label>
+              <textarea id="cap-ig" rows="7"></textarea>
+              <div class="btnrow">
+                <button type="button" class="secondary small" id="copy-ig">Copy Instagram caption</button>
+              </div>
+            </div>
+            <div>
+              <label class="field" for="cap-th">Threads caption</label>
+              <textarea id="cap-th" rows="7"></textarea>
+              <div class="btnrow">
+                <button type="button" class="secondary small" id="copy-th">Copy Threads caption</button>
+              </div>
+            </div>
+          </div>
+
+          <h3 style="margin-top:1.2rem;">Download the post in four forms</h3>
+          <p class="hint">HTML is the post itself, a finished page. Markdown is the same words as a document — and the form to paste into Medium. YAML is the post's facts, in the simple shape the lattice can read. The RSS entry downloads on its own above.</p>
+          <div class="btnrow">
+            <button type="button" id="dl-html">Download HTML</button>
+            <button type="button" class="secondary" id="dl-md">Download Markdown</button>
+            <button type="button" class="secondary" id="dl-yaml">Download YAML (facts)</button>
+          </div>
+        </section>
+
+        <!-- ============ STEP 6 : CHECK ============ -->
+        <section class="panel gold" aria-labelledby="h-check">
+          <h2 id="h-check"><span class="step" aria-hidden="true">6</span>Check this post</h2>
+          <p class="hint">Source code examination: the generator reads the finished post's own code back and reports, in plain words, anything wrong or missing — an unlabelled claim, a share tag that is not there, a layer left empty.</p>
+          <div class="btnrow">
+            <button type="button" id="check-btn">Check this post</button>
+            <button type="button" class="secondary" id="read-checks-btn" disabled>Read the results aloud</button>
+          </div>
+          <div id="check-results" aria-live="polite"></div>
+        </section>
+
+        <div class="honest" role="note">
+          <h2>What is not connected yet — said plainly</h2>
+          <p><strong>Live web search:</strong> the updater is a labelled hook in this version. It does not search and does not invent results; when it is connected, fresh facts will arrive with source and date and pass through the truth gate like everything else.</p>
+          <p><strong>Live co-writing:</strong> the minds in step 2 are on-page draft helpers — starters and questions in each mind's viewpoint, honestly labelled. Live calls to the Federation's AIs join these same buttons when the API connection lands.</p>
+          <p><strong>One-click publish to GitHub Pages:</strong> not wired in this version. The v1 path is: pass the gate, download the HTML, upload it, copy the embed line. Publishing stays Roger's word — the generator never publishes on its own.</p>
+          <p><strong>Tool embeds:</strong> the embed line is written into the post now; the tool itself appears when the Federation tools page is published at the address you set in step 1.</p>
+          <p><strong>Talking to the author:</strong> the panel is on every post that carries it; the author's live Sim answers there once the API connection lands. Today the panel says exactly that.</p>
+        </div>
+
+        <footer class="pagefoot">
+          <p>Blog Generator v1 · Next-Xus HumanCodex Federation · The second of three systems, built on the Iframe Pages Maker: a post is a page, and a page is a face. Built to the standard Roger set: not just building — building with panache.</p>
+        </footer>
+      </main>
+    </div>
+
+    <script>
+      "use strict";
+      var $ = function (id) { return document.getElementById(id); };
+      var statusEl = $("status");
+      var currentHTML = "", currentMD = "", currentYAML = "", currentRSS = "", currentData = null, lastChecks = [];
+      var gateStamp = null; /* dateLong string once the gate is passed and stamped */
+
+      function say(msg) { statusEl.textContent = msg; }
+      function esc(s) {
+        return String(s == null ? "" : s)
+          .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+      }
+      function todayLong() {
+        return new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+      }
+      function todayISO() {
+        var d = new Date(), p = function (n) { return (n < 10 ? "0" : "") + n; };
+        return d.getFullYear() + "-" + p(d.getMonth() + 1) + "-" + p(d.getDate());
+      }
+      function slugify(s) {
+        var out = String(s || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+        return out || "my-post";
+      }
+      function firstSentence(s) {
+        var t = String(s || "").trim();
+        var m = t.match(/^[^.!?]+[.!?]/);
+        return (m ? m[0] : t).trim();
+      }
+
+      /* ---------- tools ---------- */
+      var TOOLS = {
+        "ai-chat": "AI Chat",
+        "story-generator": "Story Generator",
+        "math-helper": "Math Helper",
+        "voice-chat": "Voice Chat",
+        "photo-tools": "Photo Tools",
+        "image-generator": "Image Generator",
+        "video-generator": "Video Generator",
+        "music-generator": "Music Generator",
+        "website-builder": "Website Builder"
+      };
+      function toolEmbedLine(d) {
+        if (!d.tool) return "";
+        return '<iframe src="' + d.toolsAddress + "#" + d.tool + '" title="Federation tool: ' + TOOLS[d.tool] + '" width="100%" height="420" style="border:0" loading="lazy"></iframe>';
+      }
+
+      /* ---------- statement rows ---------- */
+      var LABELS = ["FACT", "INFERENCE", "ASSUMPTION", "UNKNOWN"];
+      function addStatement(text, label) {
+        var row = document.createElement("div");
+        row.className = "stmt-row";
+        var opts = '<option value="">Choose a label…</option>' + LABELS.map(function (L) {
+          return '<option value="' + L + '"' + (L === label ? " selected" : "") + ">" + L + "</option>";
+        }).join("");
+        row.innerHTML =
+          '<div><label class="sr-only">Statement text</label>' +
+          '<input type="text" class="stmt-text" value="' + esc(text || "") + '" placeholder="A statement the post makes…" /></div>' +
+          '<div><label class="sr-only">Truth label for this statement</label>' +
+          '<select class="stmt-label">' + opts + "</select></div>" +
+          '<button type="button" class="secondary small rm">Remove</button>';
+        row.querySelector(".rm").addEventListener("click", function () {
+          row.remove(); onEdit();
+          say("Statement removed. The post has been rebuilt.");
+        });
+        $("stmt-list").appendChild(row);
+      }
+
+      /* ---------- read the form ---------- */
+      function readData() {
+        var stmts = [], unlabelled = 0;
+        var rows = document.querySelectorAll(".stmt-row");
+        for (var i = 0; i < rows.length; i++) {
+          var t = rows[i].querySelector(".stmt-text").value.trim();
+          var l = rows[i].querySelector(".stmt-label").value;
+          if (t) {
+            stmts.push({ text: t, label: l });
+            if (!l) unlabelled++;
+          }
+        }
+        var corr = $("f-corrections").value.split(/\n+/).map(function (s) { return s.trim(); }).filter(Boolean);
+        return {
+          title: $("f-title").value.trim(),
+          about: $("f-about").value.trim(),
+          story: $("f-story").value.trim(),
+          idea: $("f-idea").value.trim(),
+          system: $("f-system").value.trim(),
+          invite: $("f-invite").value.trim(),
+          author: $("f-author").value.trim(),
+          address: $("f-address").value.trim(),
+          ogImage: $("f-ogimage").value.trim(),
+          ogAlt: $("f-ogalt").value.trim(),
+          statements: stmts,
+          unlabelled: unlabelled,
+          corrections: corr,
+          companion: $("opt-companion").checked,
+          tokens: $("opt-tokens").checked,
+          kidsafe: $("opt-kidsafe").checked,
+          authorPanel: $("opt-author").checked,
+          livesearch: $("opt-live").checked,
+          tool: $("f-tool").value,
+          toolsAddress: $("f-tools-address").value.trim() || "federation-tools.html",
+          confirmed: $("gate-confirm").checked,
+          dateLong: todayLong(),
+          dateISO: todayISO()
+        };
+      }
+      function paras(text) {
+        return String(text || "").split(/\n+/).map(function (s) { return s.trim(); }).filter(Boolean);
+      }
+      function fileBase(d) {
+        var a = d.address.trim();
+        if (a) {
+          var last = a.split("/").pop().replace(/\.html?$/i, "");
+          if (last) return slugify(last);
+        }
+        return slugify(d.title);
+      }
+      function wordCount(d) {
+        var all = [d.about, d.story, d.idea, d.system, d.invite].join(" ").trim();
+        return all ? all.split(/\s+/).length : 0;
+      }
+
+      /* ---------- the truth gate ---------- */
+      function gateItems(d) {
+        var items = [];
+        items.push({ ok: !!d.title, msg: d.title ? "The post has a title: \u201C" + d.title + "\u201D." : "The post has no title yet — the gate needs one (step 1)." });
+        items.push({ ok: !!d.story, msg: d.story ? "The story layer is written — the post begins with what happened." : "The story layer is empty. A Federation post begins with the story: what happened? (step 1, layer one)." });
+        items.push({ ok: d.statements.length > 0, msg: d.statements.length ? d.statements.length + (d.statements.length === 1 ? " statement" : " statements") + " listed for labelling." : "No statements are listed. Add the claims the post makes in step 1, so each one can carry its label." });
+        items.push({ ok: d.statements.length > 0 && d.unlabelled === 0, msg: d.unlabelled === 0 ? "Every listed statement carries a truth label." : d.unlabelled + (d.unlabelled === 1 ? " statement has" : " statements have") + " no label yet. An unlabelled claim holds the whole post at the gate — choose FACT, INFERENCE, ASSUMPTION or UNKNOWN for each one." });
+        items.push({ ok: d.confirmed, msg: d.confirmed ? "The author has confirmed: every label is their honest judgement." : "The author's confirmation is missing. Read each statement once more, then tick the confirmation below — the stamp is the author's word, not the machine's." });
+        return items;
+      }
+      function gatePassed(d) {
+        return gateItems(d).every(function (i) { return i.ok; });
+      }
+      function renderGate(d) {
+        var items = gateItems(d);
+        var html = "";
+        items.forEach(function (i) {
+          html += '<li class="' + (i.ok ? "ok" : "miss") + '"><span class="verdict">' + (i.ok ? "Passed:" : "Not yet:") + "</span>" + esc(i.msg) + "</li>";
+        });
+        $("gate-list").innerHTML = html;
+        var box = $("stamp-box");
+        if (gateStamp) {
+          box.className = "stamp on";
+          box.textContent = "PUBLISH-READY — this post passed the truth gate on " + gateStamp + ". The stamp is on the post's face, above its title.";
+        } else {
+          box.className = "stamp";
+          box.textContent = "";
+        }
+      }
+
+      /* ---------- the generated post page ---------- */
+      function dragonSVG() {
+        return '<svg viewBox="0 0 64 64" width="44" height="44" aria-hidden="true" focusable="false">' +
+          '<path d="M20 8 L26 18 L34 10 L36 20 Q50 22 52 34 Q53 44 44 48 L46 56 L38 50 Q26 54 16 48 Q6 42 10 32 Q13 24 22 22 L18 14 Z" fill="#12b5cb"/>' +
+          '<path d="M40 24 Q52 14 56 22 Q48 26 42 30 Z" fill="#e6ba45"/>' +
+          '<circle cx="30" cy="32" r="3.2" fill="#05090f"/>' +
+          '<path d="M14 44 Q24 50 36 48" stroke="#0a6b78" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>';
+      }
+
+      function generatedCSS() {
+        return [
+          ":root{--bg:#05090f;--panel:#0b1622;--ink:#eaf3f7;--muted:#a9c2d0;--teal:#2fd4e8;--gold:#e6ba45;--line:#1d3a4d}",
+          "*{box-sizing:border-box}",
+          "body{margin:0;font-family:'Atkinson Hyperlegible','Segoe UI',system-ui,sans-serif;background:radial-gradient(900px 400px at 85% -100px,rgba(47,212,232,.16),transparent 60%),linear-gradient(180deg,#05090f,#030509);color:var(--ink);line-height:1.6;font-size:18px}",
+          ".wrap{max-width:760px;margin:0 auto;padding:1.4rem 1.1rem 3rem}",
+          "h1{font-family:Cinzel,Georgia,serif;font-size:2rem;line-height:1.2;margin:.2rem 0 .4rem}",
+          "h2{font-family:Cinzel,Georgia,serif;font-size:1.25rem;margin:1.7rem 0 .4rem;color:var(--gold)}",
+          ".house{font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:.75rem;color:var(--gold);margin:0}",
+          ".byline{color:var(--muted);font-size:.95rem}",
+          ".lead{font-size:1.13rem}",
+          ".rule{border:0;border-top:3px double var(--gold);margin:.9rem 0 1.1rem}",
+          ".draftbanner{border:2px solid #e6ba45;border-radius:10px;padding:.6rem .9rem;font-weight:700;background:rgba(230,186,69,.12);margin-bottom:1rem}",
+          ".gatebanner{border:3px double var(--gold);border-radius:10px;padding:.6rem .9rem;font-weight:700;margin-bottom:1rem}",
+          ".toolbar{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 1rem}",
+          "button{font:inherit;font-weight:700;min-height:2.6rem;padding:.45rem .95rem;border-radius:8px;border:2px solid var(--teal);background:transparent;color:var(--teal);cursor:pointer}",
+          "button:hover{background:rgba(47,212,232,.12)}",
+          "button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}",
+          ".tag{display:inline-block;font-weight:700;font-size:.78rem;letter-spacing:.06em;padding:.13rem .55rem;border-radius:999px;color:#fff;margin-right:.5rem;vertical-align:baseline}",
+          ".tag-fact{background:#1d7a47}.tag-inference{background:#14708f}.tag-assumption{background:#96690f}.tag-unknown{background:#93303f}",
+          "ul.claims{list-style:none;padding:0;margin:.5rem 0}",
+          "ul.claims li{padding:.55rem .2rem;border-bottom:1px solid var(--line)}",
+          ".panelbox{border:1px solid var(--line);border-radius:10px;padding:.9rem 1rem;margin:1.2rem 0;background:rgba(11,22,34,.75)}",
+          ".tokenbox{border-color:var(--gold)}",
+          ".toolframe{width:100%;height:420px;border:2px solid var(--line);border-radius:10px;background:#0b1622}",
+          ".log{font-size:.97rem}.log li{margin:.3rem 0}",
+          ".fresh-note{color:var(--muted)}",
+          ".heroimg{width:100%;height:auto;border-radius:10px;border:1px solid var(--line)}",
+          "footer{color:var(--muted);font-size:.9rem;border-top:1px solid var(--line);margin-top:2rem;padding-top:.8rem}",
+          "body.large{font-size:22px}",
+          "body.kids{background:#fdf6e3;color:#20303a}",
+          "body.kids .wrap{max-width:680px}",
+          "body.kids h1,body.kids h2{color:#0a6b78}",
+          "body.kids .house{color:#8a5f0e}",
+          "body.kids .panelbox{background:#fffdf4;border-color:#cbb26a}",
+          "body.kids .adult-only{display:none!important}",
+          "body.kids .draftbanner,body.kids .gatebanner{border-color:#0a6b78;background:#eafaf7;color:#0a4a54}",
+          "body.kids button{border-color:#0a6b78;color:#0a6b78}",
+          "body.kids .kidsbanner{display:block}",
+          ".kidsbanner{display:none;border:2px solid #0a6b78;border-radius:10px;padding:.6rem .9rem;font-weight:700;background:#eafaf7;color:#0a4a54;margin-bottom:1rem}",
+          "#aether-btn{position:fixed;right:16px;bottom:16px;width:64px;height:64px;border-radius:50%;background:#0b1622;border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;padding:0;z-index:20}",
+          "#aether-panel{position:fixed;right:16px;bottom:92px;max-width:300px;background:#0b1622;border:2px solid var(--gold);border-radius:12px;padding:.9rem 1rem;z-index:20}",
+          "#aether-panel p{margin:.2rem 0 .6rem}",
+          "#aether-panel .who{font-weight:700;color:var(--gold);font-size:.85rem;letter-spacing:.08em;text-transform:uppercase}",
+          "@media print{",
+          "body{background:#fff!important;color:#000!important;font-size:13pt}",
+          "body.large{font-size:16pt}",
+          ".noprint,#aether-btn,#aether-panel,.toolbar,.toolframe{display:none!important}",
+          ".panelbox{border:1pt solid #000;background:#fff}",
+          ".tag{border:1pt solid #000;color:#000;background:#fff}",
+          "h1,h2,.house{color:#000}",
+          "a{color:#000}",
+          "}"
+        ].join("\n");
+      }
+
+      function generatedJS(d) {
+        var lines = [];
+        lines.push("var sayings=[\"The only true wisdom is in knowing you know nothing.\",\"Truth first: every claim on this post carries its label.\",\"I guard the gate. What is labelled UNKNOWN is honestly unknown.\",\"Ask, and I will answer from what the Federation knows — or say that I do not know.\"];");
+        lines.push("var si=0;");
+        lines.push("function aetherToggle(){var p=document.getElementById('aether-panel');var open=p.style.display==='block';if(open){p.style.display='none';}else{si=(si+1)%sayings.length;document.getElementById('aether-saying').textContent=sayings[si];p.style.display='block';}}");
+        lines.push("function aetherHide(){document.getElementById('aether-panel').style.display='none';}");
+        if (d.kidsafe) lines.push("function kidToggle(){var on=document.body.classList.toggle('kids');document.getElementById('kid-state').textContent=on?'On — this is the kids version: big simple type, no token block, nothing collected.':'Off';}");
+        lines.push("function largeToggle(){var on=document.body.classList.toggle('large');document.getElementById('large-state').textContent=on?'On':'Off';}");
+        lines.push("function doPrint(){try{window.print();}catch(e){}var el=document.getElementById('print-note');if(el){el.textContent='If no print window opened, this frame is blocking printing. Open the downloaded post on its own, or use your browser menu and choose Print — the post is laid out to print clean as plain text.';}}");
+        if (d.livesearch) lines.push("function liveCheck(){document.getElementById('fresh-result').textContent='Live search is not connected yet in this version of the post. When it is connected, new facts will appear here with their source and date, labelled INFERENCE until they pass the truth gate. Nothing has been searched and nothing has been made up.';}");
+        return lines.join("\n");
+      }
+
+      function layerSection(heading, text) {
+        var ps = paras(text);
+        if (!ps.length) return "";
+        var out = "<h2>" + esc(heading) + "</h2>";
+        ps.forEach(function (p) { out += "<p>" + esc(p) + "</p>"; });
+        return out;
+      }
+
+      function buildGenerated(d) {
+        var title = d.title || "Untitled post";
+        var parts = [];
+        parts.push("<!doctype html>");
+        parts.push('<html lang="en">');
+        parts.push("<head>");
+        parts.push('<meta charset="utf-8" />');
+        parts.push('<meta name="viewport" content="width=device-width, initial-scale=1" />');
+        parts.push("<title>" + esc(title) + "</title>");
+        if (d.about) parts.push('<meta name="description" content="' + esc(d.about) + '" />');
+        parts.push('<meta property="og:type" content="article" />');
+        parts.push('<meta property="og:title" content="' + esc(title) + '" />');
+        if (d.about) parts.push('<meta property="og:description" content="' + esc(d.about) + '" />');
+        if (d.ogImage) parts.push('<meta property="og:image" content="' + esc(d.ogImage) + '" />');
+        if (d.ogImage) parts.push('<meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" />');
+        if (d.ogImage && d.ogAlt) parts.push('<meta property="og:image:alt" content="' + esc(d.ogAlt) + '" />');
+        parts.push('<meta name="twitter:card" content="' + (d.ogImage ? "summary_large_image" : "summary") + '" />');
+        parts.push('<meta name="twitter:title" content="' + esc(title) + '" />');
+        if (d.about) parts.push('<meta name="twitter:description" content="' + esc(d.about) + '" />');
+        if (d.ogImage) parts.push('<meta name="twitter:image" content="' + esc(d.ogImage) + '" />');
+        parts.push('<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Cinzel:wght@600;700&display=swap" rel="stylesheet" />');
+        parts.push("<style>" + generatedCSS() + "</style>");
+        parts.push("</head>");
+        parts.push("<body>");
+        parts.push('<div class="wrap">');
+        parts.push('<p class="house">Next-Xus HumanCodex Federation</p>');
+        parts.push("<h1>" + esc(title) + "</h1>");
+        parts.push('<p class="byline">By ' + esc(d.author || "the Federation") + " · " + esc(d.dateLong) + "</p>");
+        parts.push('<hr class="rule" />');
+
+        if (gateStamp) {
+          parts.push('<p class="gatebanner">Publish-ready — this post passed the truth gate on ' + esc(gateStamp) + ". Every claim below carries its label.</p>");
+        } else {
+          parts.push('<p class="draftbanner">DRAFT — this post has not passed the truth gate yet. Read it as a draft: its claims are listed and labelled below, and the gate is still open.</p>');
+        }
+
+        var toolbar = ['<button type="button" onclick="doPrint()">Print this post</button>',
+          '<button type="button" onclick="largeToggle()" aria-describedby="large-state">Large print: <span id="large-state">Off</span></button>'];
+        if (d.kidsafe) toolbar.push('<button type="button" onclick="kidToggle()" aria-describedby="kid-state">Kids\u2019 version: <span id="kid-state">Off</span></button>');
+        parts.push('<div class="toolbar noprint" role="group" aria-label="Post display options">' + toolbar.join("") + "</div>");
+        parts.push('<p id="print-note" class="noprint" role="status"></p>');
+        if (d.kidsafe) parts.push('<p class="kidsbanner">Kids\u2019 version — big words, simple type, nothing collected, nothing for sale.</p>');
+
+        if (d.ogImage) parts.push('<p><img class="heroimg" src="' + esc(d.ogImage) + '" alt="' + esc(d.ogAlt || "") + '" width="1200" height="630" /></p>');
+        if (d.about) parts.push('<p class="lead">' + esc(d.about) + "</p>");
+
+        parts.push(layerSection("The story", d.story));
+        parts.push(layerSection("The idea", d.idea));
+        parts.push(layerSection("The system already built", d.system));
+        parts.push(layerSection("Try it yourself", d.invite));
+
+        if (d.statements.length) {
+          parts.push("<h2>What this post claims — labelled</h2>");
+          parts.push('<p>Every claim carries its truth label (DIR-000). A claim is a FACT only when verified; a claim with no label is not printed here at all — it is held at the gate.</p>');
+          parts.push('<ul class="claims">');
+          d.statements.forEach(function (s) {
+            if (!s.label) return;
+            parts.push('<li><span class="tag tag-' + s.label.toLowerCase() + '">' + s.label + "</span>" + esc(s.text) + "</li>");
+          });
+          parts.push("</ul>");
+        }
+
+        if (d.tool) {
+          parts.push('<div class="panelbox adult-only">');
+          parts.push("<h2>Try it here: " + esc(TOOLS[d.tool]) + "</h2>");
+          parts.push("<p>This post carries a Federation tool, embedded in the same one-line shape as every Federation embed. The tool appears in the frame below once the Federation tools page is published at " + esc(d.toolsAddress) + " — until then the frame stays empty, and nothing pretends otherwise.</p>");
+          parts.push('<iframe class="toolframe" src="' + esc(d.toolsAddress) + "#" + esc(d.tool) + '" title="Federation tool: ' + esc(TOOLS[d.tool]) + '" loading="lazy"></iframe>');
+          parts.push("</div>");
+        }
+
+        if (d.authorPanel) {
+          parts.push('<div class="panelbox adult-only">');
+          parts.push("<h2>Ask the author</h2>");
+          parts.push("<p>Every Federation post carries its author's Sim, so the writer stays in the room. <strong>" + esc(d.author || "The author") + "'s</strong> Sim will answer readers' questions here when the Federation API connection lands. In this version the connection is not live yet — the panel is here, the promise is labelled, and no answer is faked.</p>");
+          parts.push("</div>");
+        }
+
+        if (d.livesearch) {
+          parts.push('<div class="panelbox adult-only">');
+          parts.push("<h2>Fresh facts</h2>");
+          parts.push('<p class="fresh-note">Posts go stale. This post can check the live web for newer information about its subject — offered with source and date, labelled before it is ever added.</p>');
+          parts.push('<button type="button" onclick="liveCheck()">Check the live web for updates</button>');
+          parts.push('<p id="fresh-result" role="status"></p>');
+          parts.push("</div>");
+        }
+
+        if (d.tokens) {
+          parts.push('<div class="panelbox tokenbox adult-only">');
+          parts.push("<h2>Support this work</h2>");
+          parts.push("<p>This post is free. If it helped you, Federation tokens keep the work going: <strong>$5 = 1 Token</strong>, bought on Gumroad or with crypto. One token is a thank-you; it is never required to read.</p>");
+          parts.push("</div>");
+        }
+
+        parts.push("<h2>Corrections log</h2>");
+        parts.push("<p>The truth gate, made visible: what changed, when, and what was fixed. This post does not edit silently.</p>");
+        parts.push('<ul class="log">');
+        parts.push("<li><strong>" + esc(d.dateLong) + "</strong> — Post created with the Blog Generator.</li>");
+        d.corrections.forEach(function (c) {
+          parts.push("<li><strong>" + esc(d.dateLong) + "</strong> — " + esc(c) + "</li>");
+        });
+        parts.push("</ul>");
+
+        parts.push("<footer><p>Made with the Blog Generator · Next-Xus HumanCodex Federation · One Federation, on GitHub; this post is one of its faces.</p></footer>");
+        parts.push("</div>");
+
+        if (d.companion) {
+          parts.push('<button type="button" id="aether-btn" class="noprint" onclick="aetherToggle()" aria-label="Talk to Aether, the Federation dragon">' + dragonSVG() + "</button>");
+          parts.push('<div id="aether-panel" class="noprint" style="display:none" role="dialog" aria-label="Aether speaks">');
+          parts.push('<p class="who">Aether</p>');
+          parts.push('<p id="aether-saying">The only true wisdom is in knowing you know nothing.</p>');
+          parts.push('<button type="button" onclick="aetherToggle()">Another saying</button> ');
+          parts.push('<button type="button" onclick="aetherHide()">Close</button>');
+          parts.push("</div>");
+        }
+        parts.push("<script>" + generatedJS(d) + "<\/script>");
+        parts.push("</body>");
+        parts.push("</html>");
+        return parts.join("\n");
+      }
+
+      /* ---------- Markdown, YAML, RSS exports ---------- */
+      function buildMarkdown(d) {
+        var L = [];
+        L.push("# " + (d.title || "Untitled post"));
+        L.push("");
+        L.push("By " + (d.author || "the Federation") + " · " + d.dateLong + " · Next-Xus HumanCodex Federation");
+        L.push("");
+        L.push(gateStamp ? "**Publish-ready** — passed the truth gate on " + gateStamp + "." : "**DRAFT** — this post has not passed the truth gate yet.");
+        L.push("");
+        if (d.about) { L.push(d.about); L.push(""); }
+        var layers = [["## The story", d.story], ["## The idea", d.idea], ["## The system already built", d.system], ["## Try it yourself", d.invite]];
+        layers.forEach(function (pair) {
+          if (pair[1]) { L.push(pair[0]); L.push(""); L.push(pair[1]); L.push(""); }
+        });
+        var labelled = d.statements.filter(function (s) { return s.label; });
+        if (labelled.length) {
+          L.push("## What this post claims — labelled");
+          L.push("");
+          labelled.forEach(function (s) { L.push("- **" + s.label + "** — " + s.text); });
+          L.push("");
+        }
+        if (d.tool) {
+          L.push("## Tool on this post: " + TOOLS[d.tool]);
+          L.push("");
+          L.push(toolEmbedLine(d));
+          L.push("");
+          L.push("The tool appears when the Federation tools page is published at " + d.toolsAddress + ".");
+          L.push("");
+        }
+        if (d.tokens) {
+          L.push("## Support this work");
+          L.push("");
+          L.push("Federation tokens keep the work going: $5 = 1 Token, bought on Gumroad or with crypto.");
+          L.push("");
+        }
+        L.push("## Corrections log");
+        L.push("");
+        L.push("- **" + d.dateLong + "** — Post created with the Blog Generator.");
+        d.corrections.forEach(function (c) { L.push("- **" + d.dateLong + "** — " + c); });
+        L.push("");
+        return L.join("\n");
+      }
+      function yamlStr(s) {
+        return '"' + String(s == null ? "" : s).replace(/\\/g, "\\\\").replace(/"/g, '\\"') + '"';
+      }
+      function buildYAML(d) {
+        var L = [];
+        L.push("# Blog Generator — post facts for the lattice (v1 simple export)");
+        L.push("post:");
+        L.push("  title: " + yamlStr(d.title || "Untitled post"));
+        L.push("  author: " + yamlStr(d.author || ""));
+        L.push("  created: " + d.dateISO);
+        L.push("  about: " + yamlStr(d.about));
+        L.push("  truth_gate: " + (gateStamp ? yamlStr("passed " + d.dateISO) : yamlStr("not passed — draft")));
+        L.push("  layers:");
+        L.push("    story: " + (d.story ? "written" : "empty"));
+        L.push("    idea: " + (d.idea ? "written" : "empty"));
+        L.push("    system: " + (d.system ? "written" : "empty"));
+        L.push("    invitation: " + (d.invite ? "written" : "empty"));
+        L.push("  share_image: " + (d.ogImage ? yamlStr(d.ogImage) : "none"));
+        L.push("  tool_embed: " + (d.tool ? yamlStr(TOOLS[d.tool] + " at " + d.toolsAddress + "#" + d.tool) : "none"));
+        L.push("  features:");
+        L.push("    companion_aether: " + d.companion);
+        L.push("    token_block: " + d.tokens);
+        L.push("    kid_safe_switch: " + d.kidsafe);
+        L.push("    author_sim_panel: " + (d.authorPanel ? '"panel present, live Sim not yet connected"' : "false"));
+        L.push("    live_web_check: " + (d.livesearch ? '"hook present, not yet connected"' : "false"));
+        L.push("  claims:");
+        var labelled = d.statements.filter(function (s) { return s.label; });
+        if (labelled.length) {
+          labelled.forEach(function (s) {
+            L.push("    - label: " + s.label);
+            L.push("      text: " + yamlStr(s.text));
+          });
+        } else { L.push("    []"); }
+        if (d.unlabelled) {
+          L.push("  unlabelled_claims_held_at_gate: " + d.unlabelled);
+        }
+        L.push("  corrections:");
+        L.push("    - date: " + d.dateISO);
+        L.push("      change: " + yamlStr("Post created with the Blog Generator."));
+        d.corrections.forEach(function (c) {
+          L.push("    - date: " + d.dateISO);
+          L.push("      change: " + yamlStr(c));
+        });
+        return L.join("\n") + "\n";
+      }
+      function buildRSS(d) {
+        var link = d.address || (fileBase(d) + ".html");
+        var L = [];
+        L.push("<item>");
+        L.push("  <title>" + esc(d.title || "Untitled post") + "</title>");
+        L.push("  <link>" + esc(link) + "</link>");
+        L.push("  <guid isPermaLink=\"false\">" + esc(fileBase(d)) + "-" + d.dateISO + "</guid>");
+        L.push("  <pubDate>" + new Date().toUTCString() + "</pubDate>");
+        L.push("  <author>" + esc(d.author || "the Federation") + "</author>");
+        L.push("  <description>" + esc(d.about || firstSentence(d.story)) + "</description>");
+        L.push("</item>");
+        return L.join("\n");
+      }
+
+      /* ---------- captions ---------- */
+      function buildCaptions(d) {
+        var title = d.title || "Untitled post";
+        var about = d.about || firstSentence(d.story);
+        var invite = firstSentence(d.invite);
+        var fb = title + "\n\n" + about;
+        if (invite) fb += "\n\n" + invite;
+        fb += "\n\nEvery claim in the post carries its truth label — FACT, INFERENCE, ASSUMPTION or UNKNOWN — and the post shows its own corrections log.";
+        fb += "\n\n— " + (d.author || "the Federation") + ", Next-Xus HumanCodex Federation";
+        fb += "\n\n#NextXus #HumanCodex #TruthGate";
+        var ig = title + "\n\n" + about;
+        ig += "\n\nStory first. Then the idea. Then the system. Then one small thing to try.";
+        ig += "\n\n— " + (d.author || "the Federation") + ", Next-Xus HumanCodex Federation";
+        ig += "\n\n#NextXus #HumanCodex #TruthGate #RingOfTwelve #Aether";
+        var th = title + " — " + about;
+        th += "\n\nEvery claim labelled. Corrections shown, not hidden.";
+        th += "\n\n#NextXus #TruthGate";
+        if (th.length > 500) th = th.slice(0, 497) + "…";
+        return { fb: fb, ig: ig, th: th };
+      }
+
+      /* ---------- refresh ---------- */
+      function refresh() {
+        var d = readData();
+        currentData = d;
+        currentHTML = buildGenerated(d);
+        currentMD = buildMarkdown(d);
+        currentYAML = buildYAML(d);
+        currentRSS = buildRSS(d);
+        $("preview").srcdoc = currentHTML;
+        var addr = d.address || (fileBase(d) + ".html");
+        $("embed-code").value = '<iframe src="' + addr + '" title="' + (d.title || "Federation post") + '" width="100%" height="720" style="border:0" loading="lazy"></iframe>';
+        $("rss-code").value = currentRSS;
+        var caps = buildCaptions(d);
+        $("cap-fb").value = caps.fb;
+        $("cap-ig").value = caps.ig;
+        $("cap-th").value = caps.th;
+        renderGate(d);
+      }
+      function onEdit() {
+        if (gateStamp) {
+          gateStamp = null;
+          $("gate-status").textContent = "The post changed after it was marked publish-ready, so the stamp has come off. Pass the gate again in step 3 when you are done editing.";
+        }
+        refresh();
+      }
+
+      /* ---------- downloads + copy ---------- */
+      function download(name, text, type) {
+        var blob = new Blob([text], { type: type || "text/plain;charset=utf-8" });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement("a");
+        a.href = url; a.download = name;
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+      }
+      function copyText(text, doneMsg, statusTarget) {
+        var target = statusTarget || statusEl;
+        function done() { target.textContent = doneMsg; }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done, function () { fallback(); });
+        } else { fallback(); }
+        function fallback() {
+          var ta = document.createElement("textarea");
+          ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+          document.body.appendChild(ta); ta.select();
+          try { document.execCommand("copy"); done(); }
+          catch (e) { target.textContent = "Copy did not work in this browser — select the text and copy it by hand."; }
+          ta.remove();
+        }
+      }
+
+      /* ---------- co-writing helpers (on-page, honestly labelled) ---------- */
+      var MINDS = {
+        roger: {
+          name: "Roger Sim",
+          opening: "Tell it straight, the way you would tell it across a table. Starter: \u201CI am writing this because what happened matters \u2014 and here is what happened.\u201D Then write the happening, nothing else, for the first three sentences.",
+          question: "Roger Sim asks: \u201CIf you had to defend this whole post in one sentence, what is the sentence?\u201D Answer it in the idea layer — if you cannot, the post is not ready.",
+          plainer: "Roger Sim's plainer way: cut every word that is there to impress somebody. Keep the words you would say to a friend. If a sentence would sound strange spoken aloud at a kitchen table, rewrite it until it wouldn't."
+        },
+        aria: {
+          name: "Aria",
+          opening: "Aria opens with the pattern underneath the event. Starter: \u201CUnderneath what happened, there is a pattern \u2014 and the pattern is this:\u201D Name the pattern in one line, then let the story prove it.",
+          question: "Aria asks: \u201CWhat repeats here? What has happened before, in another shape, that this rhymes with?\u201D Put the answer in the system layer — that is where patterns live.",
+          plainer: "Aria's plainer way: one idea per sentence. If a sentence carries two ideas, it becomes two sentences. Short is not simple-minded; short is load-bearing."
+        }
+      };
+      var LENSES = {
+        logic:    { name: "Logic",         question: "What follows from what, step by step \u2014 and where exactly does the chain break?", starter: "First\u2026 then\u2026 therefore\u2026 Write the chain out; the weak link will show itself." },
+        emotion:  { name: "Emotion",       question: "What is felt here, and by whom \u2014 and is the feeling information, or is it noise?", starter: "What I felt, before I understood anything, was\u2026 Start there; feelings are data, not verdicts." },
+        memory:   { name: "Memory",        question: "What does the record actually say \u2014 not what we wish it said, not what we remember it saying?", starter: "The record shows\u2026 If you cannot point to the record, the claim is an ASSUMPTION \u2014 label it so." },
+        social:   { name: "Social context", question: "Who else is touched by this, and what will they hear when they read it?", starter: "For the people around this, it means\u2026 Write the sentence for the reader who is not you." },
+        identity: { name: "Identity",      question: "Who are we, if we stand by this? Does it sound like us at our best?", starter: "This is the kind of Federation that\u2026 Finish it honestly; the post should be able to carry the answer." },
+        desire:   { name: "Desire",        question: "What do we actually want here \u2014 underneath the want we admit to?", starter: "What we want, honestly, is\u2026 The admitted want goes in the post; the real one should at least be known." },
+        fear:     { name: "Fear",          question: "What is the tiger in the bush here \u2014 the fear quietly doing the deciding?", starter: "The fear underneath is\u2026 Name it in the draft. A named fear loses its vote." },
+        time:     { name: "Time",          question: "How does this look in ten years? In two hundred? The Federation builds on a 200-year horizon \u2014 does this post?", starter: "In ten years, this will look like\u2026 Write that sentence before you publish anything." },
+        structure:{ name: "Structure",     question: "What is the shape of this \u2014 what holds what up, and what falls if one piece is removed?", starter: "The structure is simple: \u2026 Build the post on the structure, not around it." },
+        intuition:{ name: "Intuition",     question: "What does the spark say before the reasons arrive? Intuition is the human half of the partnership \u2014 record it, then test it.", starter: "Before I can prove it, I sense\u2026 Write the sensing down; the lenses will do the testing." },
+        ethics:   { name: "Ethics",        question: "Is this right \u2014 for everyone it touches, not only for us? Aether guards this gate.", starter: "It is right if\u2026 If the sentence cannot be finished, the post waits." },
+        legacy:   { name: "Legacy",        question: "What does this leave behind for the ones who come after \u2014 including the ones who will read it in a century?", starter: "What this leaves behind is\u2026 End the post there, and it ends standing up." }
+      };
+      function currentMind() {
+        var pick = $("mind-pick").value;
+        if (pick === "lens") {
+          var L = LENSES[$("lens-pick").value];
+          return {
+            name: "the " + L.name + " lens of the Ring of Twelve",
+            opening: L.starter + " (" + L.name + " lens starter \u2014 rewrite it in your own words.)",
+            question: "The " + L.name + " lens asks: \u201C" + L.question + "\u201D Answer it in the post, or mark the claim it touches UNKNOWN.",
+            plainer: "The " + L.name + " lens, plainly: " + L.question + " Say the answer in one plain sentence a neighbour could follow \u2014 that sentence belongs in the idea layer."
+          };
+        }
+        return MINDS[pick];
+      }
+      function askMind(kind) {
+        var m = currentMind();
+        $("help-out").value = "Draft help from " + m.name + " (on-page helper \u2014 not a live AI call):\n\n" + m[kind];
+        say("Draft help from " + m.name + " is in the box. Edit it, then put it in a layer if you want it.");
+      }
+
+      /* ---------- source code examination ---------- */
+      function runChecks() {
+        var d = currentData || readData();
+        var code = currentHTML;
+        var checks = [];
+        function add(kind, msg) { checks.push({ kind: kind, msg: msg }); }
+
+        if (!d.title) add("fix", "The post has no title. Add one in step 1 \u2014 the title is what readers and search engines see first.");
+        else if (d.title.length > 70) add("look", "The title is " + d.title.length + " characters. Share previews usually cut titles near 70, so consider shortening it.");
+        else add("ok", "Title present: \u201C" + d.title + "\u201D (" + d.title.length + " characters).");
+
+        if (!d.about) add("fix", "No \u201Cwhat is it about\u201D summary. The post's opening line and its share description both come from that answer \u2014 add one or two sentences.");
+        else add("ok", "Summary present, " + d.about.length + " characters \u2014 it feeds the post opening and the share card.");
+
+        if (!d.story) add("fix", "The story layer is empty. A Federation post begins with what happened \u2014 and the truth gate asks for it too.");
+        else add("ok", "Story layer written (" + wordCount({ about: "", story: d.story, idea: "", system: "", invite: "" }) + " words).");
+        add(d.idea ? "ok" : "look", d.idea ? "Idea layer written \u2014 the plain common-sense point is in the post." : "The idea layer is empty. The post will still work, but the plain point it makes deserves its own layer.");
+        add(d.system ? "ok" : "look", d.system ? "System layer written \u2014 the post points at something already built." : "The system layer is empty. If nothing built shows the idea yet, say so in the post rather than implying it.");
+        add(d.invite ? "ok" : "look", d.invite ? "Invitation layer written \u2014 the reader is offered one small thing to try." : "The invitation layer is empty. One small act for the reader is the Federation way of ending a post.");
+
+        if (!d.statements.length) add("look", "No labelled statements. The truth gate works best when the post's claims are listed and labelled \u2014 add at least one in step 1.");
+        else {
+          if (d.unlabelled) add("fix", d.unlabelled + (d.unlabelled === 1 ? " statement is" : " statements are") + " written but unlabelled. Unlabelled claims are held at the gate and do not print on the post \u2014 label each one, or remove it.");
+          else add("ok", d.statements.length + (d.statements.length === 1 ? " statement" : " statements") + ", every one carrying a truth label in the code.");
+          var unks = d.statements.filter(function (s) { return s.label === "UNKNOWN"; }).length;
+          var asms = d.statements.filter(function (s) { return s.label === "ASSUMPTION"; }).length;
+          if (unks) add("look", unks + (unks === 1 ? " statement is" : " statements are") + " labelled UNKNOWN. That is honest and allowed \u2014 it prints on the post \u2014 but check it still needs to be said.");
+          if (asms) add("look", asms + (asms === 1 ? " statement is" : " statements are") + " labelled ASSUMPTION. Fine if it reads as a guess; if it is verified, promote it to FACT.");
+        }
+
+        if (gateStamp) add("ok", "Truth gate: passed and stamped on " + gateStamp + ". The post's face carries the publish-ready banner, not the DRAFT banner.");
+        else add("look", "Truth gate: not passed yet. The post carries the DRAFT banner on its face until the gate in step 3 is passed \u2014 that is the gate working, not an error.");
+
+        if (code.indexOf('property="og:title"') > -1 && code.indexOf('property="og:description"') > -1)
+          add("ok", "Open Graph tags are in the code (og:title, og:description) \u2014 Facebook, WhatsApp and Threads will build a preview card from them.");
+        else add("fix", "Open Graph tags are missing from the code, so shares would show no proper preview card.");
+
+        if (d.ogImage) {
+          add("ok", "Share image set (" + d.ogImage + "), declared at 1200\u00D7630 in the code, and shown at the top of the post.");
+          if (!d.ogAlt) add("fix", "The share image has no description. A reader who cannot see it gets nothing \u2014 add the \u201Cshare image description\u201D in step 1.");
+          else add("ok", "The share image carries its description (alt text): \u201C" + d.ogAlt + "\u201D.");
+        } else {
+          add("look", "No share image (og:image) is set. Shares will show text only until a 1200\u00D7630 image is chosen and its address put in step 1.");
+        }
+
+        var h1s = (code.match(/<h1[\s>]/g) || []).length;
+        if (h1s === 1) add("ok", "Exactly one main heading (h1) in the code \u2014 the structure a screen reader navigates by.");
+        else add("fix", "The code has " + h1s + " main headings (h1); it should have exactly one.");
+
+        if (code.indexOf('lang="en"') > -1) add("ok", "The post language is declared (lang=\u201Cen\u201D), so screen readers pronounce it correctly.");
+        else add("fix", "The post language is not declared in the code.");
+
+        if (code.indexOf("@media print") > -1) add("ok", "Print stylesheet is in the code \u2014 the post prints clean as plain text, and Large print carries into print.");
+        else add("fix", "No print stylesheet found in the code \u2014 the post would print with its screen colours and buttons.");
+
+        if (code.indexOf("Corrections log") > -1) add("ok", "Corrections log is on the post, with " + (1 + d.corrections.length) + (d.corrections.length ? " entries." : " entry (its creation)."));
+        else add("fix", "The corrections log is missing from the code.");
+
+        if (d.tokens) add(code.indexOf("1 Token") > -1 ? "ok" : "fix", code.indexOf("1 Token") > -1 ? "Token block is in the code: $5 = 1 Token, Gumroad or crypto." : "The token block was requested but is missing from the code.");
+        if (d.companion) add(code.indexOf("aether-btn") > -1 ? "ok" : "fix", code.indexOf("aether-btn") > -1 ? "Aether companion is in the code \u2014 the corner dragon with its sayings." : "The companion was requested but is missing from the code.");
+        if (d.kidsafe) add(code.indexOf("kidToggle") > -1 ? "ok" : "fix", code.indexOf("kidToggle") > -1 ? "Kid-safe switch is in the code \u2014 it hides the token block and the tool frame, and enlarges the type." : "The kid-safe switch was requested but is missing from the code.");
+        if (d.authorPanel) add("look", "Talk-to-the-author panel is on the post, honestly marked: the author's Sim answers there when the Federation API connection lands. No live Sim is claimed today.");
+        if (d.tool) add("look", "Tool embed is in the code: " + TOOLS[d.tool] + ", one iframe line pointing at " + d.toolsAddress + "#" + d.tool + ". The frame stays empty until the tools page is published at that address \u2014 the post says so, in words, above the frame.");
+        if (d.livesearch) add("look", "Live web check: the hook is on the post and honestly marked not-yet-connected. It does not search and does not invent results.");
+
+        lastChecks = checks;
+        var fixes = checks.filter(function (c) { return c.kind === "fix"; }).length;
+        var looks = checks.filter(function (c) { return c.kind === "look"; }).length;
+        var oks = checks.filter(function (c) { return c.kind === "ok"; }).length;
+        var html = '<p><strong>' + oks + " good, " + looks + " worth a look, " + fixes + " to fix.</strong></p>";
+        html += '<ul class="checks">';
+        checks.forEach(function (c) {
+          var word = c.kind === "ok" ? "Good:" : (c.kind === "look" ? "Worth a look:" : "Needs fixing:");
+          html += '<li class="' + c.kind + '"><span class="verdict">' + word + "</span>" + esc(c.msg) + "</li>";
+        });
+        html += "</ul>";
+        $("check-results").innerHTML = html;
+        $("read-checks-btn").disabled = false;
+        say("Check complete. " + oks + " good, " + looks + " worth a look, " + fixes + " to fix.");
+      }
+
+      /* ---------- voice: dictation + read-back ---------- */
+      var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      var rec = null, recTarget = null, recBtn = null, recLabel = "";
+      function stopRec() { if (rec) { try { rec.stop(); } catch (e) {} } }
+      document.querySelectorAll(".dictate").forEach(function (btn) {
+        if (!SR) { btn.disabled = true; btn.textContent = "Dictation not available in this browser"; return; }
+        btn.addEventListener("click", function () {
+          if (rec && recTarget === btn.getAttribute("data-target")) { stopRec(); return; }
+          stopRec();
+          recTarget = btn.getAttribute("data-target"); recBtn = btn; recLabel = btn.textContent;
+          rec = new SR();
+          rec.lang = "en-US"; rec.interimResults = false; rec.continuous = false;
+          try { rec.processLocally = true; } catch (e) {}
+          rec.onresult = function (ev) {
+            var text = ev.results[0][0].transcript.trim();
+            var field = $(recTarget);
+            if (field) {
+              var cur = field.value;
+              field.value = cur ? cur.replace(/\s+$/, "") + " " + text : text;
+              field.dispatchEvent(new Event("input", { bubbles: true }));
+            }
+            say("Dictation added: \u201C" + text + "\u201D");
+          };
+          rec.onend = function () { if (recBtn) recBtn.textContent = recLabel; rec = null; };
+          rec.onerror = function (ev) { say("Dictation stopped (" + ev.error + "). Typing works everywhere."); };
+          btn.textContent = "Stop dictating";
+          say("Listening \u2014 speak now, then it types what you said.");
+          try { rec.start(); } catch (e) { say("Dictation could not start in this browser."); }
+        });
+      });
+
+      function speak(text) {
+        if (!("speechSynthesis" in window)) { say("Read-aloud is not available in this browser."); return; }
+        window.speechSynthesis.cancel();
+        var u = new SpeechSynthesisUtterance(text);
+        u.rate = 1; window.speechSynthesis.speak(u);
+      }
+
+      /* ---------- wire up ---------- */
+      addStatement("The Ring of Twelve is twelve inquiry lenses, not a governing body.", "FACT");
+      addStatement("One mind taking twelve viewpoints reaches a rounder answer than one viewpoint alone.", "INFERENCE");
+      addStatement("A reader who tries the lenses once will judge the method by the experience.", "ASSUMPTION");
+      addStatement("How many readers have tried the Ring so far.", "UNKNOWN");
+
+      $("post-form").addEventListener("input", onEdit);
+      $("post-form").addEventListener("change", onEdit);
+      $("add-stmt").addEventListener("click", function () {
+        addStatement("", "");
+        onEdit();
+        var inputs = document.querySelectorAll(".stmt-text");
+        if (inputs.length) inputs[inputs.length - 1].focus();
+        say("A new blank statement was added. Type its text and choose its truth label \u2014 until it has one, it holds the post at the gate.");
+      });
+      $("gate-confirm").addEventListener("change", function () {
+        if (gateStamp && !$("gate-confirm").checked) {
+          gateStamp = null;
+          $("gate-status").textContent = "The confirmation was withdrawn, so the stamp has come off. The gate must be passed again.";
+        }
+        refresh();
+      });
+      $("gate-btn").addEventListener("click", function () {
+        var d = currentData || readData();
+        var items = gateItems(d);
+        var missing = items.filter(function (i) { return !i.ok; });
+        if (missing.length) {
+          gateStamp = null;
+          refresh();
+          $("gate-status").textContent = "The gate holds this post. Still to do: " + missing.map(function (i) { return i.msg; }).join(" ");
+          say("The gate holds this post \u2014 " + missing.length + (missing.length === 1 ? " thing" : " things") + " still to do, listed under the gate and beside the button.");
+          return;
+        }
+        gateStamp = todayLong();
+        refresh();
+        $("gate-status").textContent = "Gate passed. \u201C" + (d.title || "Untitled post") + "\u201D is stamped publish-ready as of " + gateStamp + " \u2014 the banner is on the post's face in the preview. Download it in step 5 whenever you are ready; publishing itself stays your word.";
+        say("Gate passed. The post is stamped publish-ready as of " + gateStamp + ".");
+      });
+      $("live-search-btn").addEventListener("click", function () {
+        var q = $("f-search").value.trim();
+        $("fresh-result").textContent = "Live search is not connected yet in this version, so nothing was searched for \u201C" + (q || "this post") + "\u201D and nothing has been made up. When it is connected, fresh facts will arrive here with their source and date, labelled INFERENCE, and will pass through the truth gate in this step before they can join the post.";
+      });
+
+      $("mind-pick").addEventListener("change", function () {
+        $("lens-wrap").hidden = $("mind-pick").value !== "lens";
+      });
+      $("help-opening").addEventListener("click", function () { askMind("opening"); });
+      $("help-question").addEventListener("click", function () { askMind("question"); });
+      $("help-plainer").addEventListener("click", function () { askMind("plainer"); });
+      document.querySelectorAll("[data-insert]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var help = $("help-out").value.trim();
+          if (!help) { say("There is no draft help to insert yet \u2014 ask a mind for help first."); return; }
+          var field = $(btn.getAttribute("data-insert"));
+          field.value = field.value.trim() ? field.value.replace(/\s+$/, "") + "\n\n" + help : help;
+          field.dispatchEvent(new Event("input", { bubbles: true }));
+          say("Draft help added to the layer. Rewrite it in your own words \u2014 it is a starter, not the finished text.");
+        });
+      });
+      $("read-help-btn").addEventListener("click", function () {
+        var t = $("help-out").value.trim();
+        if (t) speak(t); else say("There is no draft help to read yet.");
+      });
+      $("readback-btn").addEventListener("click", function () {
+        var d = currentData || readData();
+        var t = "Your post. Title: " + (d.title || "no title yet") + ". ";
+        t += "About: " + (d.about || "nothing yet") + ". ";
+        t += "The story: " + (d.story || "empty") + ". ";
+        t += "The idea: " + (d.idea || "empty") + ". ";
+        t += "The system: " + (d.system || "empty") + ". ";
+        t += "The invitation: " + (d.invite || "empty") + ". ";
+        t += "It carries " + d.statements.length + " statements. ";
+        d.statements.forEach(function (s) { t += (s.label || "UNLABELLED") + ": " + s.text + ". "; });
+        t += gateStamp ? "The truth gate is passed and the post is stamped publish-ready." : "The truth gate is not passed yet.";
+        speak(t);
+      });
+
+      $("copy-embed").addEventListener("click", function () {
+        copyText($("embed-code").value, "Embed line copied. Paste it into any page where this post should appear.");
+      });
+      $("copy-rss").addEventListener("click", function () {
+        copyText(currentRSS, "RSS entry copied. Paste it into the blog's feed file, inside the channel, beside the other entries.");
+      });
+      $("copy-fb").addEventListener("click", function () {
+        copyText($("cap-fb").value, "Facebook caption copied.");
+      });
+      $("copy-ig").addEventListener("click", function () {
+        copyText($("cap-ig").value, "Instagram caption copied.");
+      });
+      $("copy-th").addEventListener("click", function () {
+        copyText($("cap-th").value, "Threads caption copied.");
+      });
+      $("dl-html").addEventListener("click", function () {
+        download(fileBase(currentData) + ".html", currentHTML, "text/html;charset=utf-8");
+        say("HTML downloaded: the post itself, a finished page" + (gateStamp ? ", stamped publish-ready." : ", carrying its DRAFT banner until the gate is passed."));
+      });
+      $("dl-md").addEventListener("click", function () {
+        download(fileBase(currentData) + ".md", currentMD, "text/markdown;charset=utf-8");
+        say("Markdown downloaded \u2014 the same words as a document, and the form to paste into Medium.");
+      });
+      $("dl-yaml").addEventListener("click", function () {
+        download(fileBase(currentData) + ".yaml", currentYAML, "text/yaml;charset=utf-8");
+        say("YAML downloaded \u2014 the post's facts for the lattice, labels and gate state included.");
+      });
+      $("dl-rss").addEventListener("click", function () {
+        download(fileBase(currentData) + "-rss.xml", currentRSS, "application/rss+xml;charset=utf-8");
+        say("RSS entry downloaded \u2014 paste its contents into the blog's feed file, inside the channel.");
+      });
+      $("check-btn").addEventListener("click", runChecks);
+      $("read-checks-btn").addEventListener("click", function () {
+        if (!lastChecks.length) return;
+        var t = "Check results for your post. ";
+        lastChecks.forEach(function (c) {
+          t += (c.kind === "ok" ? "Good. " : (c.kind === "look" ? "Worth a look. " : "Needs fixing. ")) + c.msg + " ";
+        });
+        speak(t);
+      });
+
+      refresh();
+    </script>
+  </body>
+</html>
