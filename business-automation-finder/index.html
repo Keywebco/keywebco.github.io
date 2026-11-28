@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:," />
+    <title>Business Automation Finder</title>
+    <style>
+      :root{
+        --bg:#ffffff; --ink:#14201a; --muted:#3d4a43; --card:#f2f6f3; --line:#b9c8be;
+        --accent:#0b5d3b; --accent-ink:#ffffff; --accent-soft:#e2efe6;
+        --warn-bg:#fdf3d7; --warn-line:#8a6d1a; --focus:#b35400;
+        --radius:14px;
+      }
+      @media (prefers-color-scheme: dark){
+        :root{
+          --bg:#101613; --ink:#eef4f0; --muted:#b9c6bd; --card:#1a221d; --line:#3c4a41;
+          --accent:#3fae7c; --accent-ink:#0b1510; --accent-soft:#1e2f26;
+          --warn-bg:#2c2510; --warn-line:#c9a83c; --focus:#ffb35c;
+        }
+      }
+      *{box-sizing:border-box}
+      html{font-size:19px}
+      body{
+        margin:0; background:var(--bg); color:var(--ink);
+        font-family:ui-sans-system,-apple-system,"Segoe UI",Verdana,Helvetica,Arial,sans-serif;
+        line-height:1.55;
+      }
+      main{max-width:880px; margin:0 auto; padding:28px 20px 56px}
+      h1{font-size:2.1rem; line-height:1.2; margin:0 0 10px; letter-spacing:-.01em}
+      .lede{font-size:1.12rem; color:var(--muted); margin:0 0 28px; max-width:38em}
+      h2{font-size:1.45rem; margin:0 0 6px}
+      :focus-visible{outline:4px solid var(--focus); outline-offset:3px; border-radius:6px}
+
+      .choices{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:0 0 30px}
+      @media (max-width:620px){ .choices{grid-template-columns:1fr} }
+      .choice{
+        appearance:none; text-align:left; cursor:pointer;
+        background:var(--card); color:var(--ink);
+        border:3px solid var(--line); border-radius:var(--radius);
+        padding:20px 20px 18px; min-height:84px;
+        font:inherit; font-size:1.12rem; font-weight:700; line-height:1.35;
+      }
+      .choice small{display:block; font-weight:400; font-size:.95rem; color:var(--muted); margin-top:6px}
+      .choice:hover{border-color:var(--accent)}
+      .choice[aria-pressed="true"]{background:var(--accent-soft); border-color:var(--accent)}
+
+      form.describe{
+        background:var(--card); border:2px solid var(--line); border-radius:var(--radius);
+        padding:20px; margin:0 0 30px;
+      }
+      form.describe label{display:block; font-weight:700; font-size:1.08rem; margin-bottom:10px}
+      .row{display:flex; gap:10px; flex-wrap:wrap}
+      .row input{
+        flex:1 1 260px; font:inherit; font-size:1.05rem; padding:14px 16px; min-height:56px;
+        border:2px solid var(--line); border-radius:10px; background:var(--bg); color:var(--ink);
+      }
+      .go{
+        font:inherit; font-weight:700; font-size:1.05rem; cursor:pointer;
+        background:var(--accent); color:var(--accent-ink); border:3px solid var(--accent);
+        border-radius:10px; padding:12px 22px; min-height:56px;
+      }
+      .hint{color:var(--muted); font-size:.95rem; margin:10px 0 0}
+
+      section.result{
+        border:3px solid var(--accent); border-radius:var(--radius);
+        padding:24px; margin:0 0 30px; background:var(--bg);
+      }
+      section.result[hidden]{display:none}
+      .route-tag{
+        display:inline-block; background:var(--accent); color:var(--accent-ink);
+        font-weight:700; font-size:.9rem; padding:5px 12px; border-radius:999px; margin-bottom:12px;
+      }
+      .facts{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:16px 0}
+      @media (max-width:620px){ .facts{grid-template-columns:1fr} }
+      .fact{background:var(--card); border:2px solid var(--line); border-radius:10px; padding:14px 16px}
+      .fact h3{margin:0 0 4px; font-size:1rem}
+      .fact p{margin:0}
+      ol.steps{margin:8px 0 0; padding-left:1.5em}
+      ol.steps li{margin:0 0 12px; padding-left:.2em}
+      ol.steps li::marker{font-weight:700; color:var(--accent)}
+      .never{background:var(--accent-soft); border-radius:10px; padding:14px 18px; margin:18px 0 0}
+      .never h3{margin:0 0 6px; font-size:1.05rem}
+      .never ul{margin:0; padding-left:1.3em}
+      .shops{margin:22px 0 0}
+      .shops > h3{font-size:1.15rem; margin:0 0 4px}
+      .shops > p{margin:0 0 6px}
+      .shop{border-top:2px solid var(--line); padding:14px 2px 4px}
+      .shop h4{margin:0 0 4px; font-size:1.08rem}
+      .shop p{margin:0 0 8px}
+      .tip{
+        background:var(--warn-bg); border:2px solid var(--warn-line); border-radius:10px;
+        padding:14px 18px; margin:18px 0 0;
+      }
+      .tip h3{margin:0 0 4px; font-size:1.05rem}
+      .tip p{margin:0}
+      a{color:var(--accent); font-weight:600; text-underline-offset:3px}
+      .links{margin:18px 0 0; padding:0; list-style:none}
+      .links li{margin:0 0 10px}
+      .links a{
+        display:inline-block; padding:10px 4px; min-height:44px;
+      }
+      .nomatch{border:3px solid var(--warn-line); background:var(--warn-bg); border-radius:var(--radius); padding:20px 24px; margin:0 0 30px}
+      .nomatch[hidden]{display:none}
+      .allroutes{margin-top:8px}
+      .allroutes summary{
+        cursor:pointer; font-weight:700; font-size:1.08rem; padding:14px 4px; min-height:48px;
+      }
+      .mini{border-top:2px solid var(--line); padding:16px 4px}
+      .mini h3{margin:0 0 4px; font-size:1.1rem}
+      .mini p{margin:0 0 6px}
+      footer{
+        border-top:2px solid var(--line); margin-top:36px; padding-top:18px;
+        color:var(--muted); font-size:.98rem;
+      }
+      footer p{margin:0 0 8px}
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>What kind of business do you have?</h1>
+      <p class="lede">Pick the one closest to you. You will get the easiest route to run it — the place to sign up, what it costs, the steps in order, and the jobs you never have to do yourself. No dragging pictures around on a screen. No building a shop by hand.</p>
+
+      <div class="choices" role="group" aria-label="Choose your kind of business">
+        <button type="button" class="choice" data-route="merch" aria-pressed="false">
+          I sell merch / shirts &amp; gifts
+          <small>Your art or words on shirts, mugs, stickers and gifts.</small>
+        </button>
+        <button type="button" class="choice" data-route="digital" aria-pressed="false">
+          I sell digital products / books
+          <small>Files people download: books, guides, courses, templates.</small>
+        </button>
+        <button type="button" class="choice" data-route="service" aria-pressed="false">
+          I sell a service / coaching
+          <small>Your time and skill: calls, lessons, advice, help.</small>
+        </button>
+        <button type="button" class="choice" data-route="kids" aria-pressed="false">
+          I make content for kids
+          <small>Stories, videos and learning for children.</small>
+        </button>
+      </div>
+
+      <form class="describe" id="describeForm">
+        <label for="describeInput">Or describe it in your own words</label>
+        <div class="row">
+          <input id="describeInput" name="describe" type="text" autocomplete="off"
+                 placeholder="For example: I draw dragons and want them on shirts" />
+          <button class="go" type="submit">Find my route</button>
+        </div>
+        <p class="hint">Plain words are fine. Try “I write ebooks”, “I coach singers”, or “stories for children”.</p>
+      </form>
+
+      <div class="nomatch" id="noMatch" hidden tabindex="-1">
+        <h2>That one is not in the list yet</h2>
+        <p id="noMatchText">This first version covers four kinds of business. Pick the button above that is closest to yours — most businesses fit one of them.</p>
+      </div>
+
+      <section class="result" id="result" hidden aria-live="polite" tabindex="-1">
+        <span class="route-tag" id="rTag">Your easiest route</span>
+        <h2 id="rTitle"></h2>
+        <p id="rIntro"></p>
+
+        <div class="facts">
+          <div class="fact">
+            <h3>Where you sign up</h3>
+            <p id="rPlatform"></p>
+          </div>
+          <div class="fact">
+            <h3>What it costs</h3>
+            <p id="rCost"></p>
+          </div>
+        </div>
+
+        <h3>Your plan, in order</h3>
+        <ol class="steps" id="rSteps"></ol>
+
+        <p id="rExtra" hidden></p>
+
+        <div class="shops" id="rShops" hidden>
+          <h3>Four other print shops, checked</h3>
+          <p>Checked on 26 November 2026. Prices and fees can change — check the current prices on each site before you sign up.</p>
+          <div id="rShopsList"></div>
+        </div>
+
+        <div class="tip" id="rTip" hidden>
+          <h3>One tip that saves reprints</h3>
+          <p id="rTipText"></p>
+        </div>
+
+        <div class="never">
+          <h3>What you never have to touch</h3>
+          <ul id="rNever"></ul>
+        </div>
+
+        <ul class="links" id="rLinks"></ul>
+      </section>
+
+      <details class="allroutes">
+        <summary>See all four routes at once</summary>
+        <div class="mini">
+          <h3>Merch / shirts &amp; gifts — Redbubble</h3>
+          <p>Upload your design once. Redbubble prints each order, ships it, and pays you. Cost: account fees depend on your tier — check on their site.</p>
+        </div>
+        <div class="mini">
+          <h3>Digital products / books — Gumroad</h3>
+          <p>Upload your file, set a price, share one link. Gumroad takes payment and sends the file. Cost: no monthly fee; 10% + 50¢ per direct sale (checked on Gumroad’s pricing page).</p>
+        </div>
+        <div class="mini">
+          <h3>Service / coaching — Calendly + Gumroad</h3>
+          <p>Clients pick a time from your booking link and can pay when they book. Cost: check current plans on Calendly’s site; Gumroad fees as above.</p>
+        </div>
+        <div class="mini">
+          <h3>Content for kids — YouTube + Project Gutenberg</h3>
+          <p>Post stories and videos on a free YouTube channel. Free classic children’s stories come from Project Gutenberg — free, no sign-up. Cost: free to start.</p>
+        </div>
+      </details>
+
+      <footer>
+        <p><strong>Business Automation Finder</strong> is a tool from the NextXus Federation — built so anyone can find the route with the least work by hand, including people who cannot use visual drag-and-drop editors.</p>
+        <p>Prices and fees were checked on each platform’s own site on November 26, 2026. Anything marked “to be confirmed” has not been checked yet — we would rather say so than guess.</p>
+      </footer>
+    </main>
+
+    <script>
+      var ROUTES = {
+        merch: {
+          title: "Merch, shirts & gifts — sell on Redbubble",
+          intro: "This is the upload-once route. You put your design up one time. When someone orders, Redbubble prints it, packs it, ships it, and handles the customer. You just collect what you earn.",
+          platform: "Redbubble — a marketplace where people already shop, so you do not need to build or stock your own store.",
+          cost: "No stock to buy and nothing to ship. Redbubble now uses account tiers, and fees depend on your tier — check the current fees on their site before you sign up.",
+          steps: [
+            "Get your art ready: a clear PNG file. If the picture has a white box behind it, strip the white out first so the background is see-through (transparent) — see the tip below.",
+            "Open a free artist account on Redbubble and start your shop.",
+            "Upload your design once, give it a plain title and a few words people would search for, and set your price.",
+            "Share your shop link anywhere — on your pages, in posts, in messages.",
+            "When an order comes in, Redbubble prints and ships it and pays you. Your only job after that is adding new designs when you feel like it."
+          ],
+          tip: "Before you upload, strip white backgrounds out and save the art as a transparent PNG at 300 DPI (print quality). A white square left behind the art will print as a white square on a dark shirt. A simple script can do a whole folder of pictures at once — no image editor, no dragging, no sight needed.",
+          never: [
+            "Printing, packing or posting anything",
+            "Holding stock or paying for shirts up front",
+            "Customer emails about delivery — Redbubble handles them",
+            "Laying products out on a screen, one by one"
+          ],
+          links: [
+            { label: "Start selling on Redbubble", href: "https://www.redbubble.com/about/selling" },
+            { label: "See a working example: the Keywebco shop on Redbubble (165 designs)", href: "https://www.redbubble.com/people/Keywebco/shop" }
+          ],
+          extra: "",
+          shops: [
+            {
+              name: "1. TeePublic — upload once, done",
+              lines: [
+                "One transparent PNG is placed automatically on 75+ products — tees, hoodies, mugs, stickers and kids’ tees. Free to join, no monthly fee.",
+                "TeePublic sets the prices; you earn fixed amounts — a Classic Tee pays $4 ($2 on sale), a mug $3 ($2), a sticker $0.75 ($0.50) — paid on the 15th each month by PayPal or Payoneer, $20 minimum. There is no API: every upload goes through its web uploader.",
+                "The catch: new accounts start as Pending, then become Artisan or Apprentice. Apprentices do not appear in TeePublic’s on-site search and earn less. Whether its dashboard works with a screen reader is not verified."
+              ],
+              link: { label: "Sign up at TeePublic (you will need your email, a W-9 tax form, and PayPal before royalties)", href: "https://www.teepublic.com/designer-signup" }
+            },
+            {
+              name: "2. Printify — strongest automation",
+              lines: [
+                "Free plan ($0, up to 5 stores) with 2,000+ products, including kids’ tees, hoodies and onesies.",
+                "Its full public API lets a script upload PNGs, create products and publish them without ever opening the visual editor. You set the retail price and keep the difference after production and shipping.",
+                "Its free Pop-Up Store gives you one link (yourstorename.printify.me) to put on your own site. Payouts need a one-time Stripe verification."
+              ],
+              link: { label: "Printify’s developer docs (the API)", href: "https://developers.printify.com/" }
+            },
+            {
+              name: "3. Printful — needs a shop attached",
+              lines: [
+                "Free plan ($0, 563 products). Its API can also script uploads, but it needs a connected shop such as Shopify or Etsy to sell through — the weakest of the four for “one link on my own site”.",
+                "It is the only one of the four with a published accessibility plan (it aims at WCAG) — but that is not a promise its visual editor works with a screen reader."
+              ],
+              link: { label: "Printful’s developer docs (the API)", href: "https://developers.printful.com/" }
+            },
+            {
+              name: "4. Fourthwall — nicest storefront",
+              lines: [
+                "Free ($0 a month): you keep everything above base cost — a tee’s base is $11.75 — plus card processing of 2.9% + $0.30 per sale.",
+                "Kids’ clothing is a named strength: baby, toddler and youth tees, hoodies, leggings and onesies from $11.95.",
+                "Its API can create products but is limited to 5 requests a minute — 165 designs would take 30+ minutes by script. It cannot be embedded inside another page; link out to it instead."
+              ],
+              link: null
+            }
+          ]
+        },
+        digital: {
+          title: "Digital products & books — sell on Gumroad",
+          intro: "If what you sell is a file — a book, a guide, a course, a template — Gumroad is the shortest path. You upload the file once, and Gumroad takes the money and delivers the file for every sale, day and night.",
+          platform: "Gumroad — one page for your product and one link to share. No website to build.",
+          cost: "No monthly fee. Gumroad takes 10% + 50¢ from each sale made through your own link, and 30% on sales that come through its Discover marketplace. Checked on Gumroad’s own pricing page.",
+          steps: [
+            "Finish your file — a PDF book, a guide, a folder of templates. One good file is enough to start.",
+            "Open a Gumroad account and add your bank or PayPal details so you can be paid.",
+            "Upload the file, write a short plain description, and set your price.",
+            "Share your product link on your pages and posts. That link is your whole shop.",
+            "Every buyer pays Gumroad and gets the file automatically. You never email files by hand."
+          ],
+          tip: "",
+          never: [
+            "Sending files to buyers yourself",
+            "Working out sales tax — Gumroad handles tax on sales worldwide",
+            "Building or paying for a website",
+            "Chasing payments — buyers pay before they download"
+          ],
+          links: [
+            { label: "Open Gumroad and start selling", href: "https://gumroad.com/" },
+            { label: "Gumroad’s pricing page (the fees above, in their words)", href: "https://gumroad.com/pricing" },
+            { label: "See a working example: the Keywebco store on Gumroad", href: "https://keywebster.gumroad.com" }
+          ],
+          extra: ""
+        },
+        service: {
+          title: "A service or coaching — bookings on Calendly, payment on Gumroad",
+          intro: "When you sell your time, the tiring part is the back-and-forth: “Are you free Tuesday?” This route kills that. Clients pick a time that suits them from one link, and they can pay when they book.",
+          platform: "Calendly for booking — clients choose from the times you set. Gumroad if you want to sell paid sessions or packages as a simple product.",
+          cost: "Calendly: check the current plans and prices on their site. Gumroad: no monthly fee; 10% + 50¢ per direct sale, checked on Gumroad’s pricing page.",
+          steps: [
+            "Open a Calendly account and connect your normal calendar.",
+            "Set the hours you are willing to work, and make one booking type — for example, a 30-minute coaching call.",
+            "Turn on payment at booking if you want clients to pay up front (Calendly supports this), or sell the session as a product on Gumroad and send buyers your booking link after they pay.",
+            "Share your one booking link everywhere you would normally say “send me a message”.",
+            "Clients book themselves, get automatic reminders, and can rebook without emailing you. You just show up to the call."
+          ],
+          tip: "",
+          never: [
+            "Email tennis about times and dates",
+            "Sending reminders — they go out on their own",
+            "Invoices for simple sessions — payment happens at booking",
+            "Double-booking — your calendar blocks times already taken"
+          ],
+          links: [
+            { label: "Open Calendly", href: "https://calendly.com/" },
+            { label: "Open Gumroad (to sell paid sessions)", href: "https://gumroad.com/" },
+            { label: "Gumroad’s pricing page", href: "https://gumroad.com/pricing" }
+          ],
+          extra: ""
+        },
+        kids: {
+          title: "Content for kids — stories on YouTube, free books from Project Gutenberg",
+          intro: "For children’s stories and videos, the easiest route costs nothing to start: a YouTube channel for your videos, and free classic children’s books from Project Gutenberg as your story supply — books old enough that anyone may use them.",
+          platform: "YouTube for your channel. Project Gutenberg for free story books — free, with no sign-up and no fees (in their own words).",
+          cost: "Free to start: opening a YouTube channel costs nothing, and Project Gutenberg books are free. If you later sell story packs or downloads, Gumroad charges no monthly fee and takes 10% + 50¢ per direct sale.",
+          steps: [
+            "Open a YouTube channel with a clear name parents can trust.",
+            "Pick your stories from Project Gutenberg’s free children’s books — classics anyone may read aloud and share.",
+            "Record each story in a calm voice, or have it read aloud, and post one video at a time. A steady pace beats a big launch.",
+            "Write plain titles parents search for, like the story’s name plus “bedtime story”.",
+            "When families ask for more, sell a story pack or offer homework help as a download or booking through Gumroad — one link, no shop to run."
+          ],
+          tip: "",
+          never: [
+            "Paying for story books — the classics are free",
+            "Writing every story yourself — the free library carries the load",
+            "Handling payments by hand if you sell packs later",
+            "Building a website — your channel page is enough to start"
+          ],
+          links: [
+            { label: "Open YouTube", href: "https://www.youtube.com/" },
+            { label: "Project Gutenberg — free books, no sign-up", href: "https://www.gutenberg.org/" },
+            { label: "Gumroad (only if you sell story packs later)", href: "https://gumroad.com/" }
+          ],
+          extra: ""
+        }
+      };
+
+      var KEYWORDS = [
+        { route: "merch", words: ["shirt","t-shirt","tshirt","tee","merch","mug","sticker","gift","hoodie","clothing","apparel","print","poster","tote","design on","art on","dragon shirt"] },
+        { route: "digital", words: ["ebook","e-book","book","pdf","course","download","digital","guide","template","preset","e book","novel","manual","workbook","printable","audio file","music file"] },
+        { route: "service", words: ["coach","consult","service","tutor","lesson","advice","therapy","counsel","mentor","training session","cleaning","repair","help people","clients","appointments","speaking"] },
+        { route: "kids", words: ["kid","child","children","stories","story","bedtime","cartoon","homework","school","family","toddler","young readers","fairy"] }
+      ];
+
+      var result = document.getElementById("result");
+      var noMatch = document.getElementById("noMatch");
+      var buttons = Array.prototype.slice.call(document.querySelectorAll(".choice"));
+
+      function showRoute(key, focusIt) {
+        var r = ROUTES[key];
+        if (!r) return;
+        noMatch.hidden = true;
+        document.getElementById("rTitle").textContent = r.title;
+        document.getElementById("rIntro").textContent = r.intro;
+        document.getElementById("rPlatform").textContent = r.platform;
+        document.getElementById("rCost").textContent = r.cost;
+
+        var stepsEl = document.getElementById("rSteps");
+        stepsEl.innerHTML = "";
+        r.steps.forEach(function (s) {
+          var li = document.createElement("li");
+          li.textContent = s;
+          stepsEl.appendChild(li);
+        });
+        var extraEl = document.getElementById("rExtra");
+        if (r.extra) {
+          extraEl.textContent = r.extra;
+          extraEl.hidden = false;
+        } else {
+          extraEl.hidden = true;
+        }
+
+        var shopsBox = document.getElementById("rShops");
+        var shopsList = document.getElementById("rShopsList");
+        shopsList.innerHTML = "";
+        if (r.shops && r.shops.length) {
+          r.shops.forEach(function (shop) {
+            var div = document.createElement("div");
+            div.className = "shop";
+            var h = document.createElement("h4");
+            h.textContent = shop.name;
+            div.appendChild(h);
+            shop.lines.forEach(function (line) {
+              var p = document.createElement("p");
+              p.textContent = line;
+              div.appendChild(p);
+            });
+            if (shop.link) {
+              var p = document.createElement("p");
+              var a = document.createElement("a");
+              a.href = shop.link.href;
+              a.textContent = shop.link.label + " ↗";
+              a.target = "_blank";
+              a.rel = "noopener";
+              p.appendChild(a);
+              div.appendChild(p);
+            }
+            shopsList.appendChild(div);
+          });
+          shopsBox.hidden = false;
+        } else {
+          shopsBox.hidden = true;
+        }
+
+        var tipBox = document.getElementById("rTip");
+        if (r.tip) {
+          document.getElementById("rTipText").textContent = r.tip;
+          tipBox.hidden = false;
+        } else {
+          tipBox.hidden = true;
+        }
+
+        var neverEl = document.getElementById("rNever");
+        neverEl.innerHTML = "";
+        r.never.forEach(function (s) {
+          var li = document.createElement("li");
+          li.textContent = s;
+          neverEl.appendChild(li);
+        });
+
+        var linksEl = document.getElementById("rLinks");
+        linksEl.innerHTML = "";
+        r.links.forEach(function (l) {
+          var li = document.createElement("li");
+          var a = document.createElement("a");
+          a.href = l.href;
+          a.textContent = l.label + " ↗";
+          a.target = "_blank";
+          a.rel = "noopener";
+          li.appendChild(a);
+          linksEl.appendChild(li);
+        });
+
+        buttons.forEach(function (b) {
+          b.setAttribute("aria-pressed", b.getAttribute("data-route") === key ? "true" : "false");
+        });
+
+        result.hidden = false;
+        if (focusIt) result.focus();
+        result.scrollIntoView({ block: "start" });
+      }
+
+      buttons.forEach(function (b) {
+        b.addEventListener("click", function () {
+          showRoute(b.getAttribute("data-route"), false);
+        });
+      });
+
+      function matchText(text) {
+        var t = " " + text.toLowerCase() + " ";
+        var best = null, bestScore = 0;
+        KEYWORDS.forEach(function (group) {
+          var score = 0;
+          group.words.forEach(function (w) {
+            if (t.indexOf(w) !== -1) score += w.length >= 5 ? 2 : 1;
+          });
+          if (score > bestScore) { bestScore = score; best = group.route; }
+        });
+        return bestScore > 0 ? best : null;
+      }
+
+      document.getElementById("describeForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        var text = document.getElementById("describeInput").value.trim();
+        var key = text ? matchText(text) : null;
+        if (key) {
+          showRoute(key, true);
+        } else {
+          result.hidden = true;
+          buttons.forEach(function (b) { b.setAttribute("aria-pressed", "false"); });
+          document.getElementById("noMatchText").textContent =
+            text
+              ? "“" + text + "” does not match one of the four kinds yet. This first version covers merch, digital products, services and kids’ content — pick the button above that is closest to yours."
+              : "Type a few words about your business first — for example “I sell shirts” or “I write ebooks” — or pick one of the four buttons above.";
+          noMatch.hidden = false;
+          noMatch.focus();
+          noMatch.scrollIntoView({ block: "start" });
+        }
+      });
+    </script>
+  </body>
+</html>
