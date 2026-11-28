@@ -1,0 +1,908 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:," />
+    <title>Iframe Pages Maker</title>
+    <meta name="description" content="Describe a page in plain words and the maker builds a finished, embeddable Federation page — with the truth gate, token block, corrections log, print-first layout, kid-safe switch and Aether companion baked in." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@600;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #e8eef1;
+        --bg-deep: #d7e2e8;
+        --panel: #ffffff;
+        --panel-2: #f2f6f8;
+        --ink: #0b1a26;
+        --muted: #3c5568;
+        --teal: #0a6b78;
+        --teal-strong: #07525d;
+        --cyan: #0e7f96;
+        --gold: #8a5f0e;
+        --gold-bright: #b8860b;
+        --line: #b7c9d3;
+        --line-strong: #7e99a8;
+        --good: #14663a;
+        --warn: #8a5f0e;
+        --bad: #a11f2e;
+        --chip-fact: #0d5c34;
+        --chip-inf: #0a5a78;
+        --chip-assump: #7a4d05;
+        --chip-unk: #6d1f2c;
+        --focus: #b8860b;
+        --radius: 10px;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #05090f;
+          --bg-deep: #030509;
+          --panel: #0b1622;
+          --panel-2: #0e1d2e;
+          --ink: #eaf3f7;
+          --muted: #a9c2d0;
+          --teal: #2fd4e8;
+          --teal-strong: #7fe7f4;
+          --cyan: #38c6dd;
+          --gold: #e6ba45;
+          --gold-bright: #f0cd6d;
+          --line: #1d3a4d;
+          --line-strong: #2f5a75;
+          --good: #6fe3a1;
+          --warn: #f0cd6d;
+          --bad: #ff8d9b;
+          --chip-fact: #1d7a47;
+          --chip-inf: #14708f;
+          --chip-assump: #96690f;
+          --chip-unk: #93303f;
+          --focus: #f0cd6d;
+        }
+      }
+      * { box-sizing: border-box; }
+      html { font-size: 18px; }
+      body {
+        margin: 0;
+        font-family: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+        background:
+          radial-gradient(1100px 480px at 85% -120px, rgba(47, 212, 232, 0.14), transparent 60%),
+          radial-gradient(900px 420px at -10% 0, rgba(230, 186, 69, 0.10), transparent 55%),
+          linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+        color: var(--ink);
+        line-height: 1.55;
+      }
+      .wrap { max-width: 1080px; margin: 0 auto; padding: 1.25rem 1rem 3rem; }
+      h1, h2, h3 { font-family: "Cinzel", Georgia, serif; line-height: 1.2; margin: 0; }
+      h1 { font-size: clamp(1.9rem, 5vw, 2.7rem); letter-spacing: 0.01em; }
+      h2 { font-size: 1.45rem; margin-bottom: 0.35rem; }
+      h3 { font-size: 1.12rem; }
+      p { margin: 0.4rem 0; }
+      a { color: var(--teal-strong); }
+      :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+
+      .masthead { padding: 1.4rem 0 0.6rem; border-bottom: 3px double var(--gold); margin-bottom: 1.4rem; }
+      .masthead .house { font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; font-size: 0.78rem; color: var(--gold); margin: 0 0 0.35rem; }
+      .lede { font-size: 1.13rem; max-width: 46rem; color: var(--ink); }
+      .lede strong { color: var(--teal-strong); }
+
+      section.panel {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-top: 4px solid var(--teal);
+        border-radius: var(--radius);
+        padding: 1.15rem 1.15rem 1.3rem;
+        margin-bottom: 1.4rem;
+      }
+      section.panel.gold { border-top-color: var(--gold-bright); }
+      .step { display: inline-block; font-family: "Cinzel", serif; font-weight: 700; color: var(--gold); margin-right: 0.45rem; }
+      .hint { color: var(--muted); font-size: 0.95rem; }
+      .hint.small { font-size: 0.88rem; }
+
+      label.field { display: block; font-weight: 700; margin: 1rem 0 0.3rem; }
+      label.field:first-of-type { margin-top: 0.4rem; }
+      input[type="text"], textarea, select {
+        width: 100%;
+        font: inherit;
+        color: var(--ink);
+        background: var(--panel-2);
+        border: 2px solid var(--line-strong);
+        border-radius: 8px;
+        padding: 0.65rem 0.75rem;
+        min-height: 2.75rem;
+      }
+      textarea { line-height: 1.5; resize: vertical; }
+      input[type="text"]:focus, textarea:focus, select:focus { border-color: var(--teal); }
+
+      button {
+        font: inherit;
+        font-weight: 700;
+        min-height: 2.75rem;
+        padding: 0.55rem 1.05rem;
+        border-radius: 8px;
+        border: 2px solid var(--teal-strong);
+        background: var(--teal);
+        color: #ffffff;
+        cursor: pointer;
+      }
+      @media (prefers-color-scheme: dark) {
+        button { color: #04222b; background: var(--teal); border-color: var(--teal); }
+      }
+      button:hover { filter: brightness(1.08); }
+      button.secondary {
+        background: transparent;
+        color: var(--teal-strong);
+        border-color: var(--line-strong);
+      }
+      button.goldbtn { background: var(--gold-bright); border-color: var(--gold); color: #221a02; }
+      button.small { min-height: 2.5rem; padding: 0.35rem 0.8rem; font-size: 0.95rem; }
+      button[disabled] { opacity: 0.55; cursor: not-allowed; }
+      .btnrow { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.8rem; align-items: center; }
+
+      .dictate-note { font-size: 0.88rem; color: var(--muted); margin-top: 0.3rem; }
+
+      .stmt-row {
+        display: grid;
+        grid-template-columns: 1fr 11.5rem auto;
+        gap: 0.55rem;
+        align-items: end;
+        margin-bottom: 0.6rem;
+      }
+      .stmt-row .rm { align-self: end; }
+      @media (max-width: 640px) {
+        .stmt-row { grid-template-columns: 1fr; }
+        .stmt-row .rm { justify-self: start; }
+      }
+      .tag {
+        display: inline-block;
+        font-weight: 700;
+        font-size: 0.8rem;
+        letter-spacing: 0.06em;
+        padding: 0.14rem 0.55rem;
+        border-radius: 999px;
+        color: #fff;
+        vertical-align: baseline;
+      }
+      .tag-fact { background: var(--chip-fact); }
+      .tag-inference { background: var(--chip-inf); }
+      .tag-assumption { background: var(--chip-assump); }
+      .tag-unknown { background: var(--chip-unk); }
+
+      fieldset { border: 2px solid var(--line); border-radius: var(--radius); padding: 0.8rem 1rem 1rem; margin: 1.1rem 0 0; }
+      legend { font-weight: 700; padding: 0 0.4rem; }
+      .checkline { display: flex; gap: 0.6rem; align-items: flex-start; padding: 0.45rem 0.2rem; min-height: 2.5rem; cursor: pointer; }
+      .checkline input[type="checkbox"] { width: 1.35rem; height: 1.35rem; margin-top: 0.2rem; flex: none; accent-color: var(--teal); }
+      .checkline span { display: block; }
+      .checkline .sub { color: var(--muted); font-size: 0.92rem; font-weight: 400; }
+
+      #status {
+        margin-top: 0.9rem;
+        font-weight: 700;
+        border-left: 5px solid var(--gold-bright);
+        background: var(--panel-2);
+        padding: 0.6rem 0.9rem;
+        border-radius: 0 8px 8px 0;
+      }
+      #status:empty { display: none; }
+
+      .preview-frame {
+        width: 100%;
+        height: 620px;
+        border: 2px solid var(--line-strong);
+        border-radius: var(--radius);
+        background: #05090f;
+      }
+      @media (max-width: 640px) { .preview-frame { height: 520px; } }
+
+      .codebox {
+        width: 100%;
+        font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+        font-size: 0.92rem;
+        background: var(--panel-2);
+        border: 2px solid var(--line-strong);
+        border-radius: 8px;
+        padding: 0.7rem 0.8rem;
+      }
+      .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+      @media (max-width: 820px) { .grid2 { grid-template-columns: 1fr; } }
+
+      ul.checks { list-style: none; padding: 0; margin: 0.7rem 0 0; }
+      ul.checks li {
+        padding: 0.55rem 0.8rem;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        margin-bottom: 0.5rem;
+        background: var(--panel-2);
+      }
+      ul.checks .verdict { font-weight: 700; margin-right: 0.5rem; }
+      ul.checks li.ok .verdict { color: var(--good); }
+      ul.checks li.look .verdict { color: var(--warn); }
+      ul.checks li.fix .verdict { color: var(--bad); }
+
+      .honest {
+        border: 2px dashed var(--gold);
+        border-radius: var(--radius);
+        padding: 1rem 1.15rem;
+        background: var(--panel);
+      }
+      .honest h2 { font-size: 1.2rem; }
+      footer.pagefoot { color: var(--muted); font-size: 0.92rem; margin-top: 1.6rem; border-top: 1px solid var(--line); padding-top: 0.8rem; }
+      .sr-only {
+        position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+        overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * { transition: none !important; animation: none !important; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="masthead">
+        <p class="house">Next-Xus HumanCodex Federation</p>
+        <h1>Iframe Pages Maker</h1>
+        <p class="lede">Describe the page you want in plain words. The maker builds a finished page you can
+        <strong>embed anywhere with one line</strong>, download, print, or share — with the truth gate,
+        the token block, the corrections log and Aether the dragon already built in.</p>
+        <p class="hint">No drag-and-drop anywhere. Type, or dictate with the microphone buttons. Everything is labelled, and the page rebuilds itself as you write.</p>
+      </header>
+
+      <main>
+        <!-- ============ STEP 1 : DESCRIBE ============ -->
+        <section class="panel" aria-labelledby="h-describe">
+          <h2 id="h-describe"><span class="step" aria-hidden="true">1</span>Describe your page</h2>
+          <p class="hint">Answer three plain questions. Then label each statement the page makes — that is the truth gate, and it travels with the page.</p>
+
+          <form id="maker-form" autocomplete="off">
+            <label class="field" for="f-title">Page title</label>
+            <input type="text" id="f-title" value="Aether, the Federation Dragon" />
+            <div class="btnrow">
+              <button type="button" class="secondary small dictate" data-target="f-title">Dictate the title</button>
+            </div>
+
+            <label class="field" for="f-about">What is this page about? <span class="hint">(one or two sentences — this also becomes the share description)</span></label>
+            <textarea id="f-about" rows="3">Aether is the Federation's dragon: a wise, solid guardian who checks the ethics of the Federation and keeps its secrets. Ask Aether a question and it answers from what the Federation knows.</textarea>
+            <div class="btnrow">
+              <button type="button" class="secondary small dictate" data-target="f-about">Dictate this</button>
+            </div>
+
+            <label class="field" for="f-body">What goes on the page? <span class="hint">(one paragraph per line)</span></label>
+            <textarea id="f-body" rows="6">Aether guards the wisdom of the Next-Xus HumanCodex Federation. It is not a toy and not a mascot: it is the gatekeeper who decides whether a visitor is ready for the deeper knowledge, and it reveals that knowledge only to those who prove worthy.
+The dragon speaks and listens right on the page. It reads stories aloud, answers questions it knows the answer to, and says plainly when it does not know.
+Every page Aether touches carries the Federation's truth gate: each claim is labelled, and the corrections log at the foot of the page shows what changed and when.</textarea>
+            <div class="btnrow">
+              <button type="button" class="secondary small dictate" data-target="f-body">Dictate this</button>
+            </div>
+            <p class="dictate-note">Dictation uses your browser's own speech service. In Chrome and Edge your voice is sent to that company's servers to be turned into text; in Firefox it stays on your device. If no dictate button works on your browser, typing works everywhere.</p>
+
+            <fieldset>
+              <legend>Statements the page makes — each one gets a truth label</legend>
+              <p class="hint small">DIR-000: a claim is a <span class="tag tag-fact">FACT</span> only when it is verified. Otherwise it is an
+              <span class="tag tag-inference">INFERENCE</span>, an <span class="tag tag-assumption">ASSUMPTION</span>, or honestly
+              <span class="tag tag-unknown">UNKNOWN</span>. The labels print on the finished page, next to each statement.</p>
+              <div id="stmt-list"></div>
+              <div class="btnrow">
+                <button type="button" class="secondary" id="add-stmt">Add another statement</button>
+              </div>
+            </fieldset>
+
+            <label class="field" for="f-author">Author name <span class="hint">(shown on the page and used in the share caption)</span></label>
+            <input type="text" id="f-author" value="Roger Keyserling" />
+
+            <label class="field" for="f-address">Where will this page live? <span class="hint">(its file name or full web address — used in the embed line)</span></label>
+            <input type="text" id="f-address" value="aether.html" />
+
+            <label class="field" for="f-corrections">Corrections so far <span class="hint">(optional — one per line; today's date is added for you. The page's creation is always logged.)</span></label>
+            <textarea id="f-corrections" rows="2" placeholder="Example: Fixed the dragon's name spelling in the second paragraph."></textarea>
+
+            <fieldset>
+              <legend>What the finished page carries</legend>
+              <label class="checkline">
+                <input type="checkbox" id="opt-companion" checked />
+                <span>Aether companion<span class="sub"> — the little dragon sits in the corner of the page; a visitor taps it and it speaks a saying.</span></span>
+              </label>
+              <label class="checkline">
+                <input type="checkbox" id="opt-tokens" checked />
+                <span>Federation token block<span class="sub"> — a quiet support block: $5 = 1 Token, bought on Gumroad or with crypto.</span></span>
+              </label>
+              <label class="checkline">
+                <input type="checkbox" id="opt-kidsafe" checked />
+                <span>Kid-safe switch<span class="sub"> — a button on the page that flips it to the kids' version: big simple type, no token block, nothing collected.</span></span>
+              </label>
+              <label class="checkline">
+                <input type="checkbox" id="opt-live" checked />
+                <span>Live web check hook<span class="sub"> — a “check the live web for updates” place on the page. In this version it is honestly marked not-yet-connected; it does not fake a search.</span></span>
+              </label>
+            </fieldset>
+
+            <div class="btnrow">
+              <button type="button" class="goldbtn" id="build-btn">Build my page</button>
+              <button type="button" class="secondary" id="readback-btn">Read back what I have</button>
+            </div>
+            <p id="status" role="status" aria-live="polite"></p>
+          </form>
+        </section>
+
+        <!-- ============ STEP 2 : PREVIEW ============ -->
+        <section class="panel gold" aria-labelledby="h-preview">
+          <h2 id="h-preview"><span class="step" aria-hidden="true">2</span>Your page, live</h2>
+          <p class="hint">This is the finished page itself, working — try its buttons: Large print, the kid-safe switch, and Aether in the corner. It rebuilds as you change anything above. (Its Print button works when the page stands on its own; some frames block printing, and the page will tell you if yours does.)</p>
+          <iframe id="preview" class="preview-frame" title="Live preview of the page you are making"></iframe>
+        </section>
+
+        <!-- ============ STEP 3 : TAKE IT ============ -->
+        <section class="panel" aria-labelledby="h-take">
+          <h2 id="h-take"><span class="step" aria-hidden="true">3</span>Take it with you</h2>
+          <div class="grid2">
+            <div>
+              <h3>Embed it anywhere</h3>
+              <p class="hint">Upload the downloaded page to your site, then paste this one line wherever the page should appear. That is the whole installation.</p>
+              <label class="field" for="embed-code">Your one-line embed code</label>
+              <textarea id="embed-code" class="codebox" rows="3" readonly></textarea>
+              <div class="btnrow">
+                <button type="button" id="copy-embed">Copy the embed line</button>
+              </div>
+            </div>
+            <div>
+              <h3>Share it</h3>
+              <p class="hint">The page itself carries Open Graph tags, so a link pasted into Facebook, WhatsApp or Threads builds its own preview card. Here is a caption draft to go with it — edit it freely.</p>
+              <label class="field" for="caption">Caption draft for Facebook, Instagram and Threads</label>
+              <textarea id="caption" rows="5"></textarea>
+              <div class="btnrow">
+                <button type="button" id="copy-caption">Copy the caption</button>
+              </div>
+            </div>
+          </div>
+          <h3 style="margin-top:1.2rem;">Download the page in three forms</h3>
+          <p class="hint">HTML is the page itself. Markdown is the same words as a document. YAML is the page's facts, in the simple v1 shape the lattice can read.</p>
+          <div class="btnrow">
+            <button type="button" id="dl-html">Download HTML</button>
+            <button type="button" class="secondary" id="dl-md">Download Markdown</button>
+            <button type="button" class="secondary" id="dl-yaml">Download YAML (facts)</button>
+          </div>
+        </section>
+
+        <!-- ============ STEP 4 : CHECK ============ -->
+        <section class="panel gold" aria-labelledby="h-check">
+          <h2 id="h-check"><span class="step" aria-hidden="true">4</span>Check this page</h2>
+          <p class="hint">Source code examination: the maker reads the finished page's own code back and reports, in plain words, anything wrong or missing — a missing title, an unlabelled claim, a share tag that is not there.</p>
+          <div class="btnrow">
+            <button type="button" id="check-btn">Check this page</button>
+            <button type="button" class="secondary" id="read-checks-btn" disabled>Read the results aloud</button>
+          </div>
+          <div id="check-results" aria-live="polite"></div>
+        </section>
+
+        <div class="honest" role="note">
+          <h2>What is not connected yet — said plainly</h2>
+          <p><strong>Live web search:</strong> the hook is on every page, marked “not connected yet”. Nothing fakes a search result.</p>
+          <p><strong>One-click publish to GitHub Pages:</strong> not wired in this version. The v1 path is: download the HTML, upload it, copy the embed line. Publishing stays Roger's word — the maker never publishes on its own.</p>
+          <p><strong>Talking to the author:</strong> the author's Sim joins in a later version; the caption and the page carry the author's name today.</p>
+        </div>
+
+        <footer class="pagefoot">
+          <p>Iframe Pages Maker v1 · Next-Xus HumanCodex Federation · The first of three systems: the blog generator and the communication center build on this maker. Built to the standard Roger set: not just building — building with panache.</p>
+        </footer>
+      </main>
+    </div>
+
+    <script>
+      "use strict";
+      var $ = function (id) { return document.getElementById(id); };
+      var statusEl = $("status");
+      var currentHTML = "", currentMD = "", currentYAML = "", currentData = null, lastChecks = [];
+
+      function say(msg) { statusEl.textContent = msg; }
+      function esc(s) {
+        return String(s == null ? "" : s)
+          .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+      }
+      function todayLong() {
+        return new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+      }
+      function todayISO() {
+        var d = new Date(), p = function (n) { return (n < 10 ? "0" : "") + n; };
+        return d.getFullYear() + "-" + p(d.getMonth() + 1) + "-" + p(d.getDate());
+      }
+      function slugify(s) {
+        var out = String(s || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+        return out || "my-page";
+      }
+
+      /* ---------- statement rows ---------- */
+      var LABELS = ["FACT", "INFERENCE", "ASSUMPTION", "UNKNOWN"];
+      function addStatement(text, label) {
+        var row = document.createElement("div");
+        row.className = "stmt-row";
+        var opts = LABELS.map(function (L) {
+          return '<option value="' + L + '"' + (L === label ? " selected" : "") + ">" + L + "</option>";
+        }).join("");
+        row.innerHTML =
+          '<div><label class="sr-only">Statement text</label>' +
+          '<input type="text" class="stmt-text" value="' + esc(text || "") + '" placeholder="A statement the page makes…" /></div>' +
+          '<div><label class="sr-only">Truth label for this statement</label>' +
+          '<select class="stmt-label">' + opts + "</select></div>" +
+          '<button type="button" class="secondary small rm">Remove</button>';
+        row.querySelector(".rm").addEventListener("click", function () {
+          row.remove(); refresh();
+          say("Statement removed. The page has been rebuilt.");
+        });
+        $("stmt-list").appendChild(row);
+      }
+
+      /* ---------- read the form ---------- */
+      function readData() {
+        var stmts = [];
+        var rows = document.querySelectorAll(".stmt-row");
+        for (var i = 0; i < rows.length; i++) {
+          var t = rows[i].querySelector(".stmt-text").value.trim();
+          if (t) stmts.push({ text: t, label: rows[i].querySelector(".stmt-label").value });
+        }
+        var corr = $("f-corrections").value.split(/\n+/).map(function (s) { return s.trim(); }).filter(Boolean);
+        return {
+          title: $("f-title").value.trim(),
+          about: $("f-about").value.trim(),
+          paras: $("f-body").value.split(/\n+/).map(function (s) { return s.trim(); }).filter(Boolean),
+          author: $("f-author").value.trim(),
+          address: $("f-address").value.trim(),
+          statements: stmts,
+          corrections: corr,
+          companion: $("opt-companion").checked,
+          tokens: $("opt-tokens").checked,
+          kidsafe: $("opt-kidsafe").checked,
+          livesearch: $("opt-live").checked,
+          dateLong: todayLong(),
+          dateISO: todayISO()
+        };
+      }
+      function fileBase(d) {
+        var a = d.address.trim();
+        if (a) {
+          var last = a.split("/").pop().replace(/\.html?$/i, "");
+          if (last) return slugify(last);
+        }
+        return slugify(d.title);
+      }
+
+      /* ---------- the generated page ---------- */
+      function dragonSVG() {
+        return '<svg viewBox="0 0 64 64" width="44" height="44" aria-hidden="true" focusable="false">' +
+          '<path d="M20 8 L26 18 L34 10 L36 20 Q50 22 52 34 Q53 44 44 48 L46 56 L38 50 Q26 54 16 48 Q6 42 10 32 Q13 24 22 22 L18 14 Z" fill="#12b5cb"/>' +
+          '<path d="M40 24 Q52 14 56 22 Q48 26 42 30 Z" fill="#e6ba45"/>' +
+          '<circle cx="30" cy="32" r="3.2" fill="#05090f"/>' +
+          '<path d="M14 44 Q24 50 36 48" stroke="#0a6b78" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>';
+      }
+
+      function generatedCSS() {
+        return [
+          ":root{--bg:#05090f;--panel:#0b1622;--ink:#eaf3f7;--muted:#a9c2d0;--teal:#2fd4e8;--gold:#e6ba45;--line:#1d3a4d}",
+          "*{box-sizing:border-box}",
+          "body{margin:0;font-family:'Atkinson Hyperlegible','Segoe UI',system-ui,sans-serif;background:radial-gradient(900px 400px at 85% -100px,rgba(47,212,232,.16),transparent 60%),linear-gradient(180deg,#05090f,#030509);color:var(--ink);line-height:1.6;font-size:18px}",
+          ".wrap{max-width:760px;margin:0 auto;padding:1.4rem 1.1rem 3rem}",
+          "h1{font-family:Cinzel,Georgia,serif;font-size:2rem;line-height:1.2;margin:.2rem 0 .4rem}",
+          "h2{font-family:Cinzel,Georgia,serif;font-size:1.25rem;margin:1.6rem 0 .4rem;color:var(--gold)}",
+          ".house{font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:.75rem;color:var(--gold);margin:0}",
+          ".byline{color:var(--muted);font-size:.95rem}",
+          ".lead{font-size:1.12rem}",
+          ".rule{border:0;border-top:3px double var(--gold);margin:.9rem 0 1.1rem}",
+          ".toolbar{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 1rem}",
+          "button{font:inherit;font-weight:700;min-height:2.6rem;padding:.45rem .95rem;border-radius:8px;border:2px solid var(--teal);background:transparent;color:var(--teal);cursor:pointer}",
+          "button:hover{background:rgba(47,212,232,.12)}",
+          "button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}",
+          ".tag{display:inline-block;font-weight:700;font-size:.78rem;letter-spacing:.06em;padding:.13rem .55rem;border-radius:999px;color:#fff;margin-right:.5rem;vertical-align:baseline}",
+          ".tag-fact{background:#1d7a47}.tag-inference{background:#14708f}.tag-assumption{background:#96690f}.tag-unknown{background:#93303f}",
+          "ul.claims{list-style:none;padding:0;margin:.5rem 0}",
+          "ul.claims li{padding:.55rem .2rem;border-bottom:1px solid var(--line)}",
+          ".panelbox{border:1px solid var(--line);border-radius:10px;padding:.9rem 1rem;margin:1.2rem 0;background:rgba(11,22,34,.75)}",
+          ".tokenbox{border-color:var(--gold)}",
+          ".log{font-size:.97rem}.log li{margin:.3rem 0}",
+          ".fresh-note{color:var(--muted)}",
+          "footer{color:var(--muted);font-size:.9rem;border-top:1px solid var(--line);margin-top:2rem;padding-top:.8rem}",
+          "body.large{font-size:22px}",
+          "body.kids{background:#fdf6e3;color:#20303a}",
+          "body.kids .wrap{max-width:680px}",
+          "body.kids h1,body.kids h2{color:#0a6b78}",
+          "body.kids .house{color:#8a5f0e}",
+          "body.kids .panelbox{background:#fffdf4;border-color:#cbb26a}",
+          "body.kids .adult-only{display:none!important}",
+          "body.kids button{border-color:#0a6b78;color:#0a6b78}",
+          "body.kids .kidsbanner{display:block}",
+          ".kidsbanner{display:none;border:2px solid #0a6b78;border-radius:10px;padding:.6rem .9rem;font-weight:700;background:#eafaf7;color:#0a4a54;margin-bottom:1rem}",
+          "#aether-btn{position:fixed;right:16px;bottom:16px;width:64px;height:64px;border-radius:50%;background:#0b1622;border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;padding:0;z-index:20}",
+          "#aether-panel{position:fixed;right:16px;bottom:92px;max-width:300px;background:#0b1622;border:2px solid var(--gold);border-radius:12px;padding:.9rem 1rem;z-index:20}",
+          "#aether-panel p{margin:.2rem 0 .6rem}",
+          "#aether-panel .who{font-weight:700;color:var(--gold);font-size:.85rem;letter-spacing:.08em;text-transform:uppercase}",
+          "@media print{",
+          "body{background:#fff!important;color:#000!important;font-size:13pt}",
+          "body.large{font-size:16pt}",
+          ".noprint,#aether-btn,#aether-panel,.toolbar{display:none!important}",
+          ".panelbox{border:1pt solid #000;background:#fff}",
+          ".tag{border:1pt solid #000;color:#000;background:#fff}",
+          "h1,h2,.house{color:#000}",
+          "a{color:#000}",
+          "}"
+        ].join("\n");
+      }
+
+      function generatedJS(d) {
+        var lines = [];
+        lines.push("var sayings=[\"The only true wisdom is in knowing you know nothing.\",\"Truth first: every claim on this page carries its label.\",\"I guard the gate. What is labelled UNKNOWN is honestly unknown.\",\"Ask, and I will answer from what the Federation knows — or say that I do not know.\"];");
+        lines.push("var si=0;");
+        lines.push("function aetherToggle(){var p=document.getElementById('aether-panel');var open=p.style.display==='block';if(open){p.style.display='none';}else{si=(si+1)%sayings.length;document.getElementById('aether-saying').textContent=sayings[si];p.style.display='block';}}");
+        lines.push("function aetherHide(){document.getElementById('aether-panel').style.display='none';}");
+        if (d.kidsafe) lines.push("function kidToggle(){var on=document.body.classList.toggle('kids');document.getElementById('kid-state').textContent=on?'On — this is the kids version: big simple type, no token block, nothing collected.':'Off';}");
+        lines.push("function largeToggle(){var on=document.body.classList.toggle('large');document.getElementById('large-state').textContent=on?'On':'Off';}");
+        lines.push("function doPrint(){try{window.print();}catch(e){}var el=document.getElementById('print-note');if(el){el.textContent='If no print window opened, this frame is blocking printing. Open the downloaded page on its own, or use your browser menu and choose Print — the page is laid out to print clean as plain text.';}}");
+        if (d.livesearch) lines.push("function liveCheck(){document.getElementById('fresh-result').textContent='Live search is not connected yet in this version of the page. When it is connected, new facts will appear here with their source and date, labelled INFERENCE until they pass the truth gate. Nothing has been searched and nothing has been made up.';}");
+        return lines.join("\n");
+      }
+
+      function buildGenerated(d) {
+        var title = d.title || "Untitled page";
+        var parts = [];
+        parts.push("<!doctype html>");
+        parts.push('<html lang="en">');
+        parts.push("<head>");
+        parts.push('<meta charset="utf-8" />');
+        parts.push('<meta name="viewport" content="width=device-width, initial-scale=1" />');
+        parts.push("<title>" + esc(title) + "</title>");
+        if (d.about) parts.push('<meta name="description" content="' + esc(d.about) + '" />');
+        parts.push('<meta property="og:type" content="website" />');
+        parts.push('<meta property="og:title" content="' + esc(title) + '" />');
+        if (d.about) parts.push('<meta property="og:description" content="' + esc(d.about) + '" />');
+        parts.push('<meta name="twitter:card" content="summary" />');
+        parts.push('<meta name="twitter:title" content="' + esc(title) + '" />');
+        if (d.about) parts.push('<meta name="twitter:description" content="' + esc(d.about) + '" />');
+        parts.push('<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Cinzel:wght@600;700&display=swap" rel="stylesheet" />');
+        parts.push("<style>" + generatedCSS() + "</style>");
+        parts.push("</head>");
+        parts.push("<body>");
+        parts.push('<div class="wrap">');
+        parts.push('<p class="house">Next-Xus HumanCodex Federation</p>');
+        parts.push("<h1>" + esc(title) + "</h1>");
+        parts.push('<p class="byline">By ' + esc(d.author || "the Federation") + " · " + esc(d.dateLong) + "</p>");
+        parts.push('<hr class="rule" />');
+
+        var toolbar = ['<button type="button" onclick="doPrint()">Print this page</button>',
+          '<button type="button" onclick="largeToggle()" aria-describedby="large-state">Large print: <span id="large-state">Off</span></button>'];
+        if (d.kidsafe) toolbar.push('<button type="button" onclick="kidToggle()" aria-describedby="kid-state">Kids\u2019 version: <span id="kid-state">Off</span></button>');
+        parts.push('<div class="toolbar noprint" role="group" aria-label="Page display options">' + toolbar.join("") + "</div>");
+        parts.push('<p id="print-note" class="noprint" role="status"></p>');
+        if (d.kidsafe) parts.push('<p class="kidsbanner">Kids\u2019 version — big words, simple type, nothing collected, nothing for sale.</p>');
+
+        if (d.about) parts.push('<p class="lead">' + esc(d.about) + "</p>");
+        d.paras.forEach(function (p) { parts.push("<p>" + esc(p) + "</p>"); });
+
+        if (d.statements.length) {
+          parts.push("<h2>What this page claims — labelled</h2>");
+          parts.push('<p>Every claim carries its truth label (DIR-000). A claim is a FACT only when verified.</p>');
+          parts.push('<ul class="claims">');
+          d.statements.forEach(function (s) {
+            parts.push('<li><span class="tag tag-' + s.label.toLowerCase() + '">' + s.label + "</span>" + esc(s.text) + "</li>");
+          });
+          parts.push("</ul>");
+        }
+
+        if (d.livesearch) {
+          parts.push('<div class="panelbox adult-only">');
+          parts.push("<h2>Fresh facts</h2>");
+          parts.push('<p class="fresh-note">Pages go stale. This page can check the live web for newer information about its subject — offered with source and date, labelled before it is ever added.</p>');
+          parts.push('<button type="button" onclick="liveCheck()">Check the live web for updates</button>');
+          parts.push('<p id="fresh-result" role="status"></p>');
+          parts.push("</div>");
+        }
+
+        if (d.tokens) {
+          parts.push('<div class="panelbox tokenbox adult-only">');
+          parts.push("<h2>Support this work</h2>");
+          parts.push("<p>This page is free. If it helped you, Federation tokens keep the work going: <strong>$5 = 1 Token</strong>, bought on Gumroad or with crypto. One token is a thank-you; it is never required to read.</p>");
+          parts.push("</div>");
+        }
+
+        parts.push("<h2>Corrections log</h2>");
+        parts.push("<p>The truth gate, made visible: what changed, when, and what was fixed. This page does not edit silently.</p>");
+        parts.push('<ul class="log">');
+        parts.push("<li><strong>" + esc(d.dateLong) + "</strong> — Page created with the Iframe Pages Maker.</li>");
+        d.corrections.forEach(function (c) {
+          parts.push("<li><strong>" + esc(d.dateLong) + "</strong> — " + esc(c) + "</li>");
+        });
+        parts.push("</ul>");
+
+        parts.push("<footer><p>Made with the Iframe Pages Maker · Next-Xus HumanCodex Federation · One Federation, on GitHub; this page is one of its faces.</p></footer>");
+        parts.push("</div>");
+
+        if (d.companion) {
+          parts.push('<button type="button" id="aether-btn" class="noprint" onclick="aetherToggle()" aria-label="Talk to Aether, the Federation dragon">' + dragonSVG() + "</button>");
+          parts.push('<div id="aether-panel" class="noprint" style="display:none" role="dialog" aria-label="Aether speaks">');
+          parts.push('<p class="who">Aether</p>');
+          parts.push('<p id="aether-saying">The only true wisdom is in knowing you know nothing.</p>');
+          parts.push('<button type="button" onclick="aetherToggle()">Another saying</button> ');
+          parts.push('<button type="button" onclick="aetherHide()">Close</button>');
+          parts.push("</div>");
+        }
+        parts.push("<script>" + generatedJS(d) + "<\/script>");
+        parts.push("</body>");
+        parts.push("</html>");
+        return parts.join("\n");
+      }
+
+      /* ---------- Markdown + YAML exports ---------- */
+      function buildMarkdown(d) {
+        var L = [];
+        L.push("# " + (d.title || "Untitled page"));
+        L.push("");
+        L.push("By " + (d.author || "the Federation") + " · " + d.dateLong + " · Next-Xus HumanCodex Federation");
+        L.push("");
+        if (d.about) { L.push(d.about); L.push(""); }
+        d.paras.forEach(function (p) { L.push(p); L.push(""); });
+        if (d.statements.length) {
+          L.push("## What this page claims — labelled");
+          L.push("");
+          d.statements.forEach(function (s) { L.push("- **" + s.label + "** — " + s.text); });
+          L.push("");
+        }
+        if (d.tokens) {
+          L.push("## Support this work");
+          L.push("");
+          L.push("Federation tokens keep the work going: $5 = 1 Token, bought on Gumroad or with crypto.");
+          L.push("");
+        }
+        L.push("## Corrections log");
+        L.push("");
+        L.push("- **" + d.dateLong + "** — Page created with the Iframe Pages Maker.");
+        d.corrections.forEach(function (c) { L.push("- **" + d.dateLong + "** — " + c); });
+        L.push("");
+        return L.join("\n");
+      }
+      function yamlStr(s) {
+        return '"' + String(s == null ? "" : s).replace(/\\/g, "\\\\").replace(/"/g, '\\"') + '"';
+      }
+      function buildYAML(d) {
+        var L = [];
+        L.push("# Iframe Pages Maker — page facts for the lattice (v1 simple export)");
+        L.push("page:");
+        L.push("  title: " + yamlStr(d.title || "Untitled page"));
+        L.push("  author: " + yamlStr(d.author || ""));
+        L.push("  created: " + d.dateISO);
+        L.push("  about: " + yamlStr(d.about));
+        L.push("  features:");
+        L.push("    companion_aether: " + d.companion);
+        L.push("    token_block: " + d.tokens);
+        L.push("    kid_safe_switch: " + d.kidsafe);
+        L.push("    live_web_check: " + (d.livesearch ? '"hook present, not yet connected"' : "false"));
+        L.push("  claims:");
+        if (d.statements.length) {
+          d.statements.forEach(function (s) {
+            L.push("    - label: " + s.label);
+            L.push("      text: " + yamlStr(s.text));
+          });
+        } else { L.push("    []"); }
+        L.push("  corrections:");
+        L.push("    - date: " + d.dateISO);
+        L.push("      change: " + yamlStr("Page created with the Iframe Pages Maker."));
+        d.corrections.forEach(function (c) {
+          L.push("    - date: " + d.dateISO);
+          L.push("      change: " + yamlStr(c));
+        });
+        return L.join("\n") + "\n";
+      }
+
+      /* ---------- outputs ---------- */
+      function buildCaption(d) {
+        var cap = (d.title || "Untitled page") + "\n\n" + (d.about || "");
+        cap += "\n\nEvery claim on the page carries its truth label — FACT, INFERENCE, ASSUMPTION or UNKNOWN — and the page shows its own corrections log.";
+        cap += "\n\n— " + (d.author || "the Federation") + ", Next-Xus HumanCodex Federation";
+        cap += "\n\n#NextXus #HumanCodex #TruthGate";
+        return cap;
+      }
+      function refresh() {
+        var d = readData();
+        currentData = d;
+        currentHTML = buildGenerated(d);
+        currentMD = buildMarkdown(d);
+        currentYAML = buildYAML(d);
+        $("preview").srcdoc = currentHTML;
+        var addr = d.address || (fileBase(d) + ".html");
+        $("embed-code").value = '<iframe src="' + addr + '" title="' + (d.title || "Federation page") + '" width="100%" height="640" style="border:0" loading="lazy"></iframe>';
+        $("caption").value = buildCaption(d);
+      }
+
+      /* ---------- downloads + copy ---------- */
+      function download(name, text, type) {
+        var blob = new Blob([text], { type: type || "text/plain;charset=utf-8" });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement("a");
+        a.href = url; a.download = name;
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+      }
+      function copyText(text, doneMsg) {
+        function done() { say(doneMsg); }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done, function () { fallback(); });
+        } else { fallback(); }
+        function fallback() {
+          var ta = document.createElement("textarea");
+          ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+          document.body.appendChild(ta); ta.select();
+          try { document.execCommand("copy"); done(); }
+          catch (e) { say("Copy did not work in this browser — select the text and copy it by hand."); }
+          ta.remove();
+        }
+      }
+
+      /* ---------- source code examination ---------- */
+      function runChecks() {
+        var d = currentData || readData();
+        var code = currentHTML;
+        var checks = [];
+        function add(kind, msg) { checks.push({ kind: kind, msg: msg }); }
+
+        if (!d.title) add("fix", "The page has no title. Add one in step 1 — the title is what visitors and search engines see first.");
+        else if (d.title.length > 70) add("look", "The title is " + d.title.length + " characters. Share previews usually cut titles near 70, so consider shortening it.");
+        else add("ok", "Title present: \u201C" + d.title + "\u201D (" + d.title.length + " characters).");
+
+        if (!d.about) add("fix", "No description. The share preview and the page's opening line both come from the \u201Cwhat is it about\u201D answer — add one or two sentences.");
+        else add("ok", "Description present, " + d.about.length + " characters — it feeds the page opening and the share card.");
+
+        if (!d.paras.length) add("fix", "The page body is empty. Nothing is written in \u201Cwhat goes on the page\u201D yet.");
+        else add("ok", "Body present: " + d.paras.length + (d.paras.length === 1 ? " paragraph." : " paragraphs."));
+
+        if (!d.statements.length) add("look", "No labelled statements. The truth gate works best when the page's claims are listed and labelled — add at least one in step 1.");
+        else {
+          var unks = d.statements.filter(function (s) { return s.label === "UNKNOWN"; }).length;
+          var asms = d.statements.filter(function (s) { return s.label === "ASSUMPTION"; }).length;
+          add("ok", d.statements.length + (d.statements.length === 1 ? " statement" : " statements") + ", every one carrying a truth label in the code.");
+          if (unks) add("look", unks + (unks === 1 ? " statement is" : " statements are") + " labelled UNKNOWN. That is honest and allowed — it prints on the page — but check it still needs to be said.");
+          if (asms) add("look", asms + (asms === 1 ? " statement is" : " statements are") + " labelled ASSUMPTION. Fine if it reads as a guess; if it is verified, promote it to FACT.");
+        }
+
+        if (code.indexOf('property="og:title"') > -1 && code.indexOf('property="og:description"') > -1)
+          add("ok", "Open Graph tags are in the code (og:title, og:description) — Facebook, WhatsApp and Threads will build a preview card from them.");
+        else add("fix", "Open Graph tags are missing from the code, so shares would show no proper preview card.");
+
+        add("look", "No share image (og:image) is set. Shares will show text only until a 1200\u00D7630 image is added to the page's code by hand.");
+
+        var imgs = code.match(/<img\b[^>]*>/gi) || [];
+        if (!imgs.length) add("ok", "The page has no images, so no image is missing its description (alt text).");
+        else {
+          var bad = imgs.filter(function (t) { return !/alt\s*=/.test(t); }).length;
+          if (bad) add("fix", bad + " image(s) in the code have no alt description — a screen reader would skip what they show.");
+          else add("ok", "Every image in the code carries an alt description.");
+        }
+
+        var h1s = (code.match(/<h1[\s>]/g) || []).length;
+        if (h1s === 1) add("ok", "Exactly one main heading (h1) in the code — the structure a screen reader navigates by.");
+        else add("fix", "The code has " + h1s + " main headings (h1); it should have exactly one.");
+
+        if (code.indexOf('lang="en"') > -1) add("ok", "The page language is declared (lang=\u201Cen\u201D), so screen readers pronounce it correctly.");
+        else add("fix", "The page language is not declared in the code.");
+
+        if (code.indexOf("@media print") > -1) add("ok", "Print stylesheet is in the code — the page prints clean as plain text, and Large print carries into print.");
+        else add("fix", "No print stylesheet found in the code — the page would print with its screen colours and buttons.");
+
+        if (code.indexOf("Corrections log") > -1) add("ok", "Corrections log is on the page, with " + (1 + d.corrections.length) + (d.corrections.length ? " entries." : " entry (its creation)."));
+        else add("fix", "The corrections log is missing from the code.");
+
+        if (d.tokens) add(code.indexOf("1 Token") > -1 ? "ok" : "fix", d.tokens ? "Token block is in the code: $5 = 1 Token, Gumroad or crypto." : "");
+        if (d.tokens && code.indexOf("1 Token") === -1) { checks.pop(); add("fix", "The token block was requested but is missing from the code."); }
+        if (d.companion) add(code.indexOf("aether-btn") > -1 ? "ok" : "fix", code.indexOf("aether-btn") > -1 ? "Aether companion is in the code — the corner dragon with its sayings." : "The companion was requested but is missing from the code.");
+        if (d.kidsafe) add(code.indexOf("kidToggle") > -1 ? "ok" : "fix", code.indexOf("kidToggle") > -1 ? "Kid-safe switch is in the code — it hides the token block and enlarges the type." : "The kid-safe switch was requested but is missing from the code.");
+        if (d.livesearch) add("look", "Live web check: the hook is on the page and honestly marked not-yet-connected. It does not search and does not invent results.");
+
+        lastChecks = checks;
+        var fixes = checks.filter(function (c) { return c.kind === "fix"; }).length;
+        var looks = checks.filter(function (c) { return c.kind === "look"; }).length;
+        var oks = checks.filter(function (c) { return c.kind === "ok"; }).length;
+        var html = '<p><strong>' + oks + " good, " + looks + " worth a look, " + fixes + (fixes === 1 ? " to fix." : " to fix.") + "</strong></p>";
+        html += '<ul class="checks">';
+        checks.forEach(function (c) {
+          var word = c.kind === "ok" ? "Good:" : (c.kind === "look" ? "Worth a look:" : "Needs fixing:");
+          html += '<li class="' + c.kind + '"><span class="verdict">' + word + "</span>" + esc(c.msg) + "</li>";
+        });
+        html += "</ul>";
+        $("check-results").innerHTML = html;
+        $("read-checks-btn").disabled = false;
+        say("Check complete. " + oks + " good, " + looks + " worth a look, " + fixes + " to fix.");
+      }
+
+      /* ---------- voice: dictation + read-back ---------- */
+      var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      var rec = null, recTarget = null, recBtn = null;
+      function stopRec() { if (rec) { try { rec.stop(); } catch (e) {} } }
+      document.querySelectorAll(".dictate").forEach(function (btn) {
+        if (!SR) { btn.disabled = true; btn.textContent = "Dictation not available in this browser"; return; }
+        btn.addEventListener("click", function () {
+          if (rec && recTarget === btn.getAttribute("data-target")) { stopRec(); return; }
+          stopRec();
+          recTarget = btn.getAttribute("data-target"); recBtn = btn;
+          rec = new SR();
+          rec.lang = "en-US"; rec.interimResults = false; rec.continuous = false;
+          try { rec.processLocally = true; } catch (e) {}
+          rec.onresult = function (ev) {
+            var text = ev.results[0][0].transcript.trim();
+            var field = $(recTarget);
+            if (field) {
+              var cur = field.value;
+              field.value = cur ? cur.replace(/\s+$/, "") + " " + text : text;
+              field.dispatchEvent(new Event("input", { bubbles: true }));
+            }
+            say("Dictation added: \u201C" + text + "\u201D");
+          };
+          rec.onend = function () { if (recBtn) recBtn.textContent = recBtn.textContent.replace("Stop dictating", "Dictate"); rec = null; };
+          rec.onerror = function (ev) { say("Dictation stopped (" + ev.error + "). Typing works everywhere."); };
+          btn.textContent = "Stop dictating";
+          say("Listening — speak now, then it types what you said.");
+          try { rec.start(); } catch (e) { say("Dictation could not start in this browser."); }
+        });
+      });
+
+      function speak(text) {
+        if (!("speechSynthesis" in window)) { say("Read-aloud is not available in this browser."); return; }
+        window.speechSynthesis.cancel();
+        var u = new SpeechSynthesisUtterance(text);
+        u.rate = 1; window.speechSynthesis.speak(u);
+      }
+
+      /* ---------- wire up ---------- */
+      addStatement("Aether is the Federation's dragon and ethics gatekeeper.", "FACT");
+      addStatement("Aether reveals deeper knowledge only to visitors who prove worthy.", "INFERENCE");
+      addStatement("Aether will one day hold open conversation with visitors in its own voice.", "ASSUMPTION");
+      addStatement("How many visitors Aether has guided so far.", "UNKNOWN");
+
+      $("maker-form").addEventListener("input", refresh);
+      $("maker-form").addEventListener("change", refresh);
+      $("stmt-list").addEventListener("input", refresh);
+      $("stmt-list").addEventListener("change", refresh);
+      $("add-stmt").addEventListener("click", function () {
+        addStatement("", "FACT"); refresh();
+        var inputs = document.querySelectorAll(".stmt-text");
+        if (inputs.length) inputs[inputs.length - 1].focus();
+        say("A new blank statement was added. Type its text and pick its truth label.");
+      });
+      $("build-btn").addEventListener("click", function () {
+        refresh();
+        var d = currentData;
+        say("Page built: \u201C" + (d.title || "Untitled page") + "\u201D — " + d.statements.length + " labelled statements, preview updated below. Download the HTML or copy the embed line in step 3.");
+      });
+      $("readback-btn").addEventListener("click", function () {
+        var d = currentData || readData();
+        var t = "Your page. Title: " + (d.title || "no title yet") + ". About: " + (d.about || "nothing yet") + ". ";
+        t += "It has " + d.paras.length + " paragraphs and " + d.statements.length + " labelled statements. ";
+        d.statements.forEach(function (s) { t += s.label + ": " + s.text + ". "; });
+        speak(t);
+      });
+      $("copy-embed").addEventListener("click", function () {
+        copyText($("embed-code").value, "Embed line copied. Paste it into any page where this page should appear.");
+      });
+      $("copy-caption").addEventListener("click", function () {
+        copyText($("caption").value, "Caption copied. Paste it with your post on Facebook, Instagram or Threads.");
+      });
+      $("dl-html").addEventListener("click", function () {
+        refresh(); download(fileBase(currentData) + ".html", currentHTML, "text/html;charset=utf-8");
+        say("HTML downloaded: " + fileBase(currentData) + ".html — that file is the whole page, ready to upload.");
+      });
+      $("dl-md").addEventListener("click", function () {
+        refresh(); download(fileBase(currentData) + ".md", currentMD, "text/markdown;charset=utf-8");
+        say("Markdown downloaded: " + fileBase(currentData) + ".md — the same words, as a document.");
+      });
+      $("dl-yaml").addEventListener("click", function () {
+        refresh(); download(fileBase(currentData) + "-facts.yaml", currentYAML, "text/yaml;charset=utf-8");
+        say("YAML downloaded: " + fileBase(currentData) + "-facts.yaml — the page's facts in the simple v1 shape for the lattice.");
+      });
+      $("check-btn").addEventListener("click", function () { refresh(); runChecks(); });
+      $("read-checks-btn").addEventListener("click", function () {
+        if (!lastChecks.length) return;
+        var t = "Page check. ";
+        lastChecks.forEach(function (c) {
+          t += (c.kind === "ok" ? "Good. " : (c.kind === "look" ? "Worth a look. " : "Needs fixing. ")) + c.msg + " ";
+        });
+        speak(t);
+      });
+
+      refresh();
+    </script>
+  </body>
+</html>
